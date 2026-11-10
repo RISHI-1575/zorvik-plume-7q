@@ -1,0 +1,27 @@
+***Starting server on port 52462 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (4ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 7200.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 33.25s
+ TraCI-Duration: 26.72s
+ Real time factor: 216.574
+ UPS: 45355.121071
+Vehicles:
+ Inserted: 8016 (Loaded: 9098)
+ Running: 208
+ Waiting: 1082
+ Teleports: 28 (Collisions: 2, Yield: 28)
+Statistics (avg of 7808):
+ RouteLength: 972.09
+ Speed: 7.92
+ Duration: 137.15
+ WaitingTime: 33.97
+ TimeLoss: 59.40
+ DepartDelay: 1.26
+ Retrying in 1 seconds
+episode return -1234.0 over 1428 decisions

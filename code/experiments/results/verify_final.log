@@ -1,0 +1,62 @@
+Success.
+net written: /Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml
+scenario ready: /Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4
+test_demand_route_generation_contains_all_active_classes (test_scenario.ScenarioContractTests.test_demand_route_generation_contains_all_active_classes) ... ok
+test_manifest_drives_junction_count (test_scenario.ScenarioContractTests.test_manifest_drives_junction_count) ... ok
+test_manifest_supports_a_different_corridor_size (test_scenario.ScenarioContractTests.test_manifest_supports_a_different_corridor_size) ... ok
+test_modal_split_and_pcu_cover_same_classes (test_scenario.ScenarioContractTests.test_modal_split_and_pcu_cover_same_classes) ... ok
+test_vehicle_xml_is_manifest_driven (test_scenario.ScenarioContractTests.test_vehicle_xml_is_manifest_driven) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.004s
+
+OK
+***Starting server on port 52476 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (4ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 13.07s
+ TraCI-Duration: 10.68s
+ Real time factor: 275.461
+ UPS: 39386.104522
+Vehicles:
+ Inserted: 4320
+ Running: 136
+ Waiting: 0
+ Emergency Braking: 2
+Statistics (avg of 4320):
+ RouteLength: 900.53
+ Speed: 7.74
+ Duration: 119.15
+ WaitingTime: 20.88
+ TimeLoss: 46.14
+ DepartDelay: 1.22
+ DepartDelayWaiting: 0.00
+Scenario: synthetic-corridor-reference
+Manifest: /Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.yaml
+Junctions: J1, J2, J3, J4
+ Retrying in 1 seconds
+
+Verification metrics:
+  vehicles: 4320
+  stops_per_veh: 2.228009259259259
+  delay_s: 46.14268518518519
+  travel_time_s: 119.15208333333334
+  waiting_s: 20.88310185185185
+  collisions: 0
+  teleports: 0
+  emergency_stops: 0
+  unfinished_vehicles: 138
+
+Checks:
+  [PASS] completed trips
+  [PASS] no collisions
+  [PASS] no teleports
+  [PASS] no unfinished gridlock
+
+PASS — reference scenario is presentation-ready as a synthetic prototype.

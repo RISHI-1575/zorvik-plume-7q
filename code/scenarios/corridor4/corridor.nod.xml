@@ -1,0 +1,16 @@
+<nodes>
+  <node id="W0" x="0" y="0" type="priority"/>
+  <node id="E5" x="1500.0" y="0" type="priority"/>
+  <node id="J1" x="300.0" y="0" type="traffic_light"/>
+  <node id="N1" x="300.0" y="200.0" type="priority"/>
+  <node id="S1" x="300.0" y="-200.0" type="priority"/>
+  <node id="J2" x="600.0" y="0" type="traffic_light"/>
+  <node id="N2" x="600.0" y="200.0" type="priority"/>
+  <node id="S2" x="600.0" y="-200.0" type="priority"/>
+  <node id="J3" x="900.0" y="0" type="traffic_light"/>
+  <node id="N3" x="900.0" y="200.0" type="priority"/>
+  <node id="S3" x="900.0" y="-200.0" type="priority"/>
+  <node id="J4" x="1200.0" y="0" type="traffic_light"/>
+  <node id="N4" x="1200.0" y="200.0" type="priority"/>
+  <node id="S4" x="1200.0" y="-200.0" type="priority"/>
+</nodes>

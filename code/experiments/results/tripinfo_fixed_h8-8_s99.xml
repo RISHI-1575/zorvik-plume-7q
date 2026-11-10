@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-11-10T13:52:37.121650+05:30 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml"/>
+        <route-files value="/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml"/>
+        <additional-files value="/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml"/>
+    </input>
+
+    <output>
+        <tripinfo-output value="/Users/rishi/Personal/final year project/Saarathi/code/experiments/results/tripinfo_fixed_h8-8_s99.xml"/>
+    </output>
+
+    <time>
+        <step-length value="1.0"/>
+    </time>
+
+    <processing>
+        <lateral-resolution value="0.4"/>
+        <collision.action value="warn"/>
+        <time-to-teleport value="600"/>
+    </processing>
+
+    <report>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="52079"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="99"/>
+    </random_number>
+
+    <gui_only>
+        <quit-on-end value="true"/>
+    </gui_only>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+</tripinfos>

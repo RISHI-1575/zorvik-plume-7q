@@ -1,0 +1,17 @@
+<configuration>
+  <input>
+    <net-file value="corridor.net.xml"/>
+    <route-files value="routes.rou.xml"/>
+    <additional-files value="vtypes.add.xml"/>
+  </input>
+  <processing>
+    <step-length value="1.0"/>
+    <lateral-resolution value="0.4"/>
+    <collision.action value="warn"/>
+    <time-to-teleport value="600"/>
+  </processing>
+  <report>
+    <no-step-log value="true"/>
+    <duration-log.statistics value="true"/>
+  </report>
+</configuration>

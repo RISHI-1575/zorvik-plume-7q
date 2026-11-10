@@ -1,0 +1,152 @@
+schema_version: 1
+name: synthetic-corridor-reference
+description: >-
+  Configurable synthetic corridor used for engineering tests and the current
+  demonstration. It is not a calibrated Bengaluru corridor.
+
+network:
+  source: synthetic
+  junctions: 4
+  spacing_m: 300
+  side_road_length_m: 200
+  main_lanes: 2
+  side_lanes: 1
+  main_speed_mps: 13.9
+  side_speed_mps: 11.1
+
+simulation:
+  step_length_s: 1.0
+  lateral_resolution_m: 0.4
+  halt_speed_mps: 0.3
+
+safety:
+  min_green_s: 10
+  max_green_s: 60
+  yellow_s: 3
+  all_red_s: 2
+  decision_interval_s: 5
+
+traffic:
+  modal_split:
+    bike: 0.45
+    auto: 0.15
+    car: 0.22
+    lcv: 0.00
+    bus: 0.08
+    truck: 0.10
+  peak_flows_veh_per_hour:
+    main_through: 900
+    side_through: 250
+    turn: 120
+  hourly_profile:
+    - 0.10
+    - 0.06
+    - 0.05
+    - 0.05
+    - 0.08
+    - 0.18
+    - 0.35
+    - 0.65
+    - 0.90
+    - 1.00
+    - 0.85
+    - 0.60
+    - 0.50
+    - 0.50
+    - 0.55
+    - 0.60
+    - 0.75
+    - 0.95
+    - 1.00
+    - 0.90
+    - 0.65
+    - 0.45
+    - 0.30
+    - 0.18
+
+vehicles:
+  bike:
+    vclass: motorcycle
+    length_m: 2.0
+    width_m: 0.75
+    min_gap_m: 1.0
+    accel_mps2: 3.0
+    decel_mps2: 4.5
+    max_speed_mps: 16.7
+    speed_factor: "norm(1.0,0.15)"
+    lateral_alignment: arbitrary
+    min_lateral_gap_m: 0.35
+    lc_sublane: 1.0
+    lc_pushy: 0.35
+  auto:
+    vclass: passenger
+    length_m: 3.0
+    width_m: 1.4
+    min_gap_m: 1.0
+    accel_mps2: 1.8
+    decel_mps2: 4.0
+    max_speed_mps: 13.9
+    speed_factor: "norm(0.9,0.1)"
+    lateral_alignment: arbitrary
+    min_lateral_gap_m: 0.45
+    lc_sublane: 0.8
+    lc_pushy: 0.25
+  car:
+    vclass: passenger
+    length_m: 4.4
+    width_m: 1.8
+    min_gap_m: 1.5
+    accel_mps2: 2.4
+    decel_mps2: 4.5
+    max_speed_mps: 19.4
+    speed_factor: "norm(1.0,0.1)"
+    lateral_alignment: center
+    min_lateral_gap_m: 0.5
+  lcv:
+    vclass: delivery
+    length_m: 6.0
+    width_m: 2.0
+    min_gap_m: 1.7
+    accel_mps2: 1.5
+    decel_mps2: 3.8
+    max_speed_mps: 15.0
+    speed_factor: "norm(0.95,0.08)"
+    lateral_alignment: center
+    min_lateral_gap_m: 0.55
+  bus:
+    vclass: bus
+    length_m: 12.0
+    width_m: 2.5
+    min_gap_m: 2.0
+    accel_mps2: 1.1
+    decel_mps2: 3.5
+    max_speed_mps: 13.9
+    speed_factor: "norm(0.9,0.05)"
+    lateral_alignment: center
+    min_lateral_gap_m: 0.6
+  truck:
+    vclass: truck
+    length_m: 9.5
+    width_m: 2.4
+    min_gap_m: 2.0
+    accel_mps2: 1.0
+    decel_mps2: 3.5
+    max_speed_mps: 13.9
+    speed_factor: "norm(0.9,0.05)"
+    lateral_alignment: center
+    min_lateral_gap_m: 0.6
+
+pcu:
+  active: project_baseline
+  factor_sets:
+    project_baseline:
+      status: sourced-not-calibrated
+      source: IRC-derived project baseline; see docs/assumptions.md
+      factors:
+        bike: 0.5
+        auto: 1.2
+        car: 1.0
+        lcv: 1.4
+        bus: 3.0
+        truck: 3.0
+

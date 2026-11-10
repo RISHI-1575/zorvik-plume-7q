@@ -1,0 +1,182 @@
+<routes>
+  <route id="r89" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_S4"/>
+  <route id="r88" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_S4"/>
+  <route id="r87" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_S4"/>
+  <route id="r86" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_S4"/>
+  <route id="r85" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_S4"/>
+  <route id="r84" edges="N4_J4 J4_E5"/>
+  <route id="r83" edges="N4_J4 J4_E5"/>
+  <route id="r82" edges="N4_J4 J4_E5"/>
+  <route id="r81" edges="N4_J4 J4_E5"/>
+  <route id="r80" edges="N4_J4 J4_E5"/>
+  <route id="r79" edges="W0_J1 J1_J2 J2_J3 J3_S3"/>
+  <route id="r78" edges="W0_J1 J1_J2 J2_J3 J3_S3"/>
+  <route id="r77" edges="W0_J1 J1_J2 J2_J3 J3_S3"/>
+  <route id="r76" edges="W0_J1 J1_J2 J2_J3 J3_S3"/>
+  <route id="r75" edges="W0_J1 J1_J2 J2_J3 J3_S3"/>
+  <route id="r74" edges="N3_J3 J3_J4 J4_E5"/>
+  <route id="r73" edges="N3_J3 J3_J4 J4_E5"/>
+  <route id="r72" edges="N3_J3 J3_J4 J4_E5"/>
+  <route id="r71" edges="N3_J3 J3_J4 J4_E5"/>
+  <route id="r70" edges="N3_J3 J3_J4 J4_E5"/>
+  <route id="r69" edges="W0_J1 J1_J2 J2_S2"/>
+  <route id="r68" edges="W0_J1 J1_J2 J2_S2"/>
+  <route id="r67" edges="W0_J1 J1_J2 J2_S2"/>
+  <route id="r66" edges="W0_J1 J1_J2 J2_S2"/>
+  <route id="r65" edges="W0_J1 J1_J2 J2_S2"/>
+  <route id="r64" edges="N2_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r63" edges="N2_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r62" edges="N2_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r61" edges="N2_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r60" edges="N2_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r59" edges="W0_J1 J1_S1"/>
+  <route id="r58" edges="W0_J1 J1_S1"/>
+  <route id="r57" edges="W0_J1 J1_S1"/>
+  <route id="r56" edges="W0_J1 J1_S1"/>
+  <route id="r55" edges="W0_J1 J1_S1"/>
+  <route id="r54" edges="N1_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r53" edges="N1_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r52" edges="N1_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r51" edges="N1_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r50" edges="N1_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r49" edges="S4_J4 J4_N4"/>
+  <route id="r48" edges="S4_J4 J4_N4"/>
+  <route id="r47" edges="S4_J4 J4_N4"/>
+  <route id="r46" edges="S4_J4 J4_N4"/>
+  <route id="r45" edges="S4_J4 J4_N4"/>
+  <route id="r44" edges="N4_J4 J4_S4"/>
+  <route id="r43" edges="N4_J4 J4_S4"/>
+  <route id="r42" edges="N4_J4 J4_S4"/>
+  <route id="r41" edges="N4_J4 J4_S4"/>
+  <route id="r40" edges="N4_J4 J4_S4"/>
+  <route id="r39" edges="S3_J3 J3_N3"/>
+  <route id="r38" edges="S3_J3 J3_N3"/>
+  <route id="r37" edges="S3_J3 J3_N3"/>
+  <route id="r36" edges="S3_J3 J3_N3"/>
+  <route id="r35" edges="S3_J3 J3_N3"/>
+  <route id="r34" edges="N3_J3 J3_S3"/>
+  <route id="r33" edges="N3_J3 J3_S3"/>
+  <route id="r32" edges="N3_J3 J3_S3"/>
+  <route id="r31" edges="N3_J3 J3_S3"/>
+  <route id="r30" edges="N3_J3 J3_S3"/>
+  <route id="r29" edges="S2_J2 J2_N2"/>
+  <route id="r28" edges="S2_J2 J2_N2"/>
+  <route id="r27" edges="S2_J2 J2_N2"/>
+  <route id="r26" edges="S2_J2 J2_N2"/>
+  <route id="r25" edges="S2_J2 J2_N2"/>
+  <route id="r24" edges="N2_J2 J2_S2"/>
+  <route id="r23" edges="N2_J2 J2_S2"/>
+  <route id="r22" edges="N2_J2 J2_S2"/>
+  <route id="r21" edges="N2_J2 J2_S2"/>
+  <route id="r20" edges="N2_J2 J2_S2"/>
+  <route id="r19" edges="S1_J1 J1_N1"/>
+  <route id="r18" edges="S1_J1 J1_N1"/>
+  <route id="r17" edges="S1_J1 J1_N1"/>
+  <route id="r16" edges="S1_J1 J1_N1"/>
+  <route id="r15" edges="S1_J1 J1_N1"/>
+  <route id="r14" edges="N1_J1 J1_S1"/>
+  <route id="r13" edges="N1_J1 J1_S1"/>
+  <route id="r12" edges="N1_J1 J1_S1"/>
+  <route id="r11" edges="N1_J1 J1_S1"/>
+  <route id="r10" edges="N1_J1 J1_S1"/>
+  <route id="r9" edges="E5_J4 J4_J3 J3_J2 J2_J1 J1_W0"/>
+  <route id="r8" edges="E5_J4 J4_J3 J3_J2 J2_J1 J1_W0"/>
+  <route id="r7" edges="E5_J4 J4_J3 J3_J2 J2_J1 J1_W0"/>
+  <route id="r6" edges="E5_J4 J4_J3 J3_J2 J2_J1 J1_W0"/>
+  <route id="r5" edges="E5_J4 J4_J3 J3_J2 J2_J1 J1_W0"/>
+  <route id="r4" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r3" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r2" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r1" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <route id="r0" edges="W0_J1 J1_J2 J2_J3 J3_J4 J4_E5"/>
+  <flow id="f0_main_we_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="364.5" route="r0" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f1_main_we_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="121.5" route="r1" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f2_main_we_car_h8" type="car" begin="0" end="3600" vehsPerHour="178.2" route="r2" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f3_main_we_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="64.8" route="r3" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f4_main_we_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="81.0" route="r4" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f5_main_ew_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="364.5" route="r5" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f6_main_ew_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="121.5" route="r6" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f7_main_ew_car_h8" type="car" begin="0" end="3600" vehsPerHour="178.2" route="r7" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f8_main_ew_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="64.8" route="r8" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f9_main_ew_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="81.0" route="r9" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f10_side_ns_1_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="101.2" route="r10" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f11_side_ns_1_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="33.8" route="r11" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f12_side_ns_1_car_h8" type="car" begin="0" end="3600" vehsPerHour="49.5" route="r12" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f13_side_ns_1_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="18.0" route="r13" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f14_side_ns_1_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="22.5" route="r14" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f15_side_sn_1_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="101.2" route="r15" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f16_side_sn_1_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="33.8" route="r16" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f17_side_sn_1_car_h8" type="car" begin="0" end="3600" vehsPerHour="49.5" route="r17" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f18_side_sn_1_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="18.0" route="r18" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f19_side_sn_1_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="22.5" route="r19" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f20_side_ns_2_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="101.2" route="r20" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f21_side_ns_2_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="33.8" route="r21" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f22_side_ns_2_car_h8" type="car" begin="0" end="3600" vehsPerHour="49.5" route="r22" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f23_side_ns_2_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="18.0" route="r23" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f24_side_ns_2_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="22.5" route="r24" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f25_side_sn_2_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="101.2" route="r25" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f26_side_sn_2_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="33.8" route="r26" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f27_side_sn_2_car_h8" type="car" begin="0" end="3600" vehsPerHour="49.5" route="r27" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f28_side_sn_2_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="18.0" route="r28" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f29_side_sn_2_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="22.5" route="r29" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f30_side_ns_3_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="101.2" route="r30" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f31_side_ns_3_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="33.8" route="r31" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f32_side_ns_3_car_h8" type="car" begin="0" end="3600" vehsPerHour="49.5" route="r32" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f33_side_ns_3_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="18.0" route="r33" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f34_side_ns_3_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="22.5" route="r34" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f35_side_sn_3_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="101.2" route="r35" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f36_side_sn_3_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="33.8" route="r36" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f37_side_sn_3_car_h8" type="car" begin="0" end="3600" vehsPerHour="49.5" route="r37" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f38_side_sn_3_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="18.0" route="r38" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f39_side_sn_3_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="22.5" route="r39" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f40_side_ns_4_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="101.2" route="r40" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f41_side_ns_4_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="33.8" route="r41" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f42_side_ns_4_car_h8" type="car" begin="0" end="3600" vehsPerHour="49.5" route="r42" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f43_side_ns_4_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="18.0" route="r43" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f44_side_ns_4_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="22.5" route="r44" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f45_side_sn_4_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="101.2" route="r45" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f46_side_sn_4_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="33.8" route="r46" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f47_side_sn_4_car_h8" type="car" begin="0" end="3600" vehsPerHour="49.5" route="r47" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f48_side_sn_4_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="18.0" route="r48" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f49_side_sn_4_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="22.5" route="r49" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f50_turn_in_1_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="48.6" route="r50" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f51_turn_in_1_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="16.2" route="r51" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f52_turn_in_1_car_h8" type="car" begin="0" end="3600" vehsPerHour="23.8" route="r52" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f53_turn_in_1_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="8.6" route="r53" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f54_turn_in_1_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="10.8" route="r54" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f55_turn_out_1_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="48.6" route="r55" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f56_turn_out_1_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="16.2" route="r56" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f57_turn_out_1_car_h8" type="car" begin="0" end="3600" vehsPerHour="23.8" route="r57" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f58_turn_out_1_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="8.6" route="r58" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f59_turn_out_1_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="10.8" route="r59" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f60_turn_in_2_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="48.6" route="r60" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f61_turn_in_2_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="16.2" route="r61" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f62_turn_in_2_car_h8" type="car" begin="0" end="3600" vehsPerHour="23.8" route="r62" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f63_turn_in_2_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="8.6" route="r63" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f64_turn_in_2_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="10.8" route="r64" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f65_turn_out_2_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="48.6" route="r65" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f66_turn_out_2_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="16.2" route="r66" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f67_turn_out_2_car_h8" type="car" begin="0" end="3600" vehsPerHour="23.8" route="r67" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f68_turn_out_2_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="8.6" route="r68" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f69_turn_out_2_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="10.8" route="r69" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f70_turn_in_3_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="48.6" route="r70" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f71_turn_in_3_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="16.2" route="r71" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f72_turn_in_3_car_h8" type="car" begin="0" end="3600" vehsPerHour="23.8" route="r72" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f73_turn_in_3_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="8.6" route="r73" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f74_turn_in_3_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="10.8" route="r74" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f75_turn_out_3_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="48.6" route="r75" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f76_turn_out_3_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="16.2" route="r76" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f77_turn_out_3_car_h8" type="car" begin="0" end="3600" vehsPerHour="23.8" route="r77" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f78_turn_out_3_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="8.6" route="r78" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f79_turn_out_3_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="10.8" route="r79" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f80_turn_in_4_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="48.6" route="r80" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f81_turn_in_4_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="16.2" route="r81" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f82_turn_in_4_car_h8" type="car" begin="0" end="3600" vehsPerHour="23.8" route="r82" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f83_turn_in_4_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="8.6" route="r83" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f84_turn_in_4_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="10.8" route="r84" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f85_turn_out_4_bike_h8" type="bike" begin="0" end="3600" vehsPerHour="48.6" route="r85" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f86_turn_out_4_auto_h8" type="auto" begin="0" end="3600" vehsPerHour="16.2" route="r86" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f87_turn_out_4_car_h8" type="car" begin="0" end="3600" vehsPerHour="23.8" route="r87" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f88_turn_out_4_bus_h8" type="bus" begin="0" end="3600" vehsPerHour="8.6" route="r88" departLane="best" departSpeed="max" departPosLat="random"/>
+  <flow id="f89_turn_out_4_truck_h8" type="truck" begin="0" end="3600" vehsPerHour="10.8" route="r89" departLane="best" departSpeed="max" departPosLat="random"/>
+</routes>

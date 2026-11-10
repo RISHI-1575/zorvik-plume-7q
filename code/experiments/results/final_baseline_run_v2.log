@@ -1,0 +1,260 @@
+***Starting server on port 52416 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (4ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 3.86s
+ TraCI-Duration: 0.98s
+ Real time factor: 933.852
+ UPS: 158739.559014
+Vehicles:
+ Inserted: 4320
+ Running: 177
+ Waiting: 0
+ Teleports: 0 (Collisions: 1)
+Statistics (avg of 4320):
+ RouteLength: 897.61
+ Speed: 6.84
+ Duration: 141.65
+ WaitingTime: 43.83
+ TimeLoss: 68.86
+ DepartDelay: 1.25
+ DepartDelayWaiting: 0.00
+***Starting server on port 52419 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (3ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 3.86s
+ TraCI-Duration: 0.97s
+ Real time factor: 933.126
+ UPS: 158456.713323
+Vehicles:
+ Inserted: 4320
+ Running: 174
+ Waiting: 0
+Statistics (avg of 4320):
+ RouteLength: 898.20
+ Speed: 6.84
+ Duration: 141.51
+ WaitingTime: 43.59
+ TimeLoss: 68.89
+ DepartDelay: 1.25
+ DepartDelayWaiting: 0.00
+***Starting server on port 52424 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (4ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 3.91s
+ TraCI-Duration: 0.99s
+ Real time factor: 921.423
+ UPS: 158626.055797
+Vehicles:
+ Inserted: 4320
+ Running: 173
+ Waiting: 0
+ Emergency Braking: 1
+Statistics (avg of 4320):
+ RouteLength: 898.10
+ Speed: 6.76
+ Duration: 143.46
+ WaitingTime: 44.54
+ TimeLoss: 70.40
+ DepartDelay: 1.25
+ DepartDelayWaiting: 0.00
+***Starting server on port 52427 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (4ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 8.28s
+ TraCI-Duration: 5.22s
+ Real time factor: 434.888
+ UPS: 74860.594346
+Vehicles:
+ Inserted: 4320
+ Running: 160
+ Waiting: 0
+ Teleports: 0 (Collisions: 1)
+Statistics (avg of 4320):
+ RouteLength: 897.58
+ Speed: 6.71
+ Duration: 143.45
+ WaitingTime: 47.05
+ TimeLoss: 70.65
+ DepartDelay: 1.26
+ DepartDelayWaiting: 0.00
+***Starting server on port 52431 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (4ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 8.12s
+ TraCI-Duration: 5.27s
+ Real time factor: 443.568
+ UPS: 73163.257762
+Vehicles:
+ Inserted: 4320
+ Running: 162
+ Waiting: 0
+Statistics (avg of 4320):
+ RouteLength: 897.40
+ Speed: 6.98
+ Duration: 137.45
+ WaitingTime: 42.55
+ TimeLoss: 64.87
+ DepartDelay: 1.25
+ DepartDelayWaiting: 0.00
+***Starting server on port 52435 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (4ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 8.46s
+ TraCI-Duration: 5.24s
+ Real time factor: 425.482
+ UPS: 75851.672379
+Vehicles:
+ Inserted: 4320
+ Running: 168
+ Waiting: 0
+Statistics (avg of 4320):
+ RouteLength: 898.20
+ Speed: 6.58
+ Duration: 148.56
+ WaitingTime: 48.83
+ TimeLoss: 75.47
+ DepartDelay: 1.28
+ DepartDelayWaiting: 0.00
+***Starting server on port 52441 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (5ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 13.11s
+ TraCI-Duration: 10.73s
+ Real time factor: 274.537
+ UPS: 39253.946465
+Vehicles:
+ Inserted: 4320
+ Running: 136
+ Waiting: 0
+ Emergency Braking: 2
+Statistics (avg of 4320):
+ RouteLength: 900.53
+ Speed: 7.74
+ Duration: 119.15
+ WaitingTime: 20.88
+ TimeLoss: 46.14
+ DepartDelay: 1.22
+ DepartDelayWaiting: 0.00
+***Starting server on port 52446 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (3ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 13.06s
+ TraCI-Duration: 10.68s
+ Real time factor: 275.566
+ UPS: 39170.009186
+Vehicles:
+ Inserted: 4320
+ Running: 142
+ Waiting: 0
+Statistics (avg of 4320):
+ RouteLength: 898.41
+ Speed: 7.74
+ Duration: 118.45
+ WaitingTime: 20.33
+ TimeLoss: 45.79
+ DepartDelay: 1.26
+ DepartDelayWaiting: 0.00
+***Starting server on port 52453 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/corridor.net.xml' ... done (4ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/corridor4/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 13.35s
+ TraCI-Duration: 10.90s
+ Real time factor: 269.744
+ UPS: 39137.494380
+Vehicles:
+ Inserted: 4320
+ Running: 142
+ Waiting: 0
+Statistics (avg of 4320):
+ RouteLength: 899.88
+ Speed: 7.66
+ Duration: 120.91
+ WaitingTime: 21.70
+ TimeLoss: 47.71
+ DepartDelay: 1.26
+ DepartDelayWaiting: 0.00
+... running fixed seed 0
+ Retrying in 1 seconds
+... running fixed seed 1
+ Retrying in 1 seconds
+... running fixed seed 2
+ Retrying in 1 seconds
+... running actuated seed 0
+ Retrying in 1 seconds
+... running actuated seed 1
+ Retrying in 1 seconds
+... running actuated seed 2
+ Retrying in 1 seconds
+... running maxp seed 0
+ Retrying in 1 seconds
+... running maxp seed 1
+ Retrying in 1 seconds
+... running maxp seed 2
+ Retrying in 1 seconds
+
+    controller            seed        vehicles   stops_per_veh         delay_s   travel_time_s       waiting_s      collisions       teleports  emergency_stops  unfinished_vehicles
+         fixed               0            4320             2.0            68.9           141.7            43.8               1               0               0             179
+         fixed               1            4320             2.1            68.9           141.5            43.6               0               0               0             176
+         fixed               2            4320             2.1            70.4           143.5            44.5               0               0               0             175
+      actuated               0            4320             1.7            70.7           143.4            47.1               1               0               0             162
+      actuated               1            4320             1.6            64.9           137.5            42.5               0               0               0             164
+      actuated               2            4320             2.0            75.5           148.6            48.8               0               0               0             170
+          maxp               0            4320             2.2            46.1           119.2            20.9               0               0               0             138
+          maxp               1            4320             2.2            45.8           118.5            20.3               0               0               0             144
+          maxp               2            4320             2.3            47.7           120.9            21.7               0               0               0             144
+
+appended -> /Users/rishi/Personal/final year project/Saarathi/code/experiments/results/results_v2.csv
