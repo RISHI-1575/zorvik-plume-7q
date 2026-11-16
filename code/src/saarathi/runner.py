@@ -154,6 +154,8 @@ def run(controller: str, sim_seconds: int, seed: int = 0, gui: bool = False,
     finally:
         traci.close()
     m = parse_tripinfo(tripinfo) | safety | {'unfinished_vehicles': unfinished}
+    # never-inserted vehicles have no tripinfo record, so they are invisible to delay_s
+    m['insertion_backlog'] = max(0, unfinished - (m['vehicles'] - m['completed_trips']))
     m['front_row_bike_share'] = front['bike'] / front['all'] if front['all'] else 0.0
     return m
 
@@ -185,6 +187,9 @@ def parse_tripinfo(path: Path) -> dict:
     if n == 0:
         return {
             'vehicles': 0,
+            'completed_trips': 0,
+            'depart_delay_s': 0.0,
+            'delay_incl_depart_s': 0.0,
             'stops_per_veh': 0.0,
             'delay_s': 0.0,
             'travel_time_s': 0.0,
@@ -204,6 +209,11 @@ def parse_tripinfo(path: Path) -> dict:
         'fuel_l': sum(float(e.get('fuel_abs', 0)) for e in em) / 745e3,   # mg -> litres, petrol density
 
         'vehicles': n,
+        # unfinished vehicles are written with delay truncated at sim end, so
+        # delay_s under-states gridlock: read it beside completed_trips.
+        'completed_trips': sum(float(x.get('arrival')) >= 0 for x in trips),
+        'depart_delay_s': mean('departDelay'),
+        'delay_incl_depart_s': mean('timeLoss') + mean('departDelay'),
         'stops_per_veh': mean('waitingCount'),
         'delay_s': mean('timeLoss'),
         'travel_time_s': mean('duration'),

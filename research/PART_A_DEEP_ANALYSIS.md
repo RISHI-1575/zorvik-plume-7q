@@ -41,7 +41,8 @@ A ratio of 1.0 or less means bikes are **not** reaching the stop line ahead of o
 ### F2. Gridlock and teleports are inside the measured numbers. Critical.
 - Unfinished vehicles ÷ inserted vehicles: **Domlur 8–52%**, **Silk Board 5–39%**.
 - Domlur 5-seed means: teleports 17–25 per run, collisions 3–9 per run.
-- `delay_s` is the mean `timeLoss` over tripinfo records. Vehicles that were never inserted (the insertion backlog) add **zero** delay, so a gridlocked run can look *better* than a congested one. This is survivorship bias.
+- `delay_s` is the mean `timeLoss` over tripinfo records. With `write-unfinished`, vehicles still en route *are* included, but their delay is **truncated at sim end**, so `delay_s` is a lower bound that under-states gridlock. For example, in Domlur fixed s4, 833 of 3,074 records are unfinished. Only about 10 vehicles per run were never inserted (no record at all), and mean departDelay is about 1 s. So the bias is truncation, not missing vehicles. *(Corrected 2026-11-16. An earlier draft blamed the insertion backlog.)*
+- **Fixed in the v6 schema:** `run.py` now also writes `completed_trips`, `insertion_backlog`, `depart_delay_s` and `delay_incl_depart_s` to `results_v6.csv`. Read delay beside completed trips.
 
 RULES §5.7 says that a parameter set which needs collisions or teleports is rejected. Domlur's current numbers fail that rule.
 **Fix:** (a) add `departDelay`, or an insertion-backlog penalty, to delay, or report "delay incl. depart delay"; (b) report throughput (completed trips) as the headline beside delay; (c) cut Domlur demand, or fix its unsignalled side-road junctions (A-010), until teleports are near 0 at the reported demand; (d) treat any run with teleports above a declared threshold as a failed run in the table, not as a data point.
@@ -59,7 +60,7 @@ So "Max-Pressure wins" is currently a direction, not a result. The memory note o
 - `summarize_results.py` takes the last `--last N` rows (default 9). If the CSV has duplicates or runs in a different order, the summary silently averages the wrong runs.
 
 RULES §7.3 says every number must be regenerable from a logged command.
-**Fix:** group by key and keep the latest row (or refuse to summarise if duplicates exist), drop `--last`, and write the exact command and git SHA into each summary.
+**Fixed 2026-11-16:** `summarize_results.py --input <csv>` keeps the latest row per run key, groups by (scenario, profile, hours, demand, controller), and writes the git SHA and command on line 1. `--last` is gone. Re-summarising confirmed the duplicate counts: Domlur had 4 duplicates and Silk Board 34.
 
 ### F5. 45 files uncommitted, including all the 5-seed results and Studio. High.
 `git status` shows 45 changes: `studio.py`, `make_area.py`, all OSM scenarios, `data_sources.md`, and every per-area result. RULES §7.5 violation. One bad edit loses the only evidence.

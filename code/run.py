@@ -32,6 +32,7 @@ COLS = [
     'vehicles', 'stops_per_veh', 'delay_s', 'travel_time_s', 'waiting_s',
     'collisions', 'junction_collisions', 'teleports', 'emergency_stops', 'unfinished_vehicles',
     'bike_share', 'front_row_bike_share',
+    'completed_trips', 'insertion_backlog', 'depart_delay_s', 'delay_incl_depart_s',
 ]
 
 
@@ -110,8 +111,8 @@ def main():
 
     # Versioned schema (never append to an older header): v3 added
     # scenario/profile/realism, v4 deduplicated collisions + junction_collisions.
-    # v5 added the demand column.
-    out = RESULTS_DIR / 'results_v5.csv'
+    # v5 added the demand column. v6 added throughput + depart-delay columns.
+    out = RESULTS_DIR / 'results_v6.csv'
     out.parent.mkdir(parents=True, exist_ok=True)
     fields = ['scenario', 'profile', 'hours', 'demand'] + hdr
     write_header = not out.exists()

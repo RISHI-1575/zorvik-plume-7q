@@ -1,0 +1,2 @@
+scenario,profile,hours,demand,controller,seed,vehicles,stops_per_veh,delay_s,travel_time_s,waiting_s,collisions,junction_collisions,teleports,emergency_stops,unfinished_vehicles,bike_share,front_row_bike_share,completed_trips,insertion_backlog,depart_delay_s,delay_incl_depart_s
+silk_board,active,9-10,0.6,fixed,0,3083,0.853065196237431,29.818757703535518,193.95329224781057,6.953292247810574,0,5,0,0,169,0.3629581576386636,0.38745019920318724,2915,1,0.5204346415828738,30.33919234511839

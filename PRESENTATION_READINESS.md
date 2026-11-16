@@ -50,6 +50,6 @@ export PATH="$PWD/.venv/bin:$PATH"
 
 python verify.py
 python run.py --compare --hours 8 9 --seeds 3
-python summarize_results.py --last 9
+python summarize_results.py --input experiments/results/<area>/results_v6.csv
 python train_hub.py --steps 512
 ```
