@@ -36,13 +36,36 @@ The realism check (`_sample_front_row`, `runner.py:160`) says filtering exists w
 | domlur | literature 0.8 | **0.75** |
 
 A ratio of 1.0 or less means bikes are **not** reaching the stop line ahead of other vehicles. Under congestion it is worse: bikes end up behind. RULES §3.4 says that turning on the sublane model is not evidence of realism, and this check shows the realism is not there yet. The 2026 Computer Networks seepage paper reports a 0.906 m seepage gap and 80,553 seepage events, against 132 with SUMO defaults. Our vtypes are still close to the defaults on the parameters that matter (`minGapLat` 0.35–0.6, `lcSublane`, `lcPushy`, `minGap` at the stop line).
-**Fix:** tune the bike vType (`minGap` ≈ 0.5, `minGapLat` ≈ 0.3, high `lcSublane`/`lcPushy`, `latAlignment arbitrary`) until the ratio is clearly above 1, for example 1.3 or more. Add the ratio as a PASS/FAIL line in `verify.py`. Then run the `lane_disciplined` profile, which has **not been run at all yet** (only `active` and `literature` appear in the results), so the ablation has a real contrast.
+**Update 2026-11-16 (partly fixed).**
+- *The front-row ratio was the wrong metric.* Short vehicles pack more densely at the stop line even with no filtering, so the ratio stays at about 1.0–1.16 for every variant, including a "no filtering" one. It is kept in the CSV but no longer used as evidence.
+- *New metric:* `runner.py::Seepage` counts a pass whenever a bike moves from behind to ahead of a halted non-bike in the **same lane**. That is direct seepage. `seepage_rate` divides passes by the bike-steps spent behind a halted same-lane vehicle, so congestion alone does not inflate it.
+- *Tuning (A-014, `filtering`, now the default profile):* cars, autos and heavy vehicles keep to one lane edge (`latAlignment right`), and bikes are pushy with tight gaps.
+- *The old ablation was broken.* Under the sublane model, queued vehicles stall mid-lane-change about ±0.7 m off centre, and bikes filter past them even with lcSublane 0 and centred insertion. In a sublane run, `lane_disciplined` seeped *more* than `filtering`. It now runs on the classic lane model (`--lateral-resolution -1`, A-011).
+
+Fixed-time, 5 seeds:
+
+| Area, demand | Profile | Seepage rate | Passes per bike | Delay (s) | Teleports | Collisions | Unfinished |
+|---|---|---|---|---|---|---|---|
+| Silk Board 0.8 | filtering | **0.0230** | 0.14 | 35.5 | 0.0 | 1.0 | 228 |
+| | literature | 0.0070 | 0.05 | 66.3 | 1.6 | 1.0 | 341 |
+| | lane_disciplined | 0 | 0 | 215.6 | 1.0 | 0.0 | 713 |
+| Domlur 0.6 | filtering | **0.0179** | 0.14 | 131.3 | 17.6 | 9.2 | 464 |
+| | literature | 0.0056 | 0.06 | 217.8 | 24.6 | 9.4 | 562 |
+| | lane_disciplined | 0 | 0 | 175.7 | 16.2 | 0.0 | 536 |
+
+- **Filtering is about 3.2–3.3× stock SUMO, and the ablation has none.**
+- Filtering also cuts delay. At Silk Board 0.6, an earlier sweep with the pre-fix ablation showed the opposite (45.5 vs 32.2 s), so the delay effect depends on demand.
+- `verify.py` now has a PASS/FAIL line: seepage rate must be at least 1.5× `literature` on the same seed. On Silk Board, maxp, demand 1.0, seed 0 the rate was 0.018 vs 0.0071, so it passes.
+- **Still open:**
+  - There is no field seepage count to calibrate against. The 2026 seepage paper reports 80,553 events, but on a different network and window, so it is not comparable.
+  - Domlur's teleports and collisions remain (F2).
+  - The tuned values are provisional (A-014).
 
 ### F2. Gridlock and teleports are inside the measured numbers. Critical.
 - Unfinished vehicles ÷ inserted vehicles: **Domlur 8–52%**, **Silk Board 5–39%**.
 - Domlur 5-seed means: teleports 17–25 per run, collisions 3–9 per run.
 - `delay_s` is the mean `timeLoss` over tripinfo records. With `write-unfinished`, vehicles still en route *are* included, but their delay is **truncated at sim end**, so `delay_s` is a lower bound that under-states gridlock. For example, in Domlur fixed s4, 833 of 3,074 records are unfinished. Only about 10 vehicles per run were never inserted (no record at all), and mean departDelay is about 1 s. So the bias is truncation, not missing vehicles. *(Corrected 2026-11-16. An earlier draft blamed the insertion backlog.)*
-- **Fixed in the v6 schema:** `run.py` now also writes `completed_trips`, `insertion_backlog`, `depart_delay_s` and `delay_incl_depart_s` to `results_v6.csv`. Read delay beside completed trips.
+- **Fixed in the v6 schema:** `run.py` now also writes `completed_trips`, `insertion_backlog`, `depart_delay_s` and `delay_incl_depart_s` (v6), and v7 adds the seepage columns, written to `results_v7.csv`. Read delay beside completed trips.
 
 RULES §5.7 says that a parameter set which needs collisions or teleports is rejected. Domlur's current numbers fail that rule.
 **Fix:** (a) add `departDelay`, or an insertion-backlog penalty, to delay, or report "delay incl. depart delay"; (b) report throughput (completed trips) as the headline beside delay; (c) cut Domlur demand, or fix its unsignalled side-road junctions (A-010), until teleports are near 0 at the reported demand; (d) treat any run with teleports above a declared threshold as a failed run in the table, not as a data point.
@@ -87,8 +110,8 @@ A Bengaluru field count (2 junctions × 3 windows, with one window held out) is 
 | Runnable, manifest-driven environment | ✅ done |
 | Plug-in controller harness + Studio | ✅ done (not committed) |
 | Baselines across 5 seeds | ⚠️ runs exist; stats not significant; duplicates |
-| Realism checks (L6) | ❌ 1 of 5 checks built, and it **fails** |
-| Lane-disciplined ablation | ❌ not run |
+| Realism checks (L6) | ⚠️ 1 of 5 built: seepage rate passes (3.2–3.3× stock SUMO); not field-validated |
+| Lane-disciplined ablation | ✅ run (lane model, 5 seeds, 2 areas) |
 | PCU sensitivity | ❌ not run |
 | Field data + calibration/validation | ❌ none |
 | External RL baseline decision | ❌ not started |
@@ -100,7 +123,7 @@ Build is about 55%. **Paper-readiness is about 15%**, slightly *lower* than the 
 
 1. **Commit + tag** (F5). Check: clean `git status`.
 2. **Fix the metrics and the summariser** (F2a–b, F4). Check: summary refuses duplicate keys; delay includes depart delay.
-3. **Tune the bike vType until seepage appears** (F1). Check: front-row ratio ≥ 1.3 on silk_board at 0.6 and 0.8; `lane_disciplined` gives a ratio of about 1.0 or less. *If seepage can't be produced, that is itself a reportable finding about SUMO's sublane model, so log it honestly.*
+3. **Tune the bike vType until seepage appears** (F1). Check: seepage rate ≥ 1.5× stock SUMO, ablation ≈ 0. **Done 2026-11-16 (F1 update).** *If seepage can't be produced, that is itself a reportable finding about SUMO's sublane model, so log it honestly.*
 4. **Remove gridlock at the reported demand** (F2c–d). Check: teleports ≈ 0, unfinished < 5% at the demands in the table.
 5. **Demand sweep, 10 seeds, paired stats** (F3). Check: a 95% CI table per area; state where maxp vs fixed separates and where it doesn't.
 6. **Calibration-method demo on Pune**, then **Bengaluru field counts** with a held-out window (F6). Check: the GEH gate is reported pass or fail.

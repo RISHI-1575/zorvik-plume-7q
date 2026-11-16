@@ -111,6 +111,10 @@ def run(controller: str, sim_seconds: int, seed: int = 0, gui: bool = False,
         if not vtypes.exists():
             raise FileNotFoundError(f'{vtypes} missing: rebuild the scenario')
         extra += ['--additional-files', str(vtypes)]
+    if profile == 'lane_disciplined':
+        # Classic lane model: under the sublane model queued vehicles stall mid-lane-change
+        # (+-0.7 m off centre) and leave a gap bikes filter through, even with lcSublane 0 (F1).
+        extra += ['--lateral-resolution', '-1']   # -1 = off; 0 crashes SUMO 1.27
     traci.start([binary, '-c', str(SCENARIO_DIR / 'corridor.sumocfg'), *extra,
                  '--tripinfo-output', str(tripinfo),
                  '--tripinfo-output.write-unfinished', 'true',
@@ -121,12 +125,13 @@ def run(controller: str, sim_seconds: int, seed: int = 0, gui: bool = False,
     safety = {'collisions': 0, 'teleports': 0, 'emergency_stops': 0}
     crashed = set()   # with collision.action=warn an overlap is re-reported every step
     unfinished = 0
-    front = {'bike': 0, 'all': 0}
+    front = {'bike': 0, 'all': 0, 'q_bike': 0, 'q_all': 0}
     try:
         tls_ids = list(traci.trafficlight.getIDList())
         cls = load_controller(controller)
         ctrls = [cls(tls) for tls in tls_ids]
         rec = Replay(replay, tls_ids) if replay else None
+        seep = Seepage(tls_ids)
         t = 0.0
         while traci.simulation.getMinExpectedNumber() > 0 and t < sim_seconds:
             traci.simulationStep()
@@ -142,6 +147,7 @@ def run(controller: str, sim_seconds: int, seed: int = 0, gui: bool = False,
                     traci.simulation.getEmergencyStoppingVehiclesNumber())
             for c in ctrls:
                 c.step(t, STEP_LENGTH_S)
+            seep.step()
             if int(t) % SAMPLE_EVERY_S == 0:
                 _sample_front_row(tls_ids, front)
             if rec:
@@ -153,18 +159,64 @@ def run(controller: str, sim_seconds: int, seed: int = 0, gui: bool = False,
         safety['collisions'] = len(crashed) - safety['junction_collisions']
     finally:
         traci.close()
-    m = parse_tripinfo(tripinfo) | safety | {'unfinished_vehicles': unfinished}
+    m = parse_tripinfo(tripinfo) | safety | {'unfinished_vehicles': unfinished,
+                                               'seepage_events': seep.events}
+    bikes = m['bike_share'] * m['vehicles']
+    m['seepage_per_bike'] = seep.events / bikes if bikes else 0.0
+    # exposure-normalised: congestion alone raises events/bike (longer queues to pass)
+    m['seepage_rate'] = seep.events / seep.exposure if seep.exposure else 0.0
     # never-inserted vehicles have no tripinfo record, so they are invisible to delay_s
     m['insertion_backlog'] = max(0, unfinished - (m['vehicles'] - m['completed_trips']))
     m['front_row_bike_share'] = front['bike'] / front['all'] if front['all'] else 0.0
+    m['queue_bike_share'] = front['q_bike'] / front['q_all'] if front['q_all'] else 0.0
+    # seepage index: >1 means bikes are over-represented at the stop line vs their own queue
+    m['seepage_index'] = m['front_row_bike_share'] / m['queue_bike_share'] if m['queue_bike_share'] else 0.0
     return m
 
 
-def _sample_front_row(tls_ids, front) -> None:
-    """Realism check: who is stopped at the stop line on red approaches.
+class Seepage:
+    """Count seepage events: a bike moving past a halted non-bike on a signal approach.
 
-    Indian mixed traffic: two-wheelers filter to the front, so the bike share
-    in the first FRONT_ROW_M should exceed the bike modal share.
+    Same event definition as the field/sim seepage literature (filtering
+    between queued vehicles), so counts are comparable across vType settings.
+    """
+
+    def __init__(self, tls_ids):
+        self.edges = sorted({traci.lane.getEdgeID(l[0][0]) for tls in tls_ids
+                             for l in traci.trafficlight.getControlledLinks(tls) if l})
+        self.ahead = {}      # bike -> ((edge, lane), halted same-lane non-bikes ahead)
+        self.events = 0
+        self.exposure = 0    # bike-steps spent behind a halted same-lane vehicle
+
+    def step(self) -> None:
+        now = {}
+        for e in self.edges:
+            vs = traci.edge.getLastStepVehicleIDs(e)
+            if len(vs) < 2:
+                continue
+            pos = {v: traci.vehicle.getLanePosition(v) for v in vs}
+            lane = {v: traci.vehicle.getLaneIndex(v) for v in vs}
+            bike = {v for v in vs if traci.vehicle.getTypeID(v) == 'bike'}
+            halted = {v for v in vs if v not in bike and traci.vehicle.getSpeed(v) < HALT_SPEED}
+            for b in bike:
+                # same lane only: overtaking a queue from a free adjacent lane is not filtering
+                ahead = {v for v in halted if pos[v] > pos[b] and lane[v] == lane[b]}
+                prev = self.ahead.get(b)
+                if prev and prev[0] == (e, lane[b]):
+                    # passed = was ahead, is now behind, still halted, and the bike
+                    # never left the lane (a lane-change overtake is not filtering)
+                    self.events += sum(v in halted and lane[v] == lane[b] and pos[v] < pos[b] for v in prev[1])
+                self.exposure += bool(ahead)
+                now[b] = ((e, lane[b]), ahead)
+        self.ahead = now
+
+
+def _sample_front_row(tls_ids, front) -> None:
+    """Who is stopped at the stop line on red approaches, vs the whole queue.
+
+    Compared with the bike share of all halted vehicles (not modal share):
+    short vehicles pack more per metre, so front-row share > modal share even
+    with filtering switched off. Seepage itself is counted by ``Seepage``.
     """
     for tls in tls_ids:
         state = traci.trafficlight.getRedYellowGreenState(tls)
@@ -174,10 +226,16 @@ def _sample_front_row(tls_ids, front) -> None:
         for lane in red:
             stop = traci.lane.getLength(lane) - FRONT_ROW_M
             for v in traci.lane.getLastStepVehicleIDs(lane):
-                if (traci.vehicle.getLanePosition(v) >= stop
-                        and traci.vehicle.getSpeed(v) < HALT_SPEED):
+                if traci.vehicle.getSpeed(v) >= HALT_SPEED:
+                    continue
+                bike = traci.vehicle.getTypeID(v) == 'bike'
+                # whole-queue baseline: short vehicles pack more per metre, so
+                # front-row share vs modal share is >1 even with no filtering
+                front['q_all'] += 1
+                front['q_bike'] += bike
+                if traci.vehicle.getLanePosition(v) >= stop:
                     front['all'] += 1
-                    front['bike'] += traci.vehicle.getTypeID(v) == 'bike'
+                    front['bike'] += bike
 
 
 def parse_tripinfo(path: Path) -> dict:

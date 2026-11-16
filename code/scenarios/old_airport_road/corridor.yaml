@@ -61,13 +61,24 @@ traffic:
 # Behaviour profiles: overrides applied on top of `vehicles`. `all` applies to
 # every class. Required ablation (RULES 5.6): lane_disciplined vs literature.
 behaviour:
-  active: literature
+  active: filtering
   profiles:
     # vehicles block + gap forcing at unsignalled side-road junctions
     # (provisional: without it minor-road traffic deadlocks behind the
     # filtering main-road flow, which is not what Bengaluru side roads do)
     literature:
       all: {impatience: 0.6, jm_timegap_minor_s: 0.5}
+    # Seepage tuning (2026-11-16, research/PART_A_DEEP_ANALYSIS.md F1, provisional A-014):
+    # centred 1.8 m cars in 3.2 m lanes leave 0.7 m per side, too narrow for a
+    # 0.75 m bike, so cars/autos hug one lane edge and bikes push into the gap.
+    filtering:
+      all: {impatience: 0.6, jm_timegap_minor_s: 0.5}
+      bike: {min_gap_m: 0.5, min_lateral_gap_m: 0.15, lc_pushy: 1.0, lc_assertive: 5, lc_speed_gain: 10, lc_keep_right: 0, max_speed_lat_mps: 1.5, lc_max_speed_lat_standing_mps: 1.0}
+      auto: {lateral_alignment: right}
+      car: {lateral_alignment: right}
+      lcv: {lateral_alignment: right}
+      bus: {lateral_alignment: right}
+      truck: {lateral_alignment: right}
     lane_disciplined:
       all: {lateral_alignment: center, lc_sublane: 0.0, lc_pushy: 0.0, min_lateral_gap_m: 1.5, impatience: 0.0}
 

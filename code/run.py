@@ -33,6 +33,7 @@ COLS = [
     'collisions', 'junction_collisions', 'teleports', 'emergency_stops', 'unfinished_vehicles',
     'bike_share', 'front_row_bike_share',
     'completed_trips', 'insertion_backlog', 'depart_delay_s', 'delay_incl_depart_s',
+    'queue_bike_share', 'seepage_index', 'seepage_events', 'seepage_per_bike', 'seepage_rate',
 ]
 
 
@@ -112,7 +113,8 @@ def main():
     # Versioned schema (never append to an older header): v3 added
     # scenario/profile/realism, v4 deduplicated collisions + junction_collisions.
     # v5 added the demand column. v6 added throughput + depart-delay columns.
-    out = RESULTS_DIR / 'results_v6.csv'
+    # v7 added seepage columns and the 'filtering' default profile.
+    out = RESULTS_DIR / 'results_v7.csv'
     out.parent.mkdir(parents=True, exist_ok=True)
     fields = ['scenario', 'profile', 'hours', 'demand'] + hdr
     write_header = not out.exists()

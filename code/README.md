@@ -54,11 +54,11 @@ python run.py --scenario $S --compare --controllers fixed,maxp --seeds 5 --hours
 python run.py --scenario $S --controller maxp --hours 9 10 --demand 0.8 --gui  # watch it
 python run.py --controller fixed --hours 8 9                    # synthetic 4-junction corridor
 python verify.py                                                # rebuild + unit tests + clean smoke run
-python summarize_results.py --input experiments/results/<area>/results_v6.csv                          # presentation summary from final run
+python summarize_results.py --input experiments/results/<area>/results_v7.csv                          # presentation summary from final run
 ```
 `--demand` scales `entering_veh_per_hour`. `--jobs` runs SUMO in parallel. `--json` also
 writes the rows as JSON. Results are appended to
-`experiments/results/<scenario>/results_v5.csv`.
+`experiments/results/<scenario>/results_v7.csv`.
 
 ## Real corridor: HAL Old Airport Road (OSM + BTP) and your own algorithm
 ```bash

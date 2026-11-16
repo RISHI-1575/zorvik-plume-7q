@@ -18,6 +18,8 @@ from saarathi import demand
 from saarathi.config import SCENARIO, SCENARIO_DIR
 from saarathi.runner import run
 
+SEEPAGE_CONTRAST = 1.5   # see research/PART_A_DEEP_ANALYSIS.md F1
+
 
 def main() -> None:
     print(f"Scenario: {SCENARIO.name}")
@@ -38,6 +40,16 @@ def main() -> None:
         "no teleports": metrics["teleports"] == 0,
         "no unfinished gridlock": metrics["unfinished_vehicles"] < metrics["vehicles"] * 0.1,
     }
+    if "literature" in SCENARIO.profiles and "filtering" in SCENARIO.profiles:
+        # Realism (RULES §3.4): the tuned default must filter clearly more than stock
+        # SUMO sublane defaults ('literature') on the same seed and demand. Rate is
+        # passes per bike-step spent behind a halted same-lane vehicle (congestion-neutral).
+        base = run("maxp", sim_seconds=3600, seed=0, profile="literature",
+                   label="verification_maxp_literature_h8-9_s0")
+        ratio = metrics["seepage_rate"] / max(base["seepage_rate"], 1e-9)
+        print(f"\nSeepage rate: {metrics['seepage_rate']:.4f} vs "
+              f"literature {base['seepage_rate']:.4f} (x{ratio:.1f})")
+        checks[f"two-wheeler seepage >= {SEEPAGE_CONTRAST}x stock SUMO"] = ratio >= SEEPAGE_CONTRAST
     print("\nVerification metrics:")
     for key, value in metrics.items():
         print(f"  {key}: {value}")

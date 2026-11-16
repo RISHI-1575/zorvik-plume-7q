@@ -139,6 +139,9 @@ def vehicle_types_xml(profile: str | None = None) -> str:
         'lateral_alignment': 'latAlignment', 'min_lateral_gap_m': 'minGapLat',
         'lc_sublane': 'lcSublane', 'lc_pushy': 'lcPushy',
         'impatience': 'impatience', 'jm_timegap_minor_s': 'jmTimegapMinor',
+        'lc_assertive': 'lcAssertive', 'lc_speed_gain': 'lcSpeedGain',
+        'lc_keep_right': 'lcKeepRight', 'max_speed_lat_mps': 'maxSpeedLat',
+        'lc_max_speed_lat_standing_mps': 'lcMaxSpeedLatStanding',
     }
     for vehicle_id, values in SCENARIO.vehicle_types(profile).items():
         rendered = ' '.join(

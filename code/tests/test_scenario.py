@@ -66,7 +66,7 @@ class OsmScenarioTests(unittest.TestCase):
         path = CODE_DIR / "scenarios" / "old_airport_road" / "corridor.yaml"
         scenario = load_scenario(path)
         self.assertTrue(scenario.is_osm)
-        self.assertEqual(scenario.profiles, ["literature", "lane_disciplined"])
+        self.assertEqual(scenario.profiles, ["literature", "filtering", "lane_disciplined"])
         net = sumolib.net.readNet(str(path.parent / "osm.net.xml"))
         tls = {t.getID() for t in net.getTrafficLights()}
         self.assertLessEqual(set(scenario.junction_ids), tls)
