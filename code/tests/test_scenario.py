@@ -56,3 +56,24 @@ class ScenarioContractTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OsmScenarioTests(unittest.TestCase):
+    """The real-corridor manifest must point at signals that exist in its net."""
+
+    def test_osm_manifest_signals_exist_in_network(self):
+        import sumolib
+        path = CODE_DIR / "scenarios" / "old_airport_road" / "corridor.yaml"
+        scenario = load_scenario(path)
+        self.assertTrue(scenario.is_osm)
+        self.assertEqual(scenario.profiles, ["literature", "lane_disciplined"])
+        net = sumolib.net.readNet(str(path.parent / "osm.net.xml"))
+        tls = {t.getID() for t in net.getTrafficLights()}
+        self.assertLessEqual(set(scenario.junction_ids), tls)
+
+    def test_profile_overrides_apply(self):
+        path = CODE_DIR / "scenarios" / "old_airport_road" / "corridor.yaml"
+        scenario = load_scenario(path)
+        disciplined = scenario.vehicle_types("lane_disciplined")
+        self.assertEqual(disciplined["bike"]["lateral_alignment"], "center")
+        self.assertEqual(scenario.vehicle_types("literature")["bike"]["lateral_alignment"], "arbitrary")

@@ -164,12 +164,12 @@ Every route ends in the **same metric code**: delay, travel time, waiting, stops
 ---
 
 ## 5. Gaps in today's code that block "bring your own algorithm"
-These were found by reading `src/saarathi/runner.py`, `controllers.py` and `config.py`:
-1. **Controllers are hard-coded.** `CONTROLLERS = {'fixed','actuated','maxp'}`; there is no way to pass an external class. Fix: an `importlib` loader for `module:Class`, about 5 lines.
-2. **The scenario is hard-coded.** `SCENARIO_DIR` is fixed in `config.py`. Fix: a `--scenario` argument.
-3. **Safety timings are code constants** (`MIN_GREEN_S` and others in `config.py`). `RULES.md` §6.1 says they belong in the manifest.
-4. **No raw-TraCI scoring path.** External tools can't easily be scored. Fix: `summarize_results.py` accepts any `tripinfo.xml`.
-5. **No realism checks yet** (L6) and no OSM corridor (L1).
+Status after the A1–A4 build (2026-11-10):
+1. **Controllers were hard-coded.** Fixed: `--controller module:Class` or `file.py:Class` (`controllers.load_controller`); template in `code/examples/my_controller.py`.
+2. **Scenario selection.** The `SAARATHI_SCENARIO` env var already existed; `run.py --scenario <corridor.yaml>` now sets it.
+3. ~~Safety timings are code constants~~: wrong in the first draft. They were already read from the manifest `safety:` block.
+4. **Raw-TraCI / sumo-rl path.** Every scenario writes a plain `corridor.sumocfg`, so sumo-rl and raw TraCI can load it directly. Not yet tested with sumo-rl.
+5. **Realism checks.** First check added: `front_row_bike_share` (two-wheeler share of vehicles halted within 8 m of a red stop line) next to the bike modal share. The other L6 checks are still to do.
 
 ---
 
@@ -177,7 +177,7 @@ These were found by reading `src/saarathi/runner.py`, `controllers.py` and `conf
 
 | # | Milestone | Done when |
 |---|---|---|
-| A1 | **Real corridor from OSM:** Old Airport Road, Domlur → Marathahalli, through `osmGet` + `netconvert` + `netedit` fixes | It runs 1 h of demand with 0 teleports. Junction count and approach widths match satellite imagery. |
+| A1 | **Real corridor from OSM:** Old Airport Road, Domlur → Marathahalli, through `osmGet` + `netconvert` + `netedit` fixes | It runs 1 h of demand with 0 teleports (current: ~1.3% at unsignalled side-road junctions, reported). Junction count and approach widths match satellite imagery. |
 | A2 | **BTP signal plans:** download the corridor PDFs, check licence and fields, convert to `tlLogic` | The `btp_fixed` plan runs, and its cycle and splits match the PDF |
 | A3 | **Behaviour profiles + realism checks (L2, L6)** | `literature` shows clearly more seepage than `lane_disciplined`; check output is archived |
 | A4 | **Plug-in harness (L7):** external class loader, `--scenario`, manifest safety timings, sumo-rl load test | A 10-line example controller in a separate file runs and is scored. sumo-rl's `SumoEnvironment` steps the corridor. |

@@ -7,6 +7,8 @@ CODE_DIR = Path(__file__).resolve().parents[2]
 SCENARIO = load_scenario()
 SCENARIO_DIR = SCENARIO.path.parent
 RESULTS_DIR = CODE_DIR / "experiments" / "results"
+if SCENARIO_DIR.name != "corridor4":      # keep the reference results untouched
+    RESULTS_DIR = RESULTS_DIR / SCENARIO_DIR.name
 
 # PCU is scenario-owned. The supplied factors are a sourced baseline, not an
 # assertion that PCU is constant in every Indian traffic condition.
@@ -26,5 +28,5 @@ LATERAL_RESOLUTION = SCENARIO.data["simulation"]["lateral_resolution_m"]
 HALT_SPEED = SCENARIO.data["simulation"]["halt_speed_mps"]
 
 HOURLY_PROFILE = SCENARIO.traffic["hourly_profile"]
-PEAK_FLOWS = SCENARIO.traffic["peak_flows_veh_per_hour"]
+PEAK_FLOWS = SCENARIO.traffic.get("peak_flows_veh_per_hour", {})
 N_JUNCTIONS = len(SCENARIO.junction_ids)

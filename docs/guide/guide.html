@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Saarathi Studio Guide</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 16mm 15mm; }
+  :root { --ink:#14181f; --mute:#5a6372; --line:#dfe3ea; --fixed:#d9622b; --smart:#2f7fe0; --soft:#f4f6f9; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#fff; color:var(--ink); font: 10.5pt/1.5 -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  h1 { font-size: 26pt; line-height:1.1; margin: 0 0 6px; letter-spacing:-.01em; }
+  h2 { font-size: 16pt; margin: 0 0 10px; padding-top: 4px; border-top: 3px solid var(--ink); }
+  h3 { font-size: 11.5pt; margin: 16px 0 4px; }
+  p { margin: 0 0 8px; }
+  .lede { font-size: 12pt; color: var(--mute); max-width: 150mm; }
+  .badge { display:inline-block; border:1px solid var(--ink); border-radius:99px; padding:1px 10px; font-size:9pt; margin: 8px 0 14px; }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+  img { display:block; width:100%; border-radius:6px; border:1px solid var(--line); }
+  figure { margin: 8px 0 12px; break-inside: avoid; }
+  figcaption { font-size: 8.5pt; color: var(--mute); margin-top: 4px; }
+  .two { display:grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items:start; }
+  .side { display:grid; grid-template-columns: 58mm 1fr; gap: 16px; align-items:start; }
+  ol.steps { padding-left: 0; list-style:none; counter-reset: s; margin: 0; }
+  ol.steps > li { counter-increment: s; position:relative; padding-left: 30px; margin-bottom: 10px; }
+  ol.steps > li::before { content: counter(s); position:absolute; left:0; top:0; width:21px; height:21px; border-radius:50%; background:var(--ink); color:#fff; font-size:9pt; font-weight:700; display:grid; place-items:center; }
+  ul { margin: 0 0 8px; padding-left: 18px; }
+  li { margin-bottom: 3px; }
+  code, .mono { font-family: "SF Mono", Menlo, monospace; font-size: 9pt; background: var(--soft); padding: 1px 4px; border-radius:3px; }
+  pre { font-family: "SF Mono", Menlo, monospace; font-size: 9pt; background: var(--soft); padding: 8px 10px; border-radius: 6px; margin: 4px 0 10px; white-space: pre-wrap; }
+  table { width:100%; border-collapse: collapse; font-size: 9.5pt; margin: 4px 0 12px; break-inside: avoid; }
+  th, td { text-align:left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 8.5pt; text-transform: uppercase; letter-spacing: .04em; color: var(--mute); }
+  td.n { text-align:right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .box { background: var(--soft); border-radius: 8px; padding: 10px 12px; margin: 8px 0 12px; break-inside: avoid; }
+  .box b:first-child { display:block; margin-bottom: 2px; }
+  .sw { display:inline-block; width:9px; height:9px; border-radius:2px; vertical-align: 0; margin-right: 4px; }
+  .pipe { width:100%; height:auto; margin: 6px 0 4px; }
+  .say { border-left: 3px solid var(--smart); padding: 2px 0 2px 10px; margin: 6px 0; font-style: italic; }
+  .small { font-size: 9pt; color: var(--mute); }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1: cover + overview ============ -->
+<section class="page">
+  <h1>Saarathi Studio</h1>
+  <p class="lede">A traffic-signal test bench for Bengaluru junctions. Pick a junction and an hour, and it simulates the mixed traffic there. It then compares four ways of running the signals on identical traffic and tells you, honestly, which one helped.</p>
+  <span class="badge">Modelled, not measured: the traffic is simulated, not counted on the street</span>
+
+  <figure>
+    <img src="img/01_full.png" alt="The whole Saarathi Studio screen">
+    <figcaption>The whole screen. <b>Left:</b> settings (place, time, Run). <b>Centre:</b> the junction replay. <b>Right:</b> the results.</figcaption>
+  </figure>
+
+  <h3>The four signal systems it compares</h3>
+  <table>
+    <tr><th>Name on screen</th><th>What it does</th><th>Technical name</th></tr>
+    <tr><td><span class="sw" style="background:#8b93a1"></span>Current plan</td><td>The signal timings stored for that junction. This is the baseline everything is compared with.</td><td>program</td></tr>
+    <tr><td><span class="sw" style="background:var(--fixed)"></span>Fixed timer</td><td>Same green times every cycle, whatever the traffic.</td><td>fixed-time</td></tr>
+    <tr><td><span class="sw" style="background:#c25fb0"></span>Sensor timer</td><td>Extends a green while cars keep arriving at a detector.</td><td>actuated</td></tr>
+    <tr><td><span class="sw" style="background:var(--smart)"></span>Smart signal</td><td>Gives green to whichever direction has the most waiting traffic (weighted by vehicle size).</td><td>max-pressure</td></tr>
+  </table>
+</section>
+
+<!-- ============ PAGE 2: operate 1 ============ -->
+<section class="page">
+  <h2>Part 1 · How to operate it</h2>
+
+  <h3>Start it</h3>
+  <pre>cd "Saarathi/code"
+export PATH="$PWD/.venv/bin:$PATH"
+python studio.py          # then open http://127.0.0.1:8765 in a browser</pre>
+
+  <div class="side">
+    <figure style="margin-top:0">
+      <img src="img/02_left.png" style="max-height:205mm;object-fit:cover;object-position:top" alt="Left column: place list, map, time picker">
+      <figcaption>Left column, with the map open.</figcaption>
+    </figure>
+    <div>
+      <ol class="steps">
+        <li><b>Pick a place.</b> Choose a junction from the list. <i>ready</i> means its road network is already built. <i>new</i> means it will be downloaded from OpenStreetMap on the first run, which takes about a minute.</li>
+        <li><b>Or choose on the map.</b> <i>Choose on map</i> opens a map of Bengaluru with every junction on it. Click one to select it.</li>
+        <li><b>Or draw your own area.</b> Press <i>Draw your own area</i> and drag a box on the map. The limit is 4 km², so the simulation stays quick. The hint under the map shows the size.</li>
+        <li><b>Pick a time.</b> Drag the slider to choose the hour. The bars show how busy each hour of the day is (morning and evening rush are the tall ones).</li>
+        <li><b>Advanced (optional).</b>
+          <ul>
+            <li><i>Amount of traffic</i>: 100% means the busiest signal is at capacity. The default is 60%; lower it if the roads jam.</li>
+            <li><i>Repeats</i>: how many different random days to simulate. The default is 5; use 5 for any number you report.</li>
+          </ul></li>
+        <li><b>Press Run simulation.</b> All four systems run on the same traffic. Five repeats at one junction take roughly 15–60 seconds.</li>
+      </ol>
+      <figure style="width:62mm">
+        <img src="img/03_custom.png" style="max-height:72mm;object-fit:cover;object-position:bottom" alt="Drawing your own area on the map">
+        <figcaption>Drawing your own area: the dashed box, and its size shown under the map.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAGE 3: watch ============ -->
+<section class="page">
+  <h2>Watch the traffic</h2>
+  <p>The centre replays minutes 5–15 of the first repeat. Every dot is a vehicle, coloured by type: <span class="sw" style="background:#1fa37a"></span>two-wheeler, <span class="sw" style="background:#8b7cf6"></span>auto, <span class="sw" style="background:#c9ced6"></span>car/van, <span class="sw" style="background:#d4900f"></span>bus/truck. The circles at the junction are the signal heads (green, yellow or red).</p>
+
+  <div class="two">
+    <figure>
+      <img src="img/04_watch.png" alt="One system on screen">
+      <figcaption>One system (Smart signal). The card shows live counts for that moment.</figcaption>
+    </figure>
+    <figure>
+      <img src="img/05_side.png" alt="Side by side view">
+      <figcaption><i>Side by side</i>: Fixed timer and Smart signal on identical traffic. At the same second the smart signal has 14 min of total stopped time against 25 min.</figcaption>
+    </figure>
+  </div>
+
+  <table>
+    <tr><th>Control</th><th>What it does</th></tr>
+    <tr><td>Top buttons</td><td>Switch between the four systems, or <i>Side by side</i>.</td></tr>
+    <tr><td>Play button / <b>Space</b> key</td><td>Play or pause.</td></tr>
+    <tr><td>Slider</td><td>Jump to any second of the 10 minutes.</td></tr>
+    <tr><td>1× · 4× · 10×</td><td>Playback speed.</td></tr>
+    <tr><td>Mouse drag / scroll</td><td>Pan and zoom the map. The 50 m bar shows the scale.</td></tr>
+    <tr><td>Signal timeline (bottom)</td><td>Green, yellow and red for each road approach over the 10 minutes. The white line is "now".</td></tr>
+  </table>
+</section>
+
+<!-- ============ PAGE 4: read results ============ -->
+<section class="page">
+  <h2>Read the results</h2>
+  <div class="side" style="grid-template-columns: 62mm 1fr">
+    <figure style="margin-top:0">
+      <img src="img/06_right.png" alt="Results column: effectiveness scorecard">
+      <figcaption>Right column: the scorecard, then the headline.</figcaption>
+    </figure>
+    <div>
+      <h3 style="margin-top:0">"How effective was each system?"</h3>
+      <p>Each card shows:</p>
+      <ul>
+        <li><b>s lost per vehicle</b>: the average extra time a vehicle spent compared with driving freely. Lower is better.</li>
+        <li><b>±%</b> compared with the current plan.</li>
+        <li><b>won X of 5</b>: in how many of the 5 repeats it beat the current plan on exactly the same traffic.</li>
+        <li><b>Safety events per run</b>: simulated collisions plus "teleports" (SUMO removing a stuck vehicle). These are always shown, never hidden.</li>
+      </ul>
+
+      <div class="box"><b>The verdict rule</b>
+        <i>Better</i> or <i>Worse</i> only if it won (or lost) <b>every</b> repeat. With 8 or more repeats it is all but one. Anything else is <i>No clear difference</i>. With fewer than 3 repeats it says <i>Too few repeats</i>. This stops a lucky run being reported as a win.</div>
+
+      <h3>Example: Central Silk Board, 9–10 AM, 60% traffic, 5 repeats</h3>
+      <table>
+        <tr><th>System</th><th class="n">s lost</th><th class="n">vs plan</th><th class="n">won</th><th>Verdict</th></tr>
+        <tr><td>Current plan</td><td class="n">32.0</td><td class="n">—</td><td class="n">—</td><td>Baseline</td></tr>
+        <tr><td>Fixed timer</td><td class="n">32.2</td><td class="n">+1%</td><td class="n">4 / 5</td><td>No clear difference</td></tr>
+        <tr><td>Sensor timer</td><td class="n">34.8</td><td class="n">+9%</td><td class="n">0 / 5</td><td><b>Worse</b></td></tr>
+        <tr><td>Smart signal</td><td class="n">29.5</td><td class="n">−8%</td><td class="n">4 / 5</td><td>No clear difference</td></tr>
+      </table>
+      <p class="small">The smart signal is 8% faster on average but lost one repeat, so the honest verdict is <i>No clear difference</i>, not <i>Better</i>.</p>
+
+      <p><b>Further down:</b> Fixed vs Smart in detail (worst 5% of waits, stops, trip time, fuel, CO₂), simulation checks, queue charts, longest queues by road, delay by vehicle type, every repeat, and <b>All numbers</b> with a CSV download.</p>
+      <h3>Other things you can do</h3>
+      <ul>
+        <li><b>Past runs</b> (top right) reopens any earlier result.</li>
+        <li><b>Upload your own controller</b>: a Python class with a <code>step()</code> method, run against the same four systems.</li>
+        <li><b>Watch in SUMO</b>: the command line can open the real SUMO window (<code>run.py … --gui</code>).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAGE 5: how we built it ============ -->
+<section class="page">
+  <h2>Part 2 · How we built it</h2>
+  <p>In one sentence: <b>real Bengaluru road maps + Indian traffic rules of thumb → a traffic simulator (SUMO) → four signal controllers on identical traffic → a fair comparison shown in a web page.</b></p>
+
+  <svg class="pipe" viewBox="0 0 900 150" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Helvetica, Arial" font-size="13">
+    <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#14181f"/></marker></defs>
+    <g fill="#f4f6f9" stroke="#14181f" stroke-width="1.5">
+      <rect x="5" y="20" width="150" height="62" rx="8"/><rect x="190" y="20" width="150" height="62" rx="8"/>
+      <rect x="375" y="20" width="150" height="62" rx="8"/><rect x="560" y="20" width="150" height="62" rx="8"/>
+      <rect x="745" y="20" width="150" height="62" rx="8"/>
+    </g>
+    <g text-anchor="middle" fill="#14181f">
+      <text x="80" y="46" font-weight="700">1 · Road map</text><text x="80" y="66">OpenStreetMap</text>
+      <text x="265" y="46" font-weight="700">2 · Network</text><text x="265" y="66">make_area + netconvert</text>
+      <text x="450" y="46" font-weight="700">3 · Traffic</text><text x="450" y="66">demand.py routes</text>
+      <text x="635" y="46" font-weight="700">4 · Simulate</text><text x="635" y="66">runner.py + TraCI</text>
+      <text x="820" y="46" font-weight="700">5 · Show</text><text x="820" y="66">studio.py + page</text>
+    </g>
+    <g stroke="#14181f" stroke-width="1.5" marker-end="url(#a)"><line x1="157" y1="51" x2="187" y2="51"/><line x1="342" y1="51" x2="372" y2="51"/><line x1="527" y1="51" x2="557" y2="51"/><line x1="712" y1="51" x2="742" y2="51"/></g>
+    <g text-anchor="middle" fill="#5a6372" font-size="11.5">
+      <text x="80" y="106">streets, junctions,</text><text x="80" y="121">signal locations</text>
+      <text x="265" y="106">left-hand, lane-less</text><text x="265" y="121">SUMO road network</text>
+      <text x="450" y="106">Bengaluru vehicle mix,</text><text x="450" y="121">24-hour busyness curve</text>
+      <text x="635" y="106">4 controllers × 5 seeds,</text><text x="635" y="121">same traffic each time</text>
+      <text x="820" y="106">scorecard, replay,</text><text x="820" y="121">charts, CSV</text>
+    </g>
+  </svg>
+
+  <ol class="steps">
+    <li><b>Road map.</b> <code>scenarios/make_area.py</code> downloads any area of up to 4 km² from OpenStreetMap. Signals are named after their streets.</li>
+    <li><b>Road network.</b> SUMO's <code>netconvert</code> turns the map into a simulation network. It drives on the <b>left</b> and uses SUMO's <b>sublane model</b> (0.4 m strips), so two-wheelers can squeeze between cars and filter to the front at a red light, as in Indian traffic.</li>
+    <li><b>Traffic.</b> <code>demand.py</code> generates vehicles using the Bengaluru 2022 vehicle mix (Basu et al.) and IRC:106 "PCU" sizes (a bus counts as several cars). A 24-hour busyness curve sets the volume for the chosen hour.</li>
+    <li><b>Simulate.</b> <code>runner.py</code> runs SUMO 1.27 and controls the lights live through <b>TraCI</b>, SUMO's remote-control interface. Each controller's decision passes through a <b>SafetyShell</b> that enforces minimum green, yellow and all-red times, so no controller can make an unsafe switch. Each system runs on <b>the same 5 random seeds</b> (identical traffic), which makes the comparison fair.</li>
+    <li><b>Measure and show.</b> Delay, stops, fuel and CO₂ come from SUMO's per-trip output, and safety from its collision and teleport logs. <code>studio.py</code> is a small web server written only with Python's standard library. The page is one HTML file that draws the traffic on a canvas, with a Leaflet map for picking places.</li>
+  </ol>
+
+  <div class="box"><b>Why 5 repeats matter (a real lesson from this project)</b>
+  At Domlur, a single run made the fixed timer look better (126 s vs 271 s). Across 5 runs the ranking flipped: the fixed timer had two near-gridlock runs, and the smart signal was the most stable. That is why every reported number uses 5 seeds and the verdict demands a win in every repeat.</div>
+</section>
+
+<!-- ============ PAGE 6: testing + honest limits + talking points ============ -->
+<section class="page">
+  <h2>How we tested it</h2>
+  <p>An automated end-to-end script, <code>code/e2e_studio.py</code>, hits every server endpoint and feature many times. Separate browser tests then clicked through every control on the page.</p>
+  <table>
+    <tr><th>What was tested</th><th class="n">Checks</th><th class="n">Passed</th></tr>
+    <tr><td>Unit tests</td><td class="n">1 suite</td><td class="n">all</td></tr>
+    <tr><td>Server API: every endpoint, bad inputs, wrong types</td><td class="n">455</td><td class="n">455</td></tr>
+    <tr><td>Page loads and assets</td><td class="n">50</td><td class="n">50</td></tr>
+    <tr><td>Uploading your own controller (valid, broken, malicious)</td><td class="n">122</td><td class="n">122</td></tr>
+    <tr><td>Browser: Space key, map toggle, drawing areas, back to preset</td><td class="n">170+</td><td class="n">all</td></tr>
+    <tr><td>Browser: full run from the page; phone-width (375 px) layout</td><td class="n">2</td><td class="n">2</td></tr>
+    <tr><td>Real simulations: every built place × every hour × 2 traffic levels</td><td class="n">141</td><td class="n" id="simcell">141</td></tr>
+    <tr><td>Same input gives the same answer; fresh road-network builds</td><td class="n">490</td><td class="n">all</td></tr>
+  </table>
+  <p><b>Bugs the tests found, all fixed:</b> bad input crashed the server (it now replies with a clear error); a broken request body dropped the connection; temporary files showed up in Past runs; the screen went blank when switching view while paused; and the signal-timeline "now" line was stuck at the left edge.</p>
+
+  <h2 style="margin-top:14px">Honest limits</h2>
+  <ul>
+    <li><b>Modelled, not measured.</b> Road shapes and signal locations are real (OpenStreetMap, plus Bengaluru Traffic Police cycle times for Old Airport Road). Traffic volumes, signal splits and driver behaviour are reasonable assumptions, listed in <code>docs/assumptions.md</code>, not field counts.</li>
+    <li><b>Not calibrated yet.</b> The next step is to match the simulated flow to published Bangalore measurements (Anusha et al., saturation flow) and to the TomTom rush-hour speed (13.9 km/h).</li>
+    <li>Results show how the controllers compare with each other in the model. They do not predict exact real-world travel times.</li>
+  </ul>
+
+  <h2 style="margin-top:14px">If your teacher asks…</h2>
+  <table>
+    <tr><td style="width:34%"><b>"What is it?"</b></td><td>A simulator that tests traffic-signal strategies on real Bengaluru junctions with Indian mixed, lane-less traffic, and reports fairly which one helps.</td></tr>
+    <tr><td><b>"Why four systems?"</b></td><td>The current plan is the baseline. Fixed and sensor timers are what cities use today. Max-pressure is a well-known adaptive method. Our own controllers must beat all of them.</td></tr>
+    <tr><td><b>"How do you know it isn't luck?"</b></td><td>Every system runs on the same 5 random traffic days. It is only called Better if it wins all 5, and safety events are always reported.</td></tr>
+    <tr><td><b>"What's Indian about it?"</b></td><td>Left-hand driving, lane-less sublane movement (two-wheelers filter to the front), the Bengaluru vehicle mix, and IRC PCU values.</td></tr>
+    <tr><td><b>"What's missing?"</b></td><td>Field calibration. Demand and behaviour are provisional, so we say "modelled, not measured".</td></tr>
+  </table>
+</section>
+
+</body>
+</html>

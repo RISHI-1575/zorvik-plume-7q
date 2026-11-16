@@ -1,0 +1,88 @@
+schema_version: 1
+name: old-airport-road-osm
+description: >-
+  Bengaluru-inspired corridor on the real HAL Old Airport Road geometry
+  (Domlur -> Doddanekundi, ~6 km) imported from OpenStreetMap, left-hand
+  traffic, with Bengaluru Traffic Police (BTP) published cycle lengths at the
+  junctions they cover. Demand and behaviour are provisional until field
+  counts exist. Not a calibrated or validated model of the road.
+
+network:
+  source: osm
+  # Rebuild raw net from OSM: bash scenarios/old_airport_road/fetch_osm.sh
+  raw_net_file: osm.net.xml
+  osm_date: 2026-11-10            # OSM API download date (ODbL, (c) OSM contributors)
+  # friendly name -> SUMO traffic-light id. Mapping BTP junction -> node is by
+  # location and street names (status: provisional), see docs/assumptions.md.
+  signals:
+    domlur: "13392231547"
+    wind_tunnel: GS_cluster_11155831177_11228965364_11228965365_11228965373
+    isro: cluster_4703745979_6884057005
+    namjoshi: GS_cluster_1454651919_3776848084
+    yamlur: GS_cluster_10034231484_10034231485_10034231486_10034231487
+    doddanekundi: GS_cluster_12134224862_12134224863_3806514512_3806514513
+    indiranagar_100ft: "GS_cluster_1282881297_298815516_3677662641_6132913640_#1more"
+  # BTP published cycle (s), AM band, data/btp_signal_timings/timings.csv.
+  # Status: sourced cycle; phase split is SUMO's default scaled to the cycle
+  # (BTP phase->approach mapping lives only in the PDF diagrams).
+  btp_cycle_s:
+    domlur: 155     # Domlur Water Tank, 08:00-11:00
+    isro: 193       # ISRO Junction - Airport Road, 08:30-11:30
+    yamlur: 100     # Yamlur Junction, 08:00-11:30
+
+simulation:
+  step_length_s: 1.0
+  lateral_resolution_m: 0.4
+  halt_speed_mps: 0.3
+
+safety:
+  min_green_s: 10
+  max_green_s: 60
+  yellow_s: 3
+  all_red_s: 2
+  decision_interval_s: 5
+
+traffic:
+  # provisional: same mix as the synthetic reference until field counts exist
+  modal_split:
+    bike: 0.45
+    auto: 0.15
+    car: 0.22
+    lcv: 0.00
+    bus: 0.08
+    truck: 0.10
+  # provisional: trips generated per hour at profile 1.0 (randomTrips, fringe
+  # weighted so most trips run along the corridor)
+  entering_veh_per_hour: 3000
+  hourly_profile: [0.10, 0.06, 0.05, 0.05, 0.08, 0.18, 0.35, 0.65, 0.90, 1.00,
+                   0.85, 0.60, 0.50, 0.50, 0.55, 0.60, 0.75, 0.95, 1.00, 0.90,
+                   0.65, 0.45, 0.30, 0.18]
+
+# Behaviour profiles: overrides applied on top of `vehicles`. `all` applies to
+# every class. Required ablation (RULES 5.6): lane_disciplined vs literature.
+behaviour:
+  active: literature
+  profiles:
+    # vehicles block + gap forcing at unsignalled side-road junctions
+    # (provisional: without it minor-road traffic deadlocks behind the
+    # filtering main-road flow, which is not what Bengaluru side roads do)
+    literature:
+      all: {impatience: 0.6, jm_timegap_minor_s: 0.5}
+    lane_disciplined:
+      all: {lateral_alignment: center, lc_sublane: 0.0, lc_pushy: 0.0, min_lateral_gap_m: 1.5, impatience: 0.0}
+
+vehicles:
+  bike:  {vclass: motorcycle, length_m: 2.0, width_m: 0.75, min_gap_m: 1.0, accel_mps2: 3.0, decel_mps2: 4.5, max_speed_mps: 16.7, speed_factor: "norm(1.0,0.15)", lateral_alignment: arbitrary, min_lateral_gap_m: 0.35, lc_sublane: 1.0, lc_pushy: 0.35}
+  auto:  {vclass: passenger, length_m: 3.0, width_m: 1.4, min_gap_m: 1.0, accel_mps2: 1.8, decel_mps2: 4.0, max_speed_mps: 13.9, speed_factor: "norm(0.9,0.1)", lateral_alignment: arbitrary, min_lateral_gap_m: 0.45, lc_sublane: 0.8, lc_pushy: 0.25}
+  car:   {vclass: passenger, length_m: 4.4, width_m: 1.8, min_gap_m: 1.5, accel_mps2: 2.4, decel_mps2: 4.5, max_speed_mps: 19.4, speed_factor: "norm(1.0,0.1)", lateral_alignment: center, min_lateral_gap_m: 0.5}
+  lcv:   {vclass: delivery, length_m: 6.0, width_m: 2.0, min_gap_m: 1.7, accel_mps2: 1.5, decel_mps2: 3.8, max_speed_mps: 15.0, speed_factor: "norm(0.95,0.08)", lateral_alignment: center, min_lateral_gap_m: 0.55}
+  bus:   {vclass: bus, length_m: 12.0, width_m: 2.5, min_gap_m: 2.0, accel_mps2: 1.1, decel_mps2: 3.5, max_speed_mps: 13.9, speed_factor: "norm(0.9,0.05)", lateral_alignment: center, min_lateral_gap_m: 0.6}
+  truck: {vclass: truck, length_m: 9.5, width_m: 2.4, min_gap_m: 2.0, accel_mps2: 1.0, decel_mps2: 3.5, max_speed_mps: 13.9, speed_factor: "norm(0.9,0.05)", lateral_alignment: center, min_lateral_gap_m: 0.6}
+
+pcu:
+  active: project_baseline
+  factor_sets:
+    project_baseline:
+      status: sourced-not-calibrated
+      source: IRC-derived project baseline; see docs/assumptions.md
+      factors: {bike: 0.5, auto: 1.2, car: 1.0, lcv: 1.4, bus: 3.0, truck: 3.0}

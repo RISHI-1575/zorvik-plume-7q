@@ -40,8 +40,26 @@ class Scenario:
         return self.data["pcu"]
 
     @property
+    def is_osm(self) -> bool:
+        return self.network.get("source") == "osm"
+
+    @property
     def junction_ids(self) -> list[str]:
+        if self.is_osm:
+            return [str(t) for t in self.network["signals"].values()]
         return [f"J{i}" for i in range(1, int(self.network["junctions"]) + 1)]
+
+    def vehicle_types(self, profile: str | None = None) -> dict[str, dict[str, Any]]:
+        """Vehicle attributes with a behaviour profile's overrides applied."""
+        behaviour = self.data.get("behaviour", {})
+        profile = profile or behaviour.get("active")
+        overrides = behaviour.get("profiles", {}).get(profile, {}) if profile else {}
+        return {v: {**attrs, **overrides.get("all", {}), **overrides.get(v, {})}
+                for v, attrs in self.vehicles.items()}
+
+    @property
+    def profiles(self) -> list[str]:
+        return list(self.data.get("behaviour", {}).get("profiles", {})) or ["default"]
 
 
 def _default_path() -> Path:
@@ -71,12 +89,24 @@ def _validate(data: Any, path: Path) -> None:
         raise ValueError(f"{path}: missing keys: {', '.join(sorted(missing))}")
 
     network = data["network"]
-    junctions = int(network.get("junctions", 0))
-    if not 1 <= junctions <= 20:
-        raise ValueError(f"{path}: network.junctions must be between 1 and 20")
-    for key in ("spacing_m", "side_road_length_m", "main_lanes", "side_lanes"):
-        if float(network.get(key, 0)) <= 0:
-            raise ValueError(f"{path}: network.{key} must be positive")
+    if network.get("source") == "osm":
+        if not network.get("raw_net_file") or not network.get("signals"):
+            raise ValueError(f"{path}: osm network needs raw_net_file and signals")
+        unknown = set(network.get("btp_cycle_s", {})) - set(network["signals"])
+        if unknown:
+            raise ValueError(f"{path}: btp_cycle_s names unknown signals: {sorted(unknown)}")
+        if "entering_veh_per_hour" not in data["traffic"]:
+            raise ValueError(f"{path}: osm traffic needs entering_veh_per_hour")
+    else:
+        junctions = int(network.get("junctions", 0))
+        if not 1 <= junctions <= 20:
+            raise ValueError(f"{path}: network.junctions must be between 1 and 20")
+        for key in ("spacing_m", "side_road_length_m", "main_lanes", "side_lanes"):
+            if float(network.get(key, 0)) <= 0:
+                raise ValueError(f"{path}: network.{key} must be positive")
+    behaviour = data.get("behaviour")
+    if behaviour and behaviour.get("active") not in behaviour.get("profiles", {}):
+        raise ValueError(f"{path}: behaviour.active must name a profile")
 
     vehicles = data["vehicles"]
     if "car" not in vehicles:

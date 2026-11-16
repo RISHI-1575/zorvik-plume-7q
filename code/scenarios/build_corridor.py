@@ -3,7 +3,8 @@
 Writes plain-XML node/edge files, runs netconvert to produce corridor.net.xml,
 then writes Indian vehicle types (PCU-based, sublane-enabled) and the sumocfg.
 
-Usage:  python scenarios/build_corridor.py
+Usage:  python scenarios/build_corridor.py   (SAARATHI_SCENARIO picks the manifest;
+        OSM manifests copy their raw net and apply BTP cycle lengths)
 """
 import subprocess
 import sys
@@ -13,13 +14,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from saarathi.config import SCENARIO_DIR, LATERAL_RESOLUTION, STEP_LENGTH_S, SCENARIO
 
 NETWORK = SCENARIO.network
-SPACING = float(NETWORK["spacing_m"])
-SIDE_LEN = float(NETWORK["side_road_length_m"])
-N_JUNCTIONS = int(NETWORK["junctions"])
-MAIN_LANES = int(NETWORK["main_lanes"])
-SIDE_LANES = int(NETWORK["side_lanes"])
-SPEED_MAIN = float(NETWORK["main_speed_mps"])
-SPEED_SIDE = float(NETWORK["side_speed_mps"])
+# netconvert places internal-junction conflict points for a 1.8 m vehicle by
+# default; buses (2.5 m) then sweep foe paths and collide on junctions.
+# Widest class + 0.1 m cut checked junction collisions 27 -> 8 (corridor4,
+# seed 2); 3.5 m made it far worse (215). See docs/assumptions.md A-012.
+JUNCTION_VEHICLE_WIDTH = str(max(float(v['width_m']) for v in SCENARIO.vehicles.values()) + 0.1)
+if not SCENARIO.is_osm:
+    SPACING = float(NETWORK["spacing_m"])
+    SIDE_LEN = float(NETWORK["side_road_length_m"])
+    N_JUNCTIONS = int(NETWORK["junctions"])
+    MAIN_LANES = int(NETWORK["main_lanes"])
+    SIDE_LANES = int(NETWORK["side_lanes"])
+    SPEED_MAIN = float(NETWORK["main_speed_mps"])
+    SPEED_SIDE = float(NETWORK["side_speed_mps"])
 
 
 def build_network(out: Path) -> None:
@@ -67,6 +74,7 @@ def build_network(out: Path) -> None:
          '--tls.guess-signals', 'false',
          '--tls.default-type', 'static',
          '--no-turnarounds',            # keep phase structure simple
+         '--internal-junctions.vehicle-width', JUNCTION_VEHICLE_WIDTH,
          ],
         check=True)
     print('net written:', out / 'corridor.net.xml')
@@ -102,6 +110,8 @@ SUMOCFG = f"""<configuration>
     <step-length value="{STEP_LENGTH_S}"/>
     <lateral-resolution value="{LATERAL_RESOLUTION}"/>
     <collision.action value="warn"/>
+    <collision.check-junctions value="true"/>
+    <collision.mingap-factor value="0"/>
     <time-to-teleport value="600"/>
   </processing>
   <report>
@@ -112,16 +122,15 @@ SUMOCFG = f"""<configuration>
 """
 
 
-def vehicle_types_xml() -> str:
-    """Render vehicle types from the active manifest.
+def vehicle_types_xml(profile: str | None = None) -> str:
+    """Render vehicle types from the manifest, with a behaviour profile applied.
 
-    ``VTYPES`` is retained above solely as the historic reference. The actual
-    generated file follows the manifest, so adding a vehicle class does not
-    require a second code change here.
+    ``VTYPES`` above is the historic reference only. A ``mix`` distribution
+    (modal split) is appended so generated trips can sample the class.
     """
     lines = [
         '<additional>',
-        '  <!-- Provisional behaviour; see docs/assumptions.md. -->',
+        f'  <!-- Provisional behaviour, profile={profile or "active"}; see docs/assumptions.md. -->',
     ]
     attributes = {
         'vclass': 'vClass', 'length_m': 'length', 'width_m': 'width',
@@ -129,22 +138,60 @@ def vehicle_types_xml() -> str:
         'max_speed_mps': 'maxSpeed', 'speed_factor': 'speedFactor',
         'lateral_alignment': 'latAlignment', 'min_lateral_gap_m': 'minGapLat',
         'lc_sublane': 'lcSublane', 'lc_pushy': 'lcPushy',
+        'impatience': 'impatience', 'jm_timegap_minor_s': 'jmTimegapMinor',
     }
-    for vehicle_id, values in SCENARIO.vehicles.items():
+    for vehicle_id, values in SCENARIO.vehicle_types(profile).items():
         rendered = ' '.join(
             f'{attributes[key]}="{value}"' for key, value in values.items()
             if key in attributes
         )
         lines.append(f'  <vType id="{vehicle_id}" {rendered}/>')
+    split = {k: v for k, v in SCENARIO.traffic['modal_split'].items() if v > 0}
+    lines.append(f'  <vTypeDistribution id="mix" vTypes="{" ".join(split)}" '
+                 f'probabilities="{" ".join(str(v) for v in split.values())}"/>')
     return '\n'.join(lines + ['</additional>', ''])
+
+
+def build_osm_network(out: Path) -> None:
+    """Copy the OSM-built net, scaling signal programs to BTP cycle lengths.
+
+    Only the cycle is sourced: BTP's phase->approach mapping is in PDF
+    diagrams, so SUMO's default split is stretched proportionally.
+    """
+    import xml.etree.ElementTree as ET
+    net = ET.parse(out / NETWORK['raw_net_file'])
+    signals = NETWORK['signals']
+    by_tls = {str(signals[name]): cycle for name, cycle in NETWORK.get('btp_cycle_s', {}).items()}
+    for tl in net.getroot().iter('tlLogic'):
+        cycle = by_tls.get(tl.get('id'))
+        if not cycle:
+            continue
+        phases = list(tl.iter('phase'))
+        fixed = sum(float(p.get('duration')) for p in phases if 'y' in p.get('state'))
+        green = sum(float(p.get('duration')) for p in phases if 'y' not in p.get('state'))
+        k = (cycle - fixed) / green
+        for p in phases:
+            if 'y' not in p.get('state'):
+                p.set('duration', str(round(float(p.get('duration')) * k)))
+    net.write(out / 'corridor.net.xml', encoding='UTF-8', xml_declaration=True)
+    subprocess.run(['netconvert', '-s', str(out / 'corridor.net.xml'), '-o', str(out / 'corridor.net.xml'),
+                    '--internal-junctions.vehicle-width', JUNCTION_VEHICLE_WIDTH, '--no-warnings'],
+                   check=True)
+    print('net written (BTP cycles applied to', len(by_tls), 'signals):', out / 'corridor.net.xml')
 
 
 def main() -> None:
     SCENARIO_DIR.mkdir(parents=True, exist_ok=True)
-    build_network(SCENARIO_DIR)
+    if SCENARIO.is_osm:
+        build_osm_network(SCENARIO_DIR)
+    else:
+        build_network(SCENARIO_DIR)
     (SCENARIO_DIR / 'vtypes.add.xml').write_text(vehicle_types_xml())
+    for profile in SCENARIO.profiles:
+        if profile != 'default':
+            (SCENARIO_DIR / f'vtypes_{profile}.add.xml').write_text(vehicle_types_xml(profile))
     (SCENARIO_DIR / 'corridor.sumocfg').write_text(SUMOCFG)
-    print('scenario ready:', SCENARIO_DIR)
+    print('scenario ready:', SCENARIO_DIR, 'profiles:', SCENARIO.profiles)
 
 
 if __name__ == '__main__':

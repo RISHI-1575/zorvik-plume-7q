@@ -168,8 +168,48 @@ class MaxPressure:
         self.shell.request(best)
 
 
+class NetworkProgram:
+    """The signal plan stored in the network (BTP-scaled cycle on OSM corridors).
+
+    Touches nothing: SUMO runs the net's own static program, which already
+    carries its yellow/all-red. This is the "what the road runs today" baseline.
+    """
+
+    def __init__(self, tls_id: str):
+        self.tls = tls_id
+
+    def step(self, t: float, dt: float) -> None:
+        pass
+
+
 CONTROLLERS = {
+    'program': NetworkProgram,
     'fixed': FixedTime,
     'actuated': Actuated,
     'maxp': MaxPressure,
 }
+
+
+def load_controller(spec: str):
+    """Built-in name, or a user controller as `module:Class` / `path/file.py:Class`.
+
+    A user class is built once per traffic light as Class(tls_id) and gets
+    step(t, dt) every simulation step. Wrap phase changes in SafetyShell to
+    keep min-green, yellow and all-red guaranteed.
+    """
+    if spec in CONTROLLERS:
+        return CONTROLLERS[spec]
+    if ':' not in spec:
+        raise ValueError(f"unknown controller {spec!r}: use one of "
+                         f"{sorted(CONTROLLERS)} or module:Class")
+    import importlib, importlib.util
+    from pathlib import Path
+    mod_name, cls_name = spec.rsplit(':', 1)
+    if mod_name.endswith('.py'):
+        path = Path(mod_name).resolve()
+        mspec = importlib.util.spec_from_file_location(path.stem, path)
+        module = importlib.util.module_from_spec(mspec)
+        mspec.loader.exec_module(module)
+    else:
+        module = importlib.import_module(mod_name)
+    return getattr(module, cls_name)

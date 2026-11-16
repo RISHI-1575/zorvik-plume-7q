@@ -34,7 +34,7 @@ def main() -> None:
                   label="verification_maxp_h8-9_s0")
     checks = {
         "completed trips": metrics["vehicles"] > 0,
-        "no collisions": metrics["collisions"] == 0,
+        "no lane collisions": metrics["collisions"] == 0,
         "no teleports": metrics["teleports"] == 0,
         "no unfinished gridlock": metrics["unfinished_vehicles"] < metrics["vehicles"] * 0.1,
     }
@@ -44,6 +44,9 @@ def main() -> None:
     print("\nChecks:")
     for name, passed in checks.items():
         print(f"  [{'PASS' if passed else 'FAIL'}] {name}")
+    if metrics["junction_collisions"]:
+        print(f"  [WARN] {metrics['junction_collisions']} on-junction shape overlaps "
+              "(SUMO --collision.check-junctions; docs/assumptions.md A-012)")
     if not all(checks.values()):
         raise SystemExit("Verification failed; do not present this run as validated.")
     print("\nPASS — reference scenario is presentation-ready as a synthetic prototype.")

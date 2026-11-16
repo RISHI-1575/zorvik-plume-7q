@@ -3,3 +3,13 @@ __pycache__/
 *.pyc
 code/.venv/
 showcase/
+# OSM tiles (~20 MB) and BTP PDFs (licence not stated): rebuild/download, don't redistribute
+code/scenarios/old_airport_road/tile*.osm
+code/data/btp_signal_timings/raw/
+# generated per run
+code/scenarios/old_airport_road/routes.rou.xml
+code/experiments/results/old_airport_road/tripinfo_*.xml
+# regenerable bulk outputs (CSV summaries stay tracked)
+code/experiments/results/*/tripinfo_*.xml
+code/experiments/studio_runs/*.replay.json
+code/scenarios/*/area.osm

@@ -1,8 +1,9 @@
 # Saarathi — Python dependencies
-# SUMO itself is installed separately (brew install sumo); traci/sumolib ship with it
-# but we pin the pip versions so Colab/other machines work identically.
-traci>=1.20
-sumolib>=1.20
+# eclipse-sumo is the SUMO simulator itself (sumo, sumo-gui, netconvert) as a pip wheel.
+eclipse-sumo>=1.27
+traci>=1.27
+sumolib>=1.27
+pyproj>=3.6          # map coordinates for the Studio (sumolib lon/lat)
 numpy>=1.26
 gymnasium>=1.0
 PyYAML>=6.0

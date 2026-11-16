@@ -6,8 +6,8 @@ modal split. Deterministic given a seed, so experiments are reproducible.
 import random
 from pathlib import Path
 
-from .config import (SCENARIO_DIR, HOURLY_PROFILE, PEAK_FLOWS, MODAL_SPLIT,
-                     N_JUNCTIONS)
+from .config import (SCENARIO, SCENARIO_DIR, HOURLY_PROFILE, PEAK_FLOWS,
+                     MODAL_SPLIT, N_JUNCTIONS)
 
 
 def _streams():
@@ -31,6 +31,8 @@ def generate(hours=(8, 10), seed=0, out: Path | None = None,
     """Write flows for sim time 0..(hours span), applying the hourly profile."""
     rng = random.Random(seed)
     out = out or SCENARIO_DIR / 'routes.rou.xml'
+    if SCENARIO.is_osm:
+        return _generate_osm(hours, seed, out, scale)
     lines = ['<routes>']
     fid = 0
     for h in range(hours[0], hours[1]):
@@ -53,6 +55,44 @@ def generate(hours=(8, 10), seed=0, out: Path | None = None,
                 fid += 1
     lines.append('</routes>')
     out.write_text('\n'.join(lines))
+    return out
+
+
+def _generate_osm(hours, seed, out: Path, scale: float) -> Path:
+    """Real-network demand: randomTrips + duarouter, one batch per hour.
+
+    Fringe-weighted so most trips enter/leave at the network edge and run
+    along the corridor; the class is sampled from the `mix` vTypeDistribution
+    (modal split). ponytail: no OD matrix yet; swap for routeSampler on field
+    counts once they exist (calibration gate).
+    """
+    import os, subprocess, sys, tempfile
+    import xml.etree.ElementTree as ET
+    import sumo
+    tool = os.path.join(os.path.dirname(sumo.__file__), 'tools', 'randomTrips.py')
+    rate = float(SCENARIO.traffic['entering_veh_per_hour'])
+    vehicles = []
+    with tempfile.TemporaryDirectory() as tmp:
+        for h in range(hours[0], hours[1]):
+            vph = rate * HOURLY_PROFILE[h % 24] * scale
+            begin = (h - hours[0]) * 3600
+            rou = Path(tmp) / f'h{h}.rou.xml'
+            subprocess.run([
+                sys.executable, tool, '-n', str(SCENARIO_DIR / 'corridor.net.xml'),
+                '-a', str(SCENARIO_DIR / 'vtypes.add.xml'),
+                '-b', str(begin), '-e', str(begin + 3600),
+                '--insertion-rate', f'{vph:.1f}', '--random-depart',
+                '--fringe-factor', '20', '--min-distance', '1500',
+                # prefer arterials: free-flow shortest paths rat-run through 1-lane service roads and gridlock (A-013)
+                '--duarouter-weights.priority-factor', '5',
+                '--seed', str(seed * 100 + h), '--prefix', f'h{h}_',
+                '-t', 'type="mix" departLane="best" departSpeed="max" departPosLat="random"',
+                '-o', str(Path(tmp) / f'h{h}.trips.xml'), '-r', str(rou)],
+                check=True, capture_output=True)
+            vehicles += ET.parse(rou).getroot().findall('vehicle')
+    root = ET.Element('routes')
+    root.extend(sorted(vehicles, key=lambda v: float(v.get('depart'))))
+    ET.ElementTree(root).write(out, encoding='UTF-8', xml_declaration=True)
     return out
 
 

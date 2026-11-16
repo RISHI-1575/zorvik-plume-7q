@@ -1,0 +1,271 @@
+... running maxp seed 0
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 55957 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 55962 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 55967 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 55972 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 55977 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 55982 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 55987 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 55992 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 55999 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56004 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56009 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56014 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56019 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56024 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56029 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56034 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56039 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56044 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56050 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56055 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56060 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56065 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56074 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56079 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56084 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56095 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56110 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56116 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56121 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56127 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56132 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56137 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56161 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56171 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56176 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56181 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56186 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56191 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56196 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56202 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56210 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56216 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56221 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56226 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56231 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56236 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56241 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56259 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56264 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56270 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56275 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56282 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56287 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56292 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56297 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56302 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56308 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56313 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56318 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+FXApp::openDisplay: unable to open display :0.0
+/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py:156: UserWarning: Could not connect to TraCI server using port 56324 (TraCI server already finished). Retrying with different port.
+  warnings.warn(("Could not connect to TraCI server using port %s (%s)." +
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File [35m"/Users/rishi/Personal/final year project/Saarathi/code/run.py"[0m, line [35m126[0m, in [35m<module>[0m
+    [31mmain[0m[1;31m()[0m
+    [31m~~~~[0m[1;31m^^[0m
+  File [35m"/Users/rishi/Personal/final year project/Saarathi/code/run.py"[0m, line [35m97[0m, in [35mmain[0m
+    rows.append([31m_one[0m[1;31m(j)[0m)
+                [31m~~~~[0m[1;31m^^^[0m
+  File [35m"/Users/rishi/Personal/final year project/Saarathi/code/run.py"[0m, line [35m56[0m, in [35m_one[0m
+    return one(*job)
+  File [35m"/Users/rishi/Personal/final year project/Saarathi/code/run.py"[0m, line [35m46[0m, in [35mone[0m
+    m = run(controller, sim_seconds=(hours[1] - hours[0]) * 3600, seed=seed,
+            gui=gui, profile=profile, label=label, routes=routes)
+  File [35m"/Users/rishi/Personal/final year project/Saarathi/code/src/saarathi/runner.py"[0m, line [35m27[0m, in [35mrun[0m
+    [31mtraci.start[0m[1;31m([binary, '-c', str(SCENARIO_DIR / 'corridor.sumocfg'), *extra,[0m
+    [31m~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+                 [1;31m'--tripinfo-output', str(tripinfo),[0m
+                 [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    ...<2 lines>...
+                 [1;31m'--no-warnings',[0m
+                 [1;31m^^^^^^^^^^^^^^^^[0m
+                 [1;31m'--quit-on-end'])[0m
+                 [1;31m^^^^^^^^^^^^^^^^^[0m
+  File [35m"/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py"[0m, line [35m147[0m, in [35mstart[0m
+    result = init(sumoPort, numRetries, "localhost", label, sumoProcess, doSwitch, traceFile, traceGetters)
+  File [35m"/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py"[0m, line [35m116[0m, in [35minit[0m
+    con = connect(port, numRetries, host, proc, 1, traceFile, traceGetters, label)
+  File [35m"/Users/rishi/Personal/final year project/Saarathi/code/.venv/lib/python3.14/site-packages/traci/main.py"[0m, line [35m106[0m, in [35mconnect[0m
+    raise FatalTraCIError("Could not connect in %s tries" % (numRetries + 1))
+[1;35mtraci.exceptions.FatalTraCIError[0m: [35mCould not connect in 1 tries[0m
+FXApp::openDisplay: unable to open display :0.0

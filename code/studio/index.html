@@ -1,0 +1,1154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saarathi Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+<style>
+:root{
+  --bg:#0b0e12;--panel:#12161c;--raise:#181d25;--line:#232a34;--line2:#323b48;
+  --text:#e8ecf2;--muted:#a0a9b6;--fixed:#d95926;--smart:#3987e5;
+  --go:#0ca30c;--amber:#fab219;--stop:#d03b3b;--good:#3fbf7f;--bad:#ef6b5e;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 30px -18px rgba(0,0,0,.9);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.45 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(57,135,229,.4);color:#fff}
+:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+[hidden]{display:none!important}
+button,select,input{font:inherit;color:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+svg.i{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-rows:52px 1fr;height:100vh}
+header{display:flex;align-items:center;gap:16px;padding:0 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+.brand small{font-weight:500;color:var(--muted);font-size:13px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);font-size:12px;white-space:nowrap}
+.ctx{flex:1;min-width:0;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.ctx b{color:var(--text);font-weight:700}
+header select{max-width:260px}
+.grid{display:grid;grid-template-columns:292px minmax(0,1fr) 392px;min-height:0}
+.col{min-height:0;overflow:auto}
+.left{border-right:1px solid var(--line);background:var(--panel);padding:16px}
+.right{border-left:1px solid var(--line);background:var(--panel);padding:16px}
+.centre{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+h2{margin:0 0 10px;font-size:13px;font-weight:700;color:var(--text)}
+h2 .n{display:inline-grid;place-items:center;width:20px;height:20px;margin-right:8px;border-radius:6px;background:var(--raise);border:1px solid var(--line2);font:600 11px var(--mono);color:var(--muted)}
+.sec{padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0;margin-bottom:0}
+.hint{margin:8px 0 0;color:var(--muted);font-size:12.5px}
+.hint.bad{color:var(--bad)}
+select,input[type=text]{min-height:34px;padding:6px 10px;border-radius:8px;background:var(--raise);border:1px solid var(--line2)}
+
+/* ---------- left: place ---------- */
+.places{display:grid;gap:2px;max-height:300px;overflow:auto;margin:0 -6px;padding:0 6px}
+.pl{display:flex;align-items:center;gap:10px;width:100%;min-height:38px;padding:7px 10px;border-radius:8px;border:1px solid transparent;background:none;cursor:pointer;text-align:left}
+.pl:hover{background:var(--raise)}
+.pl[aria-pressed=true]{background:var(--raise);border-color:var(--line2)}
+.pl[aria-pressed=true] .pin{background:var(--text);border-color:var(--text)}
+.pl .pin{width:8px;height:8px;flex:none;border-radius:50%;border:1.5px solid var(--muted)}
+.pl span{flex:1;min-width:0;font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl small{color:var(--muted);font-size:12px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:7px 12px;border-radius:8px;cursor:pointer;
+  font-weight:600;font-size:13px;background:var(--raise);border:1px solid var(--line2);transition:border-color .15s,background .15s}
+.btn:hover:not(:disabled){border-color:#4a5566}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.w{width:100%;margin-top:10px}
+.mapbox{margin-top:10px;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--raise)}
+#mini{height:230px;background:#0e1217}
+.mapbar{display:flex;gap:8px;padding:8px}
+.mapbar .btn{flex:1}
+.dark-tiles{filter:invert(1) hue-rotate(180deg) brightness(.78) contrast(.9) saturate(.3)}
+.leaflet-container{font-family:inherit;background:#0e1217}
+.leaflet-tooltip{background:var(--raise);color:var(--text);border:1px solid var(--line2);border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,.5)}
+.leaflet-tooltip:before{display:none}
+.leaflet-control-attribution{background:rgba(11,14,18,.75)!important;color:var(--muted)!important;font-size:10px}
+.leaflet-control-attribution a{color:var(--muted)!important}
+.leaflet-bar a{background:var(--raise)!important;color:var(--text)!important;border-color:var(--line2)!important}
+
+/* ---------- left: time ---------- */
+.clock{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+.clock b{font:600 20px var(--mono);letter-spacing:-.02em}
+.clock span{color:var(--muted);font-size:12.5px}
+.curve{position:relative;height:64px}
+.bars24{display:flex;align-items:flex-end;gap:2px;height:100%}
+.bars24 i{flex:1;min-height:3px;border-radius:2px 2px 0 0;background:var(--line2)}
+.bars24 i.on{background:var(--text)}
+.curve input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.curve:has(input:focus-visible){outline:2px solid var(--text);outline-offset:4px;border-radius:4px}
+.ticks{display:flex;justify-content:space-between;margin-top:5px;font:11px var(--mono);color:var(--muted)}
+details.adv summary{display:flex;align-items:center;gap:6px;cursor:pointer;list-style:none;color:var(--muted);font-weight:600;font-size:12.5px;min-height:28px}
+details.adv summary::-webkit-details-marker{display:none}
+details.adv summary:hover{color:var(--text)}
+details.adv summary svg{transition:transform .15s}
+details.adv[open] summary svg{transform:rotate(90deg)}
+label.f{display:flex;justify-content:space-between;margin:10px 0 4px;font-size:12.5px;font-weight:600}
+label.f b{font:500 12.5px var(--mono);color:var(--muted)}
+input[type=range]{width:100%;accent-color:var(--text);cursor:pointer}
+.go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:46px;margin-top:4px;border:0;border-radius:10px;cursor:pointer;
+  font-weight:800;font-size:14.5px;color:#0b0e12;background:var(--text);box-shadow:0 8px 20px -10px rgba(0,0,0,.9);transition:transform .1s,opacity .15s}
+.go:hover:not(:disabled){transform:translateY(-1px)}
+.go:active:not(:disabled){transform:translateY(1px)}
+.go:disabled{cursor:not-allowed;background:var(--raise);color:var(--muted)}
+.go svg{fill:currentColor;stroke:none}
+.go.busy svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.prog{margin-top:10px}
+.prog .row{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600}
+.meter{height:4px;margin-top:6px;border-radius:4px;overflow:hidden;background:var(--line)}
+.meter i{display:block;height:100%;width:0;background:var(--text);transition:width .4s}
+.logline{margin-top:6px;font:11px/1.4 var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- centre ---------- */
+.bar{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.seg{display:inline-flex;padding:2px;border-radius:9px;background:var(--panel);border:1px solid var(--line2)}
+.seg button{display:inline-flex;align-items:center;gap:7px;min-height:30px;padding:4px 12px;border:0;border-radius:7px;background:none;cursor:pointer;font-weight:600;font-size:12.5px;color:var(--muted)}
+.seg button[aria-pressed=true]{background:var(--raise);color:var(--text);box-shadow:0 0 0 1px var(--line2) inset}
+.sw{width:10px;height:10px;border-radius:3px;flex:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-left:auto;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;border-radius:2px}
+.stage{flex:1;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:1px;min-height:0;background:var(--line)}
+.view{position:relative;min-width:0;min-height:0;background:#0e1217;overflow:hidden}
+.view canvas{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+.view canvas:active{cursor:grabbing}
+.hud{position:absolute;left:12px;top:12px;display:grid;grid-template-columns:repeat(2,auto);gap:8px 18px;padding:10px 12px;border-radius:10px;
+  background:rgba(14,18,23,.86);border:1px solid var(--line2);box-shadow:var(--shadow);pointer-events:none}
+.hud .who{grid-column:1/-1;display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px}
+.hud div small{display:block;color:var(--muted);font-size:11px}
+.hud div b{font:600 15px var(--mono)}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;text-align:center;padding:24px}
+.overlay p{margin:0;max-width:340px;padding:12px 16px;border-radius:10px;background:rgba(14,18,23,.86);border:1px solid var(--line2);color:var(--muted)}
+.overlay p b{display:block;color:var(--text);margin-bottom:2px}
+.zoom{position:absolute;right:12px;top:12px;display:grid;gap:4px}
+.zoom .btn{width:32px;min-height:32px;padding:0}
+.play{display:flex;align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--line)}
+.play .btn{width:36px;padding:0}
+.play input{flex:1;min-width:80px}
+.play .t{font:500 13px var(--mono);min-width:72px}
+.speed button{min-width:40px;justify-content:center;font-family:var(--mono)}
+.phases{padding:8px 14px 12px;border-top:1px solid var(--line);max-height:150px;overflow:auto}
+.phases .ph{position:relative}
+.phrow{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:10px;height:16px;margin-top:3px}
+.phrow span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phrow svg{width:100%;height:10px;display:block;border-radius:2px}
+.phhead{position:absolute;top:0;bottom:0;width:1.5px;background:var(--text);pointer-events:none}
+.phtitle{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+
+/* ---------- right ---------- */
+.empty{color:var(--muted);font-size:13px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.fact{padding:10px 12px;border-radius:10px;background:var(--raise);border:1px solid var(--line)}
+.fact small{display:block;color:var(--muted);font-size:12px}
+.fact b{font:600 18px var(--mono)}
+.hl{padding:14px;border-radius:12px;background:var(--raise);border:1px solid var(--line2);box-shadow:var(--shadow)}
+.hl .where{color:var(--muted);font-size:12px}
+.hl .big{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 10px;margin:6px 0 2px;font:600 26px/1.1 var(--mono);letter-spacing:-.03em}
+.hl .big .arrow{color:var(--muted);font-size:18px}
+.hl .cut{font:700 13px var(--mono);padding:3px 8px;border-radius:6px;background:rgba(63,191,127,.14);color:#8fe0b5}
+.hl .cut.worse{background:rgba(239,107,94,.14);color:#f6a69e}
+.hl p{margin:4px 0 0;color:var(--muted);font-size:12.5px}
+.who2{display:flex;gap:14px;margin-top:8px;font-size:12px;color:var(--muted)}
+.who2 span{display:inline-flex;align-items:center;gap:6px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.kpi{padding:10px 12px;border-radius:10px;background:var(--raise);border:1px solid var(--line)}
+.kpi small{display:block;color:var(--muted);font-size:12px}
+.kpi .v{display:flex;align-items:baseline;justify-content:space-between;gap:6px;margin-top:2px}
+.kpi .v b{font:600 17px var(--mono)}
+.kpi .v em{font:600 12px var(--mono);font-style:normal;color:var(--muted)}
+.kpi .v em.up{color:#8fe0b5}.kpi .v em.down{color:#f6a69e}
+.kpi .duo{display:grid;gap:3px;margin-top:7px}
+.kpi .duo i{display:block;height:4px;border-radius:0 4px 4px 0}
+.kpi .from{font-size:11px;color:var(--muted);margin-top:4px}
+.impact{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.impact div{padding:10px;border-radius:10px;border:1px dashed var(--line2)}
+.impact b{display:block;font:600 16px var(--mono)}
+.impact small{color:var(--muted);font-size:11px;line-height:1.3;display:block}
+.integ{display:grid;grid-template-columns:auto repeat(2,1fr);gap:0;margin-top:4px;font-size:12.5px}
+.integ>*{padding:6px 0;border-bottom:1px solid var(--line)}
+.integ .h{color:var(--muted);font-size:12px;font-weight:600}
+.integ .c{text-align:right;font-family:var(--mono)}
+.status{display:inline-flex;align-items:center;gap:6px;margin-left:8px;padding:2px 8px;border-radius:6px;font:700 11px var(--mono)}
+.status.ok{background:rgba(63,191,127,.14);color:#8fe0b5}
+.status.chk{background:rgba(250,178,25,.14);color:#f3cd78}
+.status.bad{background:rgba(239,107,94,.14);color:#f5a39a}
+.status.na{background:var(--raise);color:var(--muted)}
+.scs{display:grid;gap:8px}
+.sc{padding:10px 12px;border-radius:10px;background:var(--raise);border:1px solid var(--line2)}
+.sc.base{background:none}
+.sc .top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:600}
+.sc .top .status{margin:0}
+.sc .who{display:inline-flex;align-items:center;gap:7px}
+.sc .nums{display:flex;flex-wrap:wrap;gap:2px 12px;margin-top:6px;font-size:12px;color:var(--muted)}
+.sc .nums b{font:600 12.5px var(--mono);color:var(--text)}
+.sc .nums b.up{color:var(--good)}
+.sc .nums b.down{color:var(--bad)}
+.sc .nums .warn{color:#f3cd78}
+.chart{position:relative;margin-top:4px}
+.chart svg{display:block;width:100%;overflow:visible}
+.chart text{fill:var(--muted);font:10.5px var(--mono)}
+.chart .gl{stroke:var(--line);stroke-width:1}
+.chart .ax{stroke:var(--line2);stroke-width:1}
+.sub{margin:-6px 0 6px;color:var(--muted);font-size:12px}
+.tip{position:fixed;z-index:9000;pointer-events:none;padding:7px 10px;border-radius:8px;background:#1d232c;border:1px solid var(--line2);box-shadow:0 8px 20px rgba(0,0,0,.5);font-size:12px;white-space:nowrap}
+.tip b{font-family:var(--mono);font-weight:600}
+.tip .r{display:flex;align-items:center;gap:6px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+th{color:var(--muted);font-weight:600;font-size:12px}
+td{font-family:var(--mono)}
+td:first-child{font-family:inherit}
+.tw{overflow-x:auto}
+a{color:var(--text)}
+.note{color:var(--muted);font-size:12px;margin:10px 0 0}
+.right .sec{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
+.right .sec:nth-child(2){animation-delay:.04s}.right .sec:nth-child(3){animation-delay:.08s}.right .sec:nth-child(4){animation-delay:.12s}
+.right .sec:nth-child(5){animation-delay:.16s}.right .sec:nth-child(n+6){animation-delay:.2s}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#toasts{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:9999;display:grid;gap:8px;width:min(440px,calc(100vw - 32px))}
+.toast{padding:10px 14px;border-radius:10px;background:#2a1517;border:1px solid #6e2c2c;color:#ffd9d6;box-shadow:0 12px 28px -10px rgba(0,0,0,.8)}
+.toast.ok{background:#11251b;border-color:#2d6b4a;color:#d4f5e3}
+
+@media(max-width:1100px){.grid{grid-template-columns:260px minmax(0,1fr) 340px}}
+@media(max-width:900px){
+  .app{display:block;height:auto}
+  header{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px 12px}
+  .ctx{order:3;flex-basis:100%;text-align:left}
+  .grid{display:block}
+  .col{overflow:visible}
+  .left,.right{border:0;border-bottom:1px solid var(--line)}
+  .centre{height:auto}
+  .stage{height:62vh;grid-auto-flow:row;grid-auto-rows:1fr}
+  .legend{margin-left:0}
+  .phrow{grid-template-columns:110px 1fr}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">
+    <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><rect x="8" y="2" width="8" height="20" rx="3"/><circle cx="12" cy="7" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="17" r="1.6"/></svg>
+    Saarathi Studio <small>Bengaluru signal control room</small>
+  </div>
+  <span class="badge" title="Demand, driver behaviour and emissions are estimates (docs/assumptions.md)">
+    <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>Modelled, not measured
+  </span>
+  <div class="ctx" id="ctx" aria-live="polite">Pick a place and a time, then run.</div>
+  <label class="sr" for="hist">Past runs</label>
+  <select id="hist"><option value="">Past runs</option></select>
+</header>
+
+<div class="grid">
+<aside class="col left" aria-label="Setup">
+  <section class="sec">
+    <h2><span class="n">1</span>Pick a place</h2>
+    <div class="places" id="places"><p class="hint">Loading places…</p></div>
+    <button type="button" class="btn w" id="mapBtn" aria-expanded="false" aria-controls="mapbox">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>
+      <span id="mapLbl">Choose on map</span>
+    </button>
+    <div class="mapbox" id="mapbox" hidden>
+      <div id="mini" aria-label="Map of Bengaluru"></div>
+      <div class="mapbar">
+        <button type="button" class="btn" id="draw">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1" stroke-dasharray="3 3"/></svg>
+          <span id="drawLbl">Draw your own area</span>
+        </button>
+      </div>
+    </div>
+    <p class="hint" id="placeHint" aria-live="polite"></p>
+  </section>
+
+  <section class="sec">
+    <h2><span class="n">2</span>Pick a time</h2>
+    <div class="clock"><b id="hourLbl"></b><span id="periodLbl"></span></div>
+    <div class="curve">
+      <div class="bars24" id="bars24" aria-hidden="true"></div>
+      <label class="sr" for="hour">Hour of day</label>
+      <input type="range" id="hour" min="0" max="23" step="1" value="9">
+    </div>
+    <div class="ticks" aria-hidden="true"><span>12a</span><span>6a</span><span>12p</span><span>6p</span><span>11p</span></div>
+    <p class="hint">Bar height is the day's traffic curve.</p>
+  </section>
+
+  <section class="sec">
+    <button type="button" class="go" id="run" disabled>
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg>
+      <span id="runLbl">Run simulation</span>
+    </button>
+    <p class="hint" id="why" aria-live="polite"></p>
+    <div class="prog" id="prog" hidden>
+      <div class="row"><span id="progText"></span><span id="progPct" class="mono">0%</span></div>
+      <div class="meter" role="progressbar" id="progbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progFill"></i></div>
+      <div class="logline" id="logline"></div>
+    </div>
+    <details class="adv" style="margin-top:12px">
+      <summary><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>Advanced</summary>
+      <label class="f" for="demand">Amount of traffic <b id="demLbl">60%</b></label>
+      <input type="range" id="demand" min="0.3" max="1.2" step="0.05" value="0.6">
+      <p class="hint" style="margin-top:2px">Share of capacity at the busiest signal. Lower it if roads jam.</p>
+      <label class="f" for="seeds">Repeats (random traffic seeds)</label>
+      <select id="seeds" style="width:100%"><option>1</option><option>3</option><option selected>5</option></select>
+    </details>
+    <p class="note">Every run tests the same traffic on four systems: the current signal plan, a fixed timer, a sensor timer that extends green while cars keep coming, and a smart signal (max-pressure) that serves the longest queue.</p>
+  </section>
+</aside>
+
+<main class="col centre" aria-label="Junction simulation">
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Which signal to watch">
+      <button type="button" data-v="program" aria-pressed="false"><i class="sw" style="background:#8b93a1"></i>Current plan</button>
+      <button type="button" data-v="fixed" aria-pressed="false"><i class="sw" style="background:var(--fixed)"></i>Fixed timer</button>
+      <button type="button" data-v="actuated" aria-pressed="false"><i class="sw" style="background:#c25fb0"></i>Sensor timer</button>
+      <button type="button" data-v="maxp" aria-pressed="true"><i class="sw" style="background:var(--smart)"></i>Smart signal</button>
+      <button type="button" data-v="both" aria-pressed="false">Side by side</button>
+    </div>
+    <div class="legend" aria-label="Vehicle colours">
+      <span><i style="width:9px;height:4px;background:#199e70"></i>Two-wheeler</span>
+      <span><i style="width:10px;height:5px;background:#9085e9"></i>Auto</span>
+      <span><i style="width:13px;height:6px;background:#b8bcc4"></i>Car / van</span>
+      <span><i style="width:18px;height:7px;background:#c98500"></i>Bus / truck</span>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="view" id="v0">
+      <canvas></canvas>
+      <div class="hud" hidden></div>
+      <div class="overlay"><p></p></div>
+    </div>
+    <div class="view" id="v1" hidden>
+      <canvas></canvas>
+      <div class="hud" hidden></div>
+      <div class="overlay"><p></p></div>
+    </div>
+  </div>
+  <div class="play" id="play">
+    <button type="button" class="btn" id="pp" aria-label="Play" disabled>
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true" id="ppIcon"><path d="M7 4.5v15l12.5-7.5Z" fill="currentColor" stroke="none"/></svg>
+    </button>
+    <span class="t" id="tLbl">--:--:--</span>
+    <label class="sr" for="scrub">Replay time</label>
+    <input type="range" id="scrub" min="300" max="899" step="1" value="300" disabled>
+    <div class="seg speed" role="group" aria-label="Playback speed">
+      <button type="button" data-s="1" aria-pressed="false">1×</button>
+      <button type="button" data-s="4" aria-pressed="true">4×</button>
+      <button type="button" data-s="10" aria-pressed="false">10×</button>
+    </div>
+  </div>
+  <div class="phases" id="phases" hidden></div>
+</main>
+
+<aside class="col right" id="right" aria-label="Readings"></aside>
+</div>
+</div>
+<div class="tip" id="tip" hidden></div>
+<div id="toasts" role="status"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+// same daily curve as generated areas (docs/assumptions.md A-013); used before an area is built
+const DEFAULT_PROFILE = [.1, .06, .05, .05, .08, .18, .35, .65, .9, 1, .85, .6, .5, .5, .55, .6, .75, .95, 1, .9, .65, .45, .3, .18];
+const C = { program: '#8b93a1', fixed: '#d95926', actuated: '#c25fb0', maxp: '#3987e5' };
+const ORDER = ['program', 'fixed', 'actuated', 'maxp'];   // every run tests all of these
+const NAME = { fixed: 'Fixed timer', maxp: 'Smart signal', program: 'Current signal plan', actuated: 'Sensor timer' };
+const CLASS = { bike: 'Two-wheeler', auto: 'Auto', car: 'Car', lcv: 'Goods van', bus: 'Bus', truck: 'Truck' };
+const VCOL = { bike: '#199e70', auto: '#9085e9', bus: '#c98500', truck: '#c98500' };
+const FUEL_RS = 103;          // ₹/litre petrol, Bengaluru 2026 (estimate)
+const LANE_M = 3.2;
+
+function h(tag, a, ...kids) {
+  const e = document.createElement(tag);
+  for (const k in (a || {})) {
+    if (k === 'class') e.className = a[k];
+    else if (k === 'text') e.textContent = a[k];
+    else if (k.startsWith('on')) e[k] = a[k];
+    else e.setAttribute(k, a[k]);
+  }
+  kids.flat().filter(c => c !== null && c !== undefined && c !== false).forEach(c => e.append(c));
+  return e;
+}
+const NS = 'http://www.w3.org/2000/svg';
+function s(tag, a, ...kids) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in (a || {})) { if (k === 'text') e.textContent = a[k]; else e.setAttribute(k, a[k]); }
+  kids.flat().filter(Boolean).forEach(c => e.append(c));
+  return e;
+}
+function toast(msg, ok) {
+  const t = h('div', { class: 'toast' + (ok ? ' ok' : ''), text: String(msg) });
+  $('toasts').append(t);
+  setTimeout(() => t.remove(), ok ? 3500 : 8000);
+}
+async function api(path, body) {
+  try {
+    const r = await fetch(path, body === undefined ? {} : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    let j = null;
+    try { j = await r.json(); } catch (e) { /* non-JSON */ }
+    if (!r.ok) throw new Error((j && j.error) || ('HTTP ' + r.status));
+    return j;
+  } catch (e) { toast(e.message); throw e; }
+}
+const mv = o => (o !== null && typeof o === 'object') ? o.mean : o;
+const sd = o => (o !== null && typeof o === 'object' && o.std) ? o.std : 0;
+const ok = n => n !== null && n !== undefined && !isNaN(n);
+const fmt = (n, d = 1) => ok(n) ? Number(n).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d }) : '–';
+const ampm = x => { x = ((x % 24) + 24) % 24; return (x % 12 || 12) + ' ' + (x < 12 ? 'AM' : 'PM'); };
+const period = hr => hr < 6 ? 'Night' : hr < 11 ? 'Morning rush' : hr < 16 ? 'Daytime' : hr < 21 ? 'Evening rush' : 'Late evening';
+const pretty = id => String(id).replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+const hms = (hour, sec) => { const t = Math.floor(hour * 3600 + sec); return [t / 3600 | 0, (t / 60 | 0) % 60, t % 60].map(n => String(n % 100).padStart(2, '0')).join(':'); };
+const dur = sec => sec < 60 ? Math.round(sec) + ' s' : sec < 3600 ? Math.round(sec / 60) + ' min' : (sec / 3600).toFixed(1) + ' h';
+const compass = d => ['east', 'north-east', 'north', 'north-west', 'west', 'south-west', 'south', 'south-east'][((Math.round(Math.atan2(d[1], d[0]) / (Math.PI / 4)) % 8) + 8) % 8];
+const nm = c => NAME[c] || pretty(String(c).split(':').pop());
+const col = c => C[c] || '#b8bcc4';
+
+/* ---------- state ---------- */
+const S = { presets: [], scens: [], place: null, scen: null, bbox: null, busy: false,
+  res: null, rp: {}, net: null, view: 'maxp', t: 300, playing: false, speed: 4, cam: null };
+
+/* ---------- places ---------- */
+function places() {
+  const out = S.presets.map(p => ({ ...p, built: S.scens.some(x => x.id === p.id) }));
+  S.scens.forEach(x => { if (x.bbox && !out.some(p => p.id === x.id)) out.push({ id: x.id, name: / /.test(x.name || '') ? x.name : pretty(x.id), bbox: x.bbox, built: true }); });
+  return out;
+}
+const placeName = id => id === 'custom' ? 'Your area' : ((places().find(x => x.id === id) || {}).name || pretty(id));
+function renderPlaces() {
+  const ps = places();
+  $('places').replaceChildren(...ps.map(p => h('button', {
+    type: 'button', class: 'pl', 'aria-pressed': String(p.id === S.place), onclick: () => choosePlace(p.id)
+  }, h('i', { class: 'pin', 'aria-hidden': 'true' }), h('span', { text: p.name || pretty(p.id) }), h('small', { text: p.built ? 'ready' : 'new' }))));
+  if (!ps.length) $('places').append(h('p', { class: 'hint', text: 'No places found. Choose on map.' }));
+  drawPins();
+}
+function hint(t, bad) { $('placeHint').textContent = t; $('placeHint').className = 'hint' + (bad ? ' bad' : ''); }
+async function choosePlace(id, keep) {
+  S.place = id;
+  const p = places().find(x => x.id === id);
+  S.scen = S.scens.find(x => x.id === id) || null;
+  S.bbox = (S.scen && S.scen.bbox) || (p && p.bbox) || null;
+  hint((p && p.note) || (S.scen ? 'Built and ready to run.' : 'First run downloads the roads here from OpenStreetMap (about a minute).'));
+  renderPlaces(); showRect(S.bbox); drawCurve();
+  if (!keep) clearResult();
+  S.net = null;
+  if (S.scen) {
+    try {
+      const g = await api('/api/network/' + encodeURIComponent(id));
+      if (S.place !== id) return;
+      S.net = fromGeo(g);
+      if (!S.res) { fitCam(S.net); renderFacts(); }
+    } catch (e) { /* toasted */ }
+  }
+  if (!S.res) renderFacts();
+  refresh(); paintOverlays();
+}
+
+/* ---------- mini map (only when asked) ---------- */
+let mini = null, pins = null, rect = null, drawer = null;
+const rectStyle = { color: '#e8ecf2', weight: 2, dashArray: '5 4', fillOpacity: .06 };
+const areaKm2 = b => (b[2] - b[0]) * 111.32 * (b[3] - b[1]) * 111.32 * Math.cos((b[0] + b[2]) / 2 * Math.PI / 180);
+const bboxOf = bnd => [bnd.getSouth(), bnd.getWest(), bnd.getNorth(), bnd.getEast()];
+$('mapBtn').onclick = () => {
+  const open = $('mapbox').hidden;
+  $('mapbox').hidden = !open;
+  $('mapBtn').setAttribute('aria-expanded', String(open));
+  $('mapLbl').textContent = open ? 'Hide map' : 'Choose on map';
+  if (!open) return;
+  if (!mini) {
+    mini = L.map('mini', { zoomControl: true, attributionControl: true }).setView([12.97, 77.62], 11);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 19, className: 'dark-tiles' }).addTo(mini);
+    pins = L.layerGroup().addTo(mini);
+    rect = L.layerGroup().addTo(mini);
+    mini.on('draw:drawstart', () => { $('drawLbl').textContent = 'Cancel'; hint('Drag a box on the map (under 4 km²).'); });
+    mini.on('draw:drawstop', () => { $('drawLbl').textContent = 'Draw your own area'; });
+    mini.on('draw:created', e => {
+      S.place = 'custom'; S.scen = null; S.bbox = bboxOf(e.layer.getBounds()); S.net = null;
+      const km = areaKm2(S.bbox);
+      hint(`Your area: ${km.toFixed(2)} km². ` + (km > 4 ? 'Too big: keep it under 4 km².' : 'First run downloads its roads (about a minute).'), km > 4);
+      clearResult(); renderPlaces(); showRect(S.bbox); drawCurve(); refresh(); paintOverlays();
+    });
+  }
+  setTimeout(() => { mini.invalidateSize(); drawPins(); showRect(S.bbox); }, 0);
+};
+$('draw').onclick = () => {
+  if (drawer && drawer.enabled()) return drawer.disable();
+  drawer = new L.Draw.Rectangle(mini, { shapeOptions: rectStyle });
+  drawer.enable();
+};
+function drawPins() {
+  if (!pins) return;
+  pins.clearLayers();
+  places().forEach(p => {
+    if (!p.bbox) return;
+    const on = p.id === S.place;
+    L.circleMarker([(p.bbox[0] + p.bbox[2]) / 2, (p.bbox[1] + p.bbox[3]) / 2], {
+      radius: on ? 7 : 5, color: '#0b0e12', weight: 2, fillColor: on ? '#e8ecf2' : '#a0a9b6', fillOpacity: 1
+    }).bindTooltip(p.name || pretty(p.id)).on('click', () => choosePlace(p.id)).addTo(pins);
+  });
+}
+function showRect(b) {
+  if (!rect) return;
+  rect.clearLayers();
+  if (!b) return;
+  const r = L.rectangle([[b[0], b[1]], [b[2], b[3]]], rectStyle).addTo(rect);
+  mini.flyToBounds(r.getBounds(), { padding: [16, 16], maxZoom: 15, duration: .6 });
+}
+
+/* ---------- time ---------- */
+function drawCurve() {
+  const hr = +$('hour').value;
+  $('hourLbl').textContent = `${ampm(hr)} – ${ampm(hr + 1)}`;
+  $('periodLbl').textContent = period(hr);
+  $('hour').setAttribute('aria-valuetext', `${ampm(hr)}, ${period(hr)}`);
+  const prof = (S.scen && S.scen.hourly_profile && S.scen.hourly_profile.length === 24) ? S.scen.hourly_profile : DEFAULT_PROFILE;
+  const mx = Math.max(...prof, 1e-4);
+  $('bars24').replaceChildren(...prof.map((v, i) => h('i', { class: i === hr ? 'on' : '', style: `height:${Math.max(5, 100 * v / mx)}%` })));
+}
+$('hour').oninput = () => { drawCurve(); refresh(); };
+$('demand').oninput = () => { $('demLbl').textContent = Math.round(100 * $('demand').value) + '%'; };
+
+function refresh() {
+  const big = !S.scen && S.bbox && areaKm2(S.bbox) > 4;
+  const why = (!S.scen && !S.bbox) ? 'Pick a place to start.' : big ? 'That area is too big. Draw one under 4 km².' : '';
+  $('run').disabled = S.busy || !!why;
+  $('run').classList.toggle('busy', S.busy);
+  $('runLbl').textContent = S.busy ? 'Simulating…' : 'Run simulation';
+  $('why').textContent = S.busy ? '' : why;
+  const r = S.res;
+  $('ctx').replaceChildren(...(r
+    ? [h('b', { text: placeName(r.scenario) }), ` · ${ampm(r.hour)}–${ampm(r.hour + 1)} · ${Math.round(100 * r.demand)}% traffic · ${(r.summary[0] || {}).n || 0} repeats`]
+    : S.place ? [h('b', { text: placeName(S.place) }), ` · ${ampm(+$('hour').value)} · not run yet`] : ['Pick a place and a time, then run.']));
+}
+function setBusy(b) {
+  S.busy = b;
+  document.querySelectorAll('.left button, .left input, .left select, #hist').forEach(e => { if (e.id !== 'run') e.disabled = b; });
+  refresh();
+}
+
+/* ---------- jobs ---------- */
+async function track(jobId, title) {
+  $('prog').hidden = false;
+  $('progText').textContent = title;
+  const set = p => { $('progFill').style.width = p + '%'; $('progPct').textContent = p + '%'; $('progbar').setAttribute('aria-valuenow', p); };
+  set(0);
+  try {
+    for (;;) {
+      const j = await api('/api/job/' + encodeURIComponent(jobId));
+      set(Math.round(100 * (j.progress || 0)));
+      $('logline').textContent = (j.log || []).slice(-1)[0] || '';
+      if (j.status === 'done') { set(100); return j.result || {}; }
+      if (j.status === 'error') { $('progText').textContent = 'That did not work.'; toast(j.error || 'Something went wrong.'); return null; }
+      await sleep(1000);
+    }
+  } catch (e) { $('progText').textContent = 'Lost contact with the server.'; return null; }
+}
+async function loadScens() { try { S.scens = (await api('/api/scenarios')) || []; } catch (e) { S.scens = []; } }
+
+$('run').onclick = async () => {
+  setBusy(true);
+  try {
+    let id = S.scen && S.scen.id;
+    if (!id) {
+      const name = S.place === 'custom' ? 'area_' + Date.now().toString(36) : S.place;
+      const b = await api('/api/build', { name, bbox: S.bbox });
+      const res = await track(b.job_id, 'Downloading roads and signals…');
+      if (!res) return;
+      id = res.scenario || name;
+      await loadScens();
+      await choosePlace(id);
+      if (!S.scen) return toast('The area was built but could not be loaded. Reload the page.');
+    }
+    const r = await api('/api/run', { scenario: id, controllers: ORDER, hour: +$('hour').value, seeds: +$('seeds').value, demand: +$('demand').value });
+    const res = await track(r.job_id, `Simulating ${$('seeds').value} repeats × 2 signals…`);
+    if (res) { $('prog').hidden = true; await show(res); loadHist(); }
+  } catch (e) { /* toasted */ } finally { setBusy(false); }
+};
+
+/* ---------- history ---------- */
+let HIST = [];
+async function loadHist() {
+  try { HIST = ((await api('/api/history')) || []).slice().reverse(); } catch (e) { HIST = []; }
+  $('hist').replaceChildren(h('option', { value: '', text: HIST.length ? `Past runs (${HIST.length})` : 'No past runs' }),
+    ...HIST.slice(0, 30).map(r => h('option', { value: r.run_id,
+      text: `${placeName(r.scenario)} · ${ampm(r.hour)} · ${(r.created || '').slice(5, 16).replace('T', ' ')}${r.replays && Object.keys(r.replays).length ? '' : ' · no replay'}` })));
+}
+$('hist').onchange = async e => {
+  const id = e.target.value;
+  e.target.value = '';
+  if (!id) return;
+  try { await show(await api('/api/result/' + encodeURIComponent(id))); } catch (err) { /* toasted */ }
+};
+
+/* ---------- geometry ---------- */
+function fromGeo(g) {
+  const f = (g && g.features) || [];
+  const first = f.find(x => x.geometry && x.geometry.type === 'LineString');
+  if (!first) return null;
+  const [lon0, lat0] = first.geometry.coordinates[0], k = Math.cos(lat0 * Math.PI / 180);
+  const xy = c => [(c[0] - lon0) * 111320 * k, (c[1] - lat0) * 110540];
+  return {
+    roads: f.filter(x => x.geometry.type === 'LineString').map(x => ({ pts: x.geometry.coordinates.map(xy), lanes: x.properties.lanes || 1, name: x.properties.name || '' })),
+    nodes: [], approaches: [],
+    signals: f.filter(x => x.properties.kind === 'signal').map(x => ({ pos: xy(x.geometry.coordinates), name: x.properties.name }))
+  };
+}
+function prepReplay(rp) {
+  rp.signals = rp.tls.filter(t => t.pos).map(t => ({ pos: t.pos }));
+  rp.kind = rp.vtype.map(ti => (rp.types[ti] || {}).id);
+  rp.halt = []; rp.cum = []; rp.count = [];
+  let c = 0;
+  rp.frames.forEach(f => {
+    let n = 0;
+    for (let o = 4; o < f.v.length; o += 5) n += f.v[o] < 5;
+    c += n; rp.halt.push(n); rp.cum.push(c); rp.count.push(f.v.length / 5);
+  });
+  rp.idx = [];
+  rp.approaches.forEach(a => { a.label = `${a.name || 'Unnamed road'} (${compass(a.dir)}bound)`; });
+  return rp;
+}
+function frameIndex(rp, i) {
+  if (!rp.idx[i]) { const m = new Map(), v = rp.frames[i].v; for (let o = 0; o < v.length; o += 5) m.set(v[o], o); rp.idx[i] = m; }
+  return rp.idx[i];
+}
+function fitCam(g) {
+  if (!g) return;
+  let pts = (g.approaches && g.approaches.length ? g.approaches.map(a => a.pos) : g.signals.map(x => x.pos));
+  if (!pts.length) pts = g.roads.flatMap(r => r.pts);
+  if (!pts.length) return;
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const span = Math.max(x1 - x0, y1 - y0) + 220;
+  S.cam = { cx: (x0 + x1) / 2, cy: (y0 + y1) / 2, span: Math.max(span, 280) };
+}
+
+/* ---------- canvas renderer ---------- */
+const VIEWS = [$('v0'), $('v1')].map(el => ({ el, cv: el.querySelector('canvas'), hud: el.querySelector('.hud'), ov: el.querySelector('.overlay'), key: null, w: 0, h: 0 }));
+const DPR = () => Math.min(2, devicePixelRatio || 1);
+const ro = new ResizeObserver(() => { VIEWS.forEach(v => { const r = v.el.getBoundingClientRect(); v.w = r.width; v.h = r.height; v.cv.width = r.width * DPR(); v.cv.height = r.height * DPR(); }); dirty = true; });   // resizing clears the canvas
+VIEWS.forEach(v => ro.observe(v.el));   // each view: Side by side splits them without resizing #stage
+const scaleOf = v => S.cam ? Math.min(v.w, v.h) / S.cam.span : 1;
+function toScr(v, sc) { const cx = S.cam.cx, cy = S.cam.cy, W = v.w / 2, H = v.h / 2; return (x, y) => [W + (x - cx) * sc, H - (y - cy) * sc]; }
+
+function sigState(rp, a, fi) {
+  const st = rp.frames[fi] && rp.frames[fi].s[rp.tls.findIndex(t => t.id === a.tls)];
+  if (!st) return 'r';
+  let y = false;
+  for (const i of a.links) { const c = st[i]; if (c === 'G' || c === 'g') return 'g'; if (c === 'y' || c === 'Y') y = true; }
+  return y ? 'y' : 'r';
+}
+const SIG = { g: '#0ca30c', y: '#fab219', r: '#d03b3b' };
+
+function draw(v) {
+  const ctx = v.cv.getContext('2d'), d = DPR();
+  ctx.setTransform(d, 0, 0, d, 0, 0);
+  ctx.fillStyle = '#0e1217'; ctx.fillRect(0, 0, v.w, v.h);
+  const rp = v.key && S.rp[v.key], g = rp || S.net;
+  if (!g || !S.cam) return;
+  const sc = scaleOf(v), P = toScr(v, sc);
+  // 50 m grid
+  const step = sc * 50, [ox, oy] = P(Math.floor(S.cam.cx / 50) * 50, Math.floor(S.cam.cy / 50) * 50);
+  ctx.strokeStyle = '#141920'; ctx.lineWidth = 1; ctx.beginPath();
+  for (let x = ox % step; x < v.w; x += step) { ctx.moveTo(x, 0); ctx.lineTo(x, v.h); }
+  for (let y = oy % step; y < v.h; y += step) { ctx.moveTo(0, y); ctx.lineTo(v.w, y); }
+  ctx.stroke();
+  // roads: kerb, then asphalt
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (const pass of [0, 1]) {
+    ctx.strokeStyle = pass ? '#20262f' : '#343d4a';
+    for (const r of g.roads) {
+      ctx.lineWidth = Math.max(1, r.lanes * LANE_M * sc) + (pass ? 0 : 2);
+      ctx.beginPath(); r.pts.forEach((p, i) => { const [x, y] = P(p[0], p[1]); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke();
+    }
+  }
+  ctx.fillStyle = '#20262f';
+  for (const n of g.nodes) { ctx.beginPath(); n.forEach((p, i) => { const [x, y] = P(p[0], p[1]); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.fill(); }
+  labels(ctx, g, P, v);
+  // vehicles
+  if (rp) {
+    const f = S.t - rp.from, i = Math.max(0, Math.min(rp.frames.length - 1, Math.floor(f))), a = f - i;
+    const fa = rp.frames[i].v, nb = rp.frames[i + 1] ? frameIndex(rp, i + 1) : null, fb = rp.frames[i + 1] && rp.frames[i + 1].v;
+    const types = rp.types;
+    for (let o = 0; o < fa.length; o += 5) {
+      const id = fa[o]; let x = fa[o + 1] / 10, y = fa[o + 2] / 10, ang = fa[o + 3];
+      const ob = nb && nb.get(id);
+      if (ob !== undefined) {
+        x += (fb[ob + 1] / 10 - x) * a; y += (fb[ob + 2] / 10 - y) * a;
+        let da = ((fb[ob + 3] - ang + 540) % 360) - 180; ang += da * a;
+      }
+      const t = types[rp.vtype[id]] || { len: 4.4, wid: 1.8 }, k = rp.kind[id];
+      const [sx, sy] = P(x, y);
+      if (sx < -20 || sy < -20 || sx > v.w + 20 || sy > v.h + 20) continue;
+      ctx.save(); ctx.translate(sx, sy); ctx.rotate(ang * Math.PI / 180 - Math.PI / 2);
+      const L = Math.max(2, t.len * sc), W = Math.max(1.2, t.wid * sc);
+      ctx.fillStyle = VCOL[k] || '#b8bcc4';
+      ctx.fillRect(-L, -W / 2, L, W);
+      if (fa[o + 4] < 5 && sc > 1.2) { ctx.fillStyle = '#ff4d4d'; ctx.fillRect(-L, -W / 2, Math.max(1, .5 * sc), W); }
+      ctx.restore();
+    }
+    // signal heads at stop lines
+    for (const ap of rp.approaches) {
+      const st = sigState(rp, ap, i), [x, y] = P(ap.pos[0], ap.pos[1]);
+      const len = Math.hypot(ap.dir[0], ap.dir[1]) || 1, nx = -ap.dir[1] / len, ny = ap.dir[0] / len;
+      const half = Math.max(4, 5 * sc);
+      ctx.strokeStyle = SIG[st]; ctx.lineWidth = Math.max(2, .8 * sc); ctx.lineCap = 'butt';
+      ctx.beginPath(); ctx.moveTo(x - nx * half, y + ny * half); ctx.lineTo(x + nx * half, y - ny * half); ctx.stroke();
+      ctx.beginPath(); ctx.arc(x, y, 5, 0, 7); ctx.fillStyle = SIG[st]; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = '#0e1217'; ctx.stroke();
+    }
+  } else {
+    for (const sg of g.signals) {
+      const [x, y] = P(sg.pos[0], sg.pos[1]);
+      ctx.beginPath(); ctx.arc(x, y, 6, 0, 7); ctx.fillStyle = '#e8ecf2'; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = '#0e1217'; ctx.stroke();
+    }
+  }
+  // scale bar
+  const m = sc > 3 ? 20 : sc > 1 ? 50 : 100, px = m * sc;
+  ctx.fillStyle = '#a0a9b6'; ctx.font = '11px "IBM Plex Mono", monospace';
+  ctx.fillRect(14, v.h - 18, px, 2); ctx.fillText(m + ' m', 14 + px + 6, v.h - 14);
+}
+function labels(ctx, g, P, v) {
+  if (!g._lab) {   // longest edge per street name
+    const best = {};
+    g.roads.forEach(r => {
+      if (!r.name) return;
+      let L = 0; for (let i = 1; i < r.pts.length; i++) L += Math.hypot(r.pts[i][0] - r.pts[i - 1][0], r.pts[i][1] - r.pts[i - 1][1]);
+      if (!best[r.name] || best[r.name].L < L) best[r.name] = { r, L };
+    });
+    g._lab = Object.values(best);
+  }
+  ctx.font = '600 12px Manrope, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  for (const { r } of g._lab) {
+    const pts = r.pts.map(p => P(p[0], p[1]));
+    let k = 0, Lm = 0;
+    for (let i = 1; i < pts.length; i++) { const l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); if (l > Lm) { Lm = l; k = i; } }
+    const w = ctx.measureText(r.name).width;
+    if (!k || Lm < w + 16) continue;
+    const [x0, y0] = pts[k - 1], [x1, y1] = pts[k], mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+    if (mx < 0 || my < 0 || mx > v.w || my > v.h) continue;
+    let ang = Math.atan2(y1 - y0, x1 - x0); if (ang > Math.PI / 2) ang -= Math.PI; if (ang < -Math.PI / 2) ang += Math.PI;
+    ctx.save(); ctx.translate(mx, my); ctx.rotate(ang);
+    ctx.lineWidth = 3; ctx.strokeStyle = '#0e1217'; ctx.strokeText(r.name, 0, 0);
+    ctx.fillStyle = '#b4bcc8'; ctx.fillText(r.name, 0, 0);
+    ctx.restore();
+  }
+  ctx.textAlign = 'start'; ctx.textBaseline = 'alphabetic';
+}
+
+/* pan / zoom, shared camera so side-by-side stays linked */
+VIEWS.forEach(v => {
+  let drag = null;
+  v.cv.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY]; v.cv.setPointerCapture(e.pointerId); });
+  v.cv.addEventListener('pointermove', e => {
+    if (!drag || !S.cam) return;
+    const sc = scaleOf(v);
+    S.cam.cx -= (e.clientX - drag[0]) / sc; S.cam.cy += (e.clientY - drag[1]) / sc; drag = [e.clientX, e.clientY]; dirty = true;
+  });
+  v.cv.addEventListener('pointerup', () => { drag = null; });
+  v.cv.addEventListener('wheel', e => { if (!S.cam) return; e.preventDefault(); zoom(e.deltaY > 0 ? 1.15 : 1 / 1.15); }, { passive: false });
+});
+function zoom(f) { if (!S.cam) return; S.cam.span = Math.min(6000, Math.max(60, S.cam.span * f)); dirty = true; }
+
+/* ---------- view + playback ---------- */
+let dirty = true, last = 0;
+function setView(k) {
+  S.view = k;
+  document.querySelectorAll('.bar .seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === k)));
+  VIEWS[0].key = k === 'both' ? 'fixed' : k;
+  VIEWS[1].key = k === 'both' ? 'maxp' : null;
+  VIEWS[1].el.hidden = k !== 'both';
+  paintOverlays(); renderPhases(); dirty = true; lastSec = -1;   // refresh HUDs for the new systems
+}
+document.querySelectorAll('.bar .seg button').forEach(b => { b.onclick = () => setView(b.dataset.v); });
+document.querySelectorAll('.speed button').forEach(b => { b.onclick = () => {
+  S.speed = +b.dataset.s; document.querySelectorAll('.speed button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+}; });
+const hasReplay = () => Object.keys(S.rp).length > 0;
+function setPlaying(p) {
+  S.playing = p && hasReplay();
+  $('pp').setAttribute('aria-label', S.playing ? 'Pause' : 'Play');
+  $('ppIcon').innerHTML = S.playing ? '<path d="M8 5v14M16 5v14" stroke-width="3"/>' : '<path d="M7 4.5v15l12.5-7.5Z" fill="currentColor" stroke="none"/>';
+}
+$('pp').onclick = () => setPlaying(!S.playing);
+$('scrub').oninput = e => { S.t = +e.target.value; dirty = true; };
+document.addEventListener('keydown', e => {
+  if (e.target.closest?.('input,select,textarea') || !hasReplay()) return;
+  if (e.key === ' ') { e.preventDefault(); setPlaying(!S.playing); }
+});
+
+function paintOverlays() {
+  VIEWS.forEach(v => {
+    const rp = v.key && S.rp[v.key], p = v.ov.querySelector('p');
+    let msg = null;
+    if (S.busy) msg = ['Simulating…', 'Traffic appears here when the run finishes.'];
+    else if (S.res && !hasReplay()) msg = ['No replay for this run', 'It was saved before replays existed. Run it again to watch the traffic.'];
+    else if (S.res && !rp) msg = ['No replay for this signal', ''];
+    else if (!S.res && !S.place) msg = ['Pick a place', 'Its roads and signals will appear here.'];
+    else if (!S.res && !S.net) msg = [placeName(S.place), S.scen ? 'Loading roads…' : 'Roads appear after the first run downloads them.'];
+    else if (!S.res) msg = ['Ready', 'Press Run simulation to watch traffic at these signals.'];
+    v.ov.hidden = !msg;
+    if (msg) p.replaceChildren(h('b', { text: msg[0] }), msg[1]);
+    v.hud.hidden = !rp;
+  });
+  dirty = true;
+}
+function hudFor(v) {
+  const rp = S.rp[v.key], i = Math.max(0, Math.min(rp.frames.length - 1, Math.floor(S.t - rp.from)));
+  v.hud.replaceChildren(
+    h('div', { class: 'who' }, h('i', { class: 'sw', style: `background:${col(v.key)}` }), nm(v.key)),
+    h('div', {}, h('small', { text: 'Vehicles on road' }), h('b', { text: fmt(rp.count[i], 0) })),
+    h('div', {}, h('small', { text: 'Stopped now' }), h('b', { text: fmt(rp.halt[i], 0) })),
+    h('div', {}, h('small', { text: 'Time spent stopped' }), h('b', { text: dur(rp.cum[i]) })),
+    h('div', {}, h('small', { text: 'Finished trips' }), h('b', { text: fmt(arrivedAt(rp, S.t), 0) })));
+}
+function arrivedAt(rp, t) { const s = rp.series; const k = Math.min(s.t.length - 1, Math.max(0, Math.round(t / 10) - 1)); return s.arrived[k] || 0; }
+
+let lastSec = -1;
+function loop(now) {
+  const dt = Math.min(.5, (now - last) / 1000); last = now;   // slow frames still play at real speed
+  if (S.playing) {
+    S.t += dt * S.speed;
+    const rp = S.rp.maxp || S.rp.fixed;
+    if (S.t >= rp.to - 1) S.t = rp.from;
+    dirty = true;
+  }
+  if (dirty) {
+    VIEWS.forEach(v => { if (!v.el.hidden) draw(v); });
+    const sec = Math.floor(S.t);
+    if (sec !== lastSec && hasReplay()) {
+      lastSec = sec;
+      $('scrub').value = sec;
+      $('tLbl').textContent = hms(S.res.hour, sec);
+      VIEWS.forEach(v => { if (!v.el.hidden && v.key && S.rp[v.key]) hudFor(v); });
+      movePlayheads();
+    }
+    dirty = false;
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* ---------- phase strip ---------- */
+function renderPhases() {
+  const box = $('phases');
+  const keys = (S.view === 'both' ? ['fixed', 'maxp'] : [S.view]).filter(k => S.rp[k]);
+  if (!keys.length) { box.hidden = true; return; }
+  box.hidden = false;
+  const rows = [];
+  keys.forEach(k => {
+    const rp = S.rp[k], n = rp.frames.length;
+    rp.approaches.slice(0, 6).forEach(ap => {
+      const svg = s('svg', { viewBox: `0 0 ${n} 1`, preserveAspectRatio: 'none', role: 'img', 'aria-label': `${nm(k)} signal for ${ap.label}` });
+      let st = null, from = 0;
+      for (let i = 0; i <= n; i++) {
+        const c = i < n ? sigState(rp, ap, i) : null;
+        if (c !== st) { if (st) svg.append(s('rect', { x: from, y: 0, width: i - from, height: 1, fill: SIG[st] })); st = c; from = i; }
+      }
+      rows.push(h('div', { class: 'phrow' }, h('span', { title: ap.label, text: (keys.length > 1 ? (k === 'fixed' ? 'Fixed · ' : 'Smart · ') : '') + ap.label }), svg));
+    });
+  });
+  const rp = S.rp[keys[0]];
+  box.replaceChildren(
+    h('div', { class: 'phtitle' }, h('span', { text: 'Signal timeline (green, yellow, red) for the replayed 10 minutes' }), h('span', { class: 'mono', text: `${hms(S.res.hour, rp.from)}–${hms(S.res.hour, rp.to)}` })),
+    h('div', { class: 'ph' }, ...rows, h('i', { class: 'phhead', id: 'phhead' })));
+  movePlayheads();
+}
+
+/* ---------- charts (hand-rolled SVG) ---------- */
+const tip = $('tip');
+function showTip(e, rows) {
+  tip.replaceChildren(...rows.map(r => typeof r === 'string' ? h('div', { text: r }) : h('div', { class: 'r' }, h('i', { class: 'sw', style: `background:${r[0]}` }), r[1] + ' ', h('b', { text: r[2] }))));
+  tip.hidden = false;
+  const x = Math.min(innerWidth - tip.offsetWidth - 8, e.clientX + 14), y = Math.max(8, e.clientY - tip.offsetHeight - 10);
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+const hideTip = () => { tip.hidden = true; };
+const PLAYHEADS = [];
+function niceMax(v) { if (v <= 0) return 1; const p = 10 ** Math.floor(Math.log10(v)), m = v / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p; }
+
+function lineChart({ x, series, yfmt = v => fmt(v, 0), band, hour, label }) {
+  const W = 360, H = 150, l = 34, r = 8, t = 10, b = 20, iw = W - l - r, ih = H - t - b;
+  const x0 = x[0], x1 = x[x.length - 1] || 1, ymax = niceMax(Math.max(1, ...series.flatMap(sr => sr.y)));
+  const X = v => l + (v - x0) / (x1 - x0 || 1) * iw, Y = v => t + ih - v / ymax * ih;
+  const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': label });
+  if (band) svg.append(s('rect', { x: X(band[0]), y: t, width: X(band[1]) - X(band[0]), height: ih, fill: 'rgba(232,236,242,.05)' }));
+  for (let k = 0; k <= 4; k++) {
+    const v = ymax * k / 4;
+    svg.append(s('line', { class: k ? 'gl' : 'ax', x1: l, x2: W - r, y1: Y(v), y2: Y(v) }), s('text', { x: l - 6, y: Y(v) + 3.5, 'text-anchor': 'end', text: yfmt(v) }));
+  }
+  for (let m = 0; m <= 60; m += 15) svg.append(s('text', { x: X(m * 60), y: H - 5, 'text-anchor': 'middle', text: hms(hour, m * 60).slice(0, 5) }));
+  series.forEach(sr => svg.append(s('polyline', { points: sr.y.map((v, i) => `${X(x[i]).toFixed(1)},${Y(v).toFixed(1)}`).join(' '), fill: 'none', stroke: sr.color, 'stroke-width': 2, 'stroke-linejoin': 'round' })));
+  const ph = s('line', { x1: 0, x2: 0, y1: t, y2: t + ih, stroke: '#e8ecf2', 'stroke-width': 1, 'stroke-dasharray': '2 3' });
+  const cross = s('line', { x1: 0, x2: 0, y1: t, y2: t + ih, stroke: '#a0a9b6', 'stroke-width': 1, visibility: 'hidden' });
+  const dots = series.map(sr => s('circle', { r: 4, fill: sr.color, stroke: '#12161c', 'stroke-width': 2, visibility: 'hidden' }));
+  svg.append(ph, cross, ...dots);
+  const hit = s('rect', { x: l, y: t, width: iw, height: ih, fill: 'transparent' });
+  hit.addEventListener('mousemove', e => {
+    const bb = svg.getBoundingClientRect(), vx = (e.clientX - bb.left) / bb.width * W;
+    const i = Math.max(0, Math.min(x.length - 1, Math.round((vx - l) / iw * (x.length - 1))));
+    cross.setAttribute('x1', X(x[i])); cross.setAttribute('x2', X(x[i])); cross.setAttribute('visibility', 'visible');
+    dots.forEach((d, k) => { d.setAttribute('cx', X(x[i])); d.setAttribute('cy', Y(series[k].y[i])); d.setAttribute('visibility', 'visible'); });
+    showTip(e, [hms(hour, x[i]).slice(0, 5), ...series.map(sr => [sr.color, sr.name, yfmt(sr.y[i])])]);
+  });
+  hit.addEventListener('mouseleave', () => { cross.setAttribute('visibility', 'hidden'); dots.forEach(d => d.setAttribute('visibility', 'hidden')); hideTip(); });
+  svg.append(hit);
+  PLAYHEADS.push(sec => { ph.setAttribute('x1', X(sec)); ph.setAttribute('x2', X(sec)); });
+  return h('div', { class: 'chart' }, svg);
+}
+function movePlayheads() {
+  const sec = S.t;
+  PLAYHEADS.forEach(f => f(sec));
+  const ph = $('phhead'), rp = S.rp.maxp || S.rp.fixed;
+  if (ph && rp) {
+    const row = ph.parentElement.querySelector('.phrow svg');
+    if (row) {   // SVG has no offsetLeft/offsetWidth, so measure rects
+      const r = row.getBoundingClientRect(), p = ph.parentElement.getBoundingClientRect();
+      ph.style.left = (r.left - p.left + (sec - rp.from) / (rp.to - rp.from) * r.width) + 'px';
+    }
+  }
+}
+
+function classBars(byCls) {
+  const keys = Object.keys(CLASS).filter(k => byCls.fixed[k] !== undefined || byCls.maxp[k] !== undefined);
+  const W = 360, rowH = 26, l = 84, r = 44, H = keys.length * rowH + 4;
+  const mx = niceMax(Math.max(1, ...keys.flatMap(k => [byCls.fixed[k] || 0, byCls.maxp[k] || 0])));
+  const X = v => (v / mx) * (W - l - r);
+  const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Average delay by vehicle type' });
+  keys.forEach((k, i) => {
+    const y = i * rowH + 3;
+    svg.append(s('text', { x: 0, y: y + 13, text: CLASS[k], style: 'font-family:Manrope;font-size:12px' }));
+    [['fixed', 0], ['maxp', 10]].forEach(([c, dy]) => {
+      const v = byCls[c][k];
+      if (v === undefined) return;
+      const bar = s('rect', { x: l, y: y + dy + 1, width: Math.max(2, X(v)), height: 8, rx: 2, fill: col(c) });
+      bar.addEventListener('mousemove', e => showTip(e, [CLASS[k], [col(c), nm(c), fmt(v) + ' s']]));
+      bar.addEventListener('mouseleave', hideTip);
+      svg.append(bar, s('text', { x: l + X(v) + 5, y: y + dy + 8.5, text: fmt(v, 0) + ' s' }));
+    });
+  });
+  return h('div', { class: 'chart' }, svg);
+}
+function seedStrip(rows) {
+  const ctl = ORDER.filter(c => rows.some(r => r.controller === c));
+  const vals = rows.filter(r => ctl.includes(r.controller)).map(r => +r.delay_s);
+  const W = 360, l = 84, r = 14, rowH = 26, H = ctl.length * rowH + 22;
+  const lo = 0, hi = niceMax(Math.max(1, ...vals)), X = v => l + (v - lo) / (hi - lo) * (W - l - r);
+  const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Delay for each repeat' });
+  for (let k = 0; k <= 4; k++) { const v = hi * k / 4; svg.append(s('line', { class: 'gl', x1: X(v), x2: X(v), y1: 0, y2: H - 18 }), s('text', { x: X(v), y: H - 4, 'text-anchor': 'middle', text: fmt(v, 0) })); }
+  ctl.forEach((c, i) => {
+    const y = i * rowH + 13, mine = rows.filter(r => r.controller === c);
+    svg.append(s('text', { x: 0, y: y + 4, text: nm(c), style: 'font-family:Manrope;font-size:12px' }));
+    const m = mine.reduce((a, r) => a + +r.delay_s, 0) / mine.length;
+    svg.append(s('line', { x1: X(m), x2: X(m), y1: y - 9, y2: y + 9, stroke: '#e8ecf2', 'stroke-width': 2 }));
+    mine.forEach(rw => {
+      const d = s('circle', { cx: X(+rw.delay_s), cy: y, r: 5, fill: col(c), stroke: '#12161c', 'stroke-width': 2 });
+      d.addEventListener('mousemove', e => showTip(e, [`Repeat ${+rw.seed + 1}`, [col(c), nm(c), fmt(+rw.delay_s) + ' s']]));
+      d.addEventListener('mouseleave', hideTip);
+      svg.append(d);
+    });
+  });
+  return h('div', { class: 'chart' }, svg);
+}
+
+/* ---------- right panel ---------- */
+// Paired by seed: same random traffic for every system, so each repeat is a fair head-to-head.
+function scorecard(res) {
+  const rows = res.rows || [], sum = res.summary;
+  const has = c => sum.some(o => o.controller === c);
+  const base = ['program', 'fixed'].find(has) || sum[0].controller;
+  const delayBy = c => Object.fromEntries(rows.filter(r => r.controller === c).map(r => [r.seed, +r.delay_s]));
+  const b = delayBy(base), B = sum.find(o => o.controller === base);
+  const safety = o => (mv(o.collisions) || 0) + (mv(o.teleports) || 0);
+  const ctl = [...ORDER.filter(has), ...sum.map(o => o.controller).filter(c => !ORDER.includes(c))];
+  const card = c => {
+    const o = sum.find(x => x.controller === c), d = mv(o.delay_s), isBase = c === base;
+    const m = delayBy(c), seeds = Object.keys(m).filter(k => k in b), n = seeds.length;
+    const wins = seeds.filter(k => m[k] < b[k]).length, losses = seeds.filter(k => m[k] > b[k]).length;
+    const need = n >= 8 ? n - 1 : n;   // with 8+ repeats one off-repeat is allowed (sign test p < 0.05)
+    const [word, cls] = isBase ? ['Baseline', 'na'] : n < 3 ? ['Too few repeats', 'na']
+      : wins >= need ? ['Better', 'ok'] : losses >= need ? ['Worse', 'bad'] : ['No clear difference', 'na'];
+    const ch = mv(B.delay_s) ? (d - mv(B.delay_s)) / mv(B.delay_s) : 0, risk = safety(o) > safety(B) + 0.05;
+    return h('div', { class: 'sc' + (isBase ? ' base' : '') },
+      h('div', { class: 'top' }, h('span', { class: 'who' }, h('i', { class: 'sw', style: `background:${col(c)}` }), nm(c)), h('span', { class: 'status ' + cls, text: word })),
+      h('div', { class: 'nums' },
+        h('span', {}, h('b', { text: fmt(d) + ' s' }), ' lost per vehicle'),
+        isBase ? h('span', { text: 'what the others are measured against' }) : h('span', {}, h('b', { class: ch < -0.005 ? 'up' : ch > 0.005 ? 'down' : '', text: (ch > 0 ? '+' : ch < 0 ? '−' : '') + Math.abs(Math.round(ch * 100)) + '%' }), ` · won ${wins} of ${n}`),
+        h('span', { class: risk ? 'warn' : '', text: `${fmt(safety(o), 1)} safety events per run${risk ? ' (more than baseline)' : ''}` })));
+  };
+  return h('section', { class: 'sec' }, h('h2', { text: 'How effective was each system?' }),
+    h('p', { class: 'sub', text: `Compared with the ${nm(base).toLowerCase()} on the same traffic, repeat by repeat.` }),
+    h('div', { class: 'scs' }, ctl.map(card)),
+    h('p', { class: 'note', text: `Better or Worse means it won or lost every repeat${rows.length && Object.keys(b).length >= 8 ? ' but one' : ''}; anything else is No clear difference, so luck cannot pass for a win. Safety events are lane collisions plus teleports.` }));
+}
+
+function renderFacts() {
+  const R = $('right');
+  const g = S.net;
+  const km = g ? g.roads.reduce((a, r) => { let L = 0; for (let i = 1; i < r.pts.length; i++) L += Math.hypot(r.pts[i][0] - r.pts[i - 1][0], r.pts[i][1] - r.pts[i - 1][1]); return a + L; }, 0) / 1000 : null;
+  const names = g ? new Set(g.roads.map(r => r.name).filter(Boolean)).size : null;
+  const hr = +$('hour').value, prof = (S.scen && S.scen.hourly_profile && S.scen.hourly_profile.length === 24) ? S.scen.hourly_profile : DEFAULT_PROFILE;
+  R.replaceChildren(
+    h('section', { class: 'sec' },
+      h('h2', { text: S.place ? placeName(S.place) : 'Readings' }),
+      h('p', { class: 'empty', text: S.place ? 'Readings appear here after a run: time lost, stops, vehicles served, fuel, CO₂ and safety checks for both signals.' : 'Pick a place on the left to begin.' }),
+      S.place ? h('div', { class: 'facts' },
+        fact('Signals', g ? g.signals.length : '–'),
+        fact('Road length', g ? fmt(km, 1) + ' km' : '–'),
+        fact('Named streets', g ? names : '–'),
+        fact(`Traffic at ${ampm(hr)}`, Math.round(100 * prof[hr] / Math.max(...prof)) + '% of peak')) : null),
+    h('section', { class: 'sec' },
+      h('h2', { text: 'How to read this' }),
+      h('p', { class: 'empty', text: 'Same random traffic, four signal systems. The current signal plan is the baseline. Fixed timer gives each road green in turn for a set time. Sensor timer keeps green while vehicles keep arriving. Smart signal (max-pressure) looks at queues every few seconds and serves the busiest road. Each run repeats with different traffic so one lucky run cannot decide the result.' })));
+}
+const fact = (k, v) => h('div', { class: 'fact' }, h('small', { text: k }), h('b', { text: String(v) }));
+
+function clearResult() {
+  S.res = null; S.rp = {}; S.t = 300; setPlaying(false); PLAYHEADS.length = 0;
+  $('pp').disabled = $('scrub').disabled = true; $('tLbl').textContent = '--:--:--';
+  $('phases').hidden = true;
+  renderFacts(); refresh(); paintOverlays();
+}
+
+async function show(res) {
+  const sum = (res && res.summary) || [];
+  if (!sum.length) return toast('This run has no results.');
+  if (res.scenario !== S.place) { $('hour').value = res.hour; await choosePlace(res.scenario, true); }
+  $('hour').value = res.hour; drawCurve();
+  S.res = res; S.rp = {}; PLAYHEADS.length = 0; setPlaying(false);
+  refresh(); paintOverlays();
+  const urls = res.replays || {};
+  await Promise.all(Object.entries(urls).map(async ([c, u]) => {
+    try { const r = await fetch(u); if (r.ok) S.rp[c] = prepReplay(await r.json()); } catch (e) { /* missing replay: overlay says so */ }
+  }));
+  if (S.res !== res) return;
+  const any = S.rp.maxp || S.rp.fixed;
+  if (any) { fitCam(any); S.t = any.from; $('scrub').min = any.from; $('scrub').max = any.to - 1; }
+  $('pp').disabled = $('scrub').disabled = !any;
+  lastSec = -1;
+  setView(S.view === 'both' || !S.rp[S.view] ? (S.view === 'both' ? 'both' : (S.rp.maxp ? 'maxp' : 'fixed')) : S.view);
+  renderResult(res);
+  setPlaying(!!any && !matchMedia('(prefers-reduced-motion: reduce)').matches);
+  dirty = true;
+}
+
+function renderResult(res) {
+  const sum = res.summary, by = Object.fromEntries(sum.map(x => [x.controller, x]));
+  const F = by.fixed || sum[0], M = by.maxp || sum.find(x => x !== F) || F;
+  const fk = F.controller, mk = M.controller, n = F.n;
+  const v = (o, k) => mv(o[k]);
+  const df = v(F, 'delay_s'), dm = v(M, 'delay_s'), cut = df > 0 ? (df - dm) / df : 0;
+
+  const head = h('section', { class: 'sec' }, h('div', { class: 'hl' },
+    h('div', { class: 'where', text: `Time lost at signals, per vehicle · ${placeName(res.scenario)}, ${ampm(res.hour)}` }),
+    h('div', { class: 'big' }, h('span', { style: `color:${col(fk)}`, text: fmt(df) + ' s' }), h('span', { class: 'arrow', text: '→' }),
+      h('span', { style: `color:${col(mk)}`, text: fmt(dm) + ' s' }),
+      h('span', { class: 'cut' + (cut < 0 ? ' worse' : ''), text: (cut >= 0 ? '−' : '+') + Math.abs(Math.round(cut * 100)) + '%' })),
+    h('div', { class: 'who2' }, h('span', {}, h('i', { class: 'sw', style: `background:${col(fk)}` }), nm(fk)), h('span', {}, h('i', { class: 'sw', style: `background:${col(mk)}` }), nm(mk))),
+    h('p', { text: `Mean of ${n} repeat${n > 1 ? 's' : ''} (± ${fmt(sd(F.delay_s))} s and ± ${fmt(sd(M.delay_s))} s across repeats).${n < 5 ? ' Use 5 repeats for numbers you report.' : ''}` })));
+
+  // KPI tiles: lower is better except vehicles served
+  const K = [['delay_p95_s', 'Worst 5% wait', 's', 1], ['stops_per_veh', 'Stops per vehicle', '', 2], ['vehicles', 'Vehicles served', '', 0, true],
+    ['travel_time_s', 'Trip time', 's', 0], ['fuel_l', 'Fuel burned', 'L', 0], ['co2_kg', 'CO₂ emitted', 'kg', 0]];
+  const tiles = K.map(([k, label, unit, d, up]) => {
+    const a = v(F, k), b = v(M, k);
+    if (!ok(a) || !ok(b)) return h('div', { class: 'kpi' }, h('small', { text: label }), h('div', { class: 'v' }, h('b', { text: '–' })), h('div', { class: 'from', text: 'not in this run' }));
+    const ch = a ? (b - a) / a : 0, better = up ? ch > 0.005 : ch < -0.005, worse = up ? ch < -0.005 : ch > 0.005, mx = Math.max(a, b) || 1;
+    return h('div', { class: 'kpi' }, h('small', { text: label + (unit ? ` (${unit})` : '') }),
+      h('div', { class: 'v' }, h('b', { text: fmt(b, d) }), h('em', { class: better ? 'up' : worse ? 'down' : '', text: (ch >= 0 ? '+' : '−') + Math.abs(ch * 100).toFixed(0) + '%' })),
+      h('div', { class: 'duo', 'aria-hidden': 'true' }, h('i', { style: `width:${100 * a / mx}%;background:${col(fk)}` }), h('i', { style: `width:${100 * b / mx}%;background:${col(mk)}` })),
+      h('div', { class: 'from', text: `${nm(fk)}: ${fmt(a, d)}` }));
+  });
+  const kpis = h('section', { class: 'sec' }, h('h2', { text: `${nm(mk)} vs ${nm(fk)}` }), h('p', { class: 'sub', text: 'Big number is the smart signal; the bars compare both. Per hour, whole area.' }), h('div', { class: 'kpis' }, tiles));
+
+  // public impact (estimates)
+  const dd = df - dm, hrsYr = dd * 2 * 250 / 3600, dFuel = v(F, 'fuel_l') - v(M, 'fuel_l'), dCo2 = v(F, 'co2_kg') - v(M, 'co2_kg');
+  const impact = h('section', { class: 'sec' }, h('h2', { text: 'What it means for people' }),
+    h('div', { class: 'impact' },
+      h('div', {}, h('b', { text: ok(hrsYr) ? fmt(hrsYr, 1) + ' h' : '–' }), h('small', { text: 'a year back for someone crossing here twice a workday' })),
+      h('div', {}, h('b', { text: ok(dFuel) ? '₹' + fmt(dFuel * FUEL_RS, 0) : '–' }), h('small', { text: 'of fuel saved in this one hour, all vehicles' })),
+      h('div', {}, h('b', { text: ok(dCo2) ? fmt(dCo2, 0) + ' kg' : '–' }), h('small', { text: 'less CO₂ in this hour' }))),
+    h('p', { class: 'note', text: `Estimates: 250 workdays, ₹${FUEL_RS}/L petrol, emissions from SUMO's default HBEFA classes. Negative means the smart signal did worse.` }));
+
+  // integrity
+  const I = [['collisions', 'Lane collisions', 1], ['junction_collisions', 'Junction overlaps', 1], ['teleports', 'Teleports (stuck vehicles removed)', 1], ['unfinished_vehicles', 'Still on the road at the end', 0], ['front_row_bike_share', 'Two-wheelers in the front row at red', 'pct']];
+  const bad = [F, M].some(o => (v(o, 'collisions') || 0) > 0 || (v(o, 'teleports') || 0) > 0 || (v(o, 'unfinished_vehicles') || 0) > 0.1 * (v(o, 'vehicles') || 1));
+  const integ = h('section', { class: 'sec' },
+    h('h2', {}, 'Simulation checks', h('span', { class: 'status ' + (bad ? 'chk' : 'ok'), text: bad ? 'CHECK' : 'VALID' })),
+    h('div', { class: 'integ' }, h('span', { class: 'h', text: 'Per run, mean' }), h('span', { class: 'h c', text: nm(fk) }), h('span', { class: 'h c', text: nm(mk) }),
+      ...I.flatMap(([k, label, d]) => [h('span', { text: label }), ...[F, M].map(o => h('span', { class: 'c', text: d === 'pct' ? (ok(v(o, k)) ? fmt(100 * v(o, k), 0) + '%' : '–') : fmt(v(o, k), d) }))])),
+    h('p', { class: 'note', text: bad ? 'Some vehicles collided, got stuck or did not finish. Lower the traffic amount (Advanced) and run again before trusting these numbers.' : 'No lane collisions or teleports. Junction overlaps are SUMO\'s strict shape check inside the junction box.' }));
+
+  // charts that need replays
+  const rf = S.rp[fk], rm = S.rp[mk], ser = [rf, rm].filter(Boolean);
+  const qsum = rp => rp.series.queue.map(q => q.reduce((a, b) => a + b, 0));
+  const tl = ser.length ? ser[0].series.t : [];
+  const pairs = [[rf, fk], [rm, mk]].filter(([r]) => r);
+  const needs = h('p', { class: 'empty', text: 'Needs a replay. Run this place again to see it.' });
+  const queue = h('section', { class: 'sec' }, h('h2', { text: 'Vehicles stopped at signals' }), h('p', { class: 'sub', text: 'Whole hour, first repeat. Shaded band is the replay window.' }),
+    ser.length ? lineChart({ x: tl, hour: res.hour, band: [ser[0].from, ser[0].to], label: 'Stopped vehicles over time', series: pairs.map(([r, c]) => ({ name: nm(c), color: col(c), y: qsum(r) })) }) : needs);
+  const served = h('section', { class: 'sec' }, h('h2', { text: 'Trips completed' }), h('p', { class: 'sub', text: 'Running total. A steeper line moves more people.' }),
+    ser.length ? lineChart({ x: tl, hour: res.hour, label: 'Completed trips over time', series: pairs.map(([r, c]) => ({ name: nm(c), color: col(c), y: r.series.arrived })) }) : needs.cloneNode(true));
+
+  // worst approaches
+  let worst = null;
+  if (rf && rm) {
+    const peak = rp => rp.approaches.map((a, i) => Math.max(0, ...rp.series.queue.map(q => q[i] || 0)));
+    const pf = peak(rf), pm = peak(rm);
+    const list = rf.approaches.map((a, i) => ({ a, f: pf[i], m: pm[i] })).sort((x, y) => y.f - x.f).slice(0, 6);
+    worst = h('section', { class: 'sec' }, h('h2', { text: 'Longest queues by road' }), h('p', { class: 'sub', text: 'Peak vehicles stopped on each approach during the hour.' }),
+      h('div', { class: 'tw' }, h('table', {}, h('thead', {}, h('tr', {}, h('th', { text: 'Approach' }), h('th', { text: nm(fk) }), h('th', { text: nm(mk) }))),
+        h('tbody', {}, ...list.map(x => h('tr', {}, h('td', { text: x.a.label }), h('td', { text: fmt(x.f, 0) }), h('td', { text: fmt(x.m, 0) })))))));
+  }
+
+  // per-class delay from per-seed rows
+  const byCls = { fixed: {}, maxp: {} };
+  [['fixed', fk], ['maxp', mk]].forEach(([slot, c]) => {
+    const acc = {};
+    (res.rows || []).filter(r => r.controller === c && r.delay_by_class).forEach(r => Object.entries(r.delay_by_class).forEach(([k, val]) => { (acc[k] = acc[k] || []).push(+val); }));
+    Object.entries(acc).forEach(([k, a]) => { byCls[slot][k] = a.reduce((p, q) => p + q, 0) / a.length; });
+  });
+  byCls[fk] = byCls.fixed; byCls[mk] = byCls.maxp;
+  const cls = h('section', { class: 'sec' }, h('h2', { text: 'Delay by vehicle type' }), h('p', { class: 'sub', text: 'Mean time lost per trip, all repeats.' }),
+    Object.keys(byCls.fixed).length + Object.keys(byCls.maxp).length ? classBars(byCls) : h('p', { class: 'empty', text: 'Not recorded in this run.' }));
+
+  const seeds = h('section', { class: 'sec' }, h('h2', { text: 'Every repeat' }), h('p', { class: 'sub', text: 'Delay per vehicle (s) for each random-traffic repeat; white tick is the mean.' }), seedStrip(res.rows || []));
+
+  const COLS = [['delay_s', 'Delay s', 1], ['delay_p95_s', 'p95 s', 1], ['waiting_s', 'Waiting s', 1], ['travel_time_s', 'Trip s', 1], ['stops_per_veh', 'Stops', 2], ['vehicles', 'Vehicles', 0], ['fuel_l', 'Fuel L', 0], ['co2_kg', 'CO₂ kg', 0], ['collisions', 'Collisions', 1], ['teleports', 'Teleports', 1], ['unfinished_vehicles', 'Unfinished', 0]];
+  const table = h('section', { class: 'sec' }, h('details', { class: 'adv' }, h('summary', {}, s('svg', { class: 'i', viewBox: '0 0 24 24', 'aria-hidden': 'true' }, s('path', { d: 'm9 6 6 6-6 6' })), 'All numbers (mean ± std)'),
+    h('div', { class: 'tw' }, h('table', {}, h('thead', {}, h('tr', {}, h('th', { text: 'Signal' }), ...COLS.map(c => h('th', { text: c[1] })))),
+      h('tbody', {}, ...sum.map(o => h('tr', {}, h('td', { text: nm(o.controller) }), ...COLS.map(([k, , d]) => h('td', { text: o[k] === undefined ? '–' : fmt(mv(o[k]), d) + (sd(o[k]) ? ' ± ' + fmt(sd(o[k]), d) : '') })))))))),
+    res.csv_url ? h('p', { class: 'note' }, h('a', { href: res.csv_url, download: '' }, 'Download CSV'), ' · per-repeat rows') : null,
+    h('p', { class: 'note', text: 'Traffic amounts, driver behaviour and emissions are estimates, not yet checked against field counts (docs/assumptions.md). The next step is calibrating with real junction counts.' }));
+
+  $('right').replaceChildren(scorecard(res), head, kpis, impact, integ, queue, served, ...(worst ? [worst] : []), cls, seeds, table);
+  $('right').scrollTop = 0;
+  movePlayheads();
+}
+
+/* ---------- init ---------- */
+(async () => {
+  await Promise.all([api('/api/presets').then(p => { S.presets = p || []; }).catch(() => {}), loadScens(), loadHist()]);
+  renderPlaces(); drawCurve(); setView('maxp');
+  const latest = HIST.find(r => r.replays && Object.keys(r.replays).length);
+  if (latest) { try { await show(await api('/api/result/' + encodeURIComponent(latest.run_id))); return; } catch (e) { /* fall through */ } }
+  const first = places().find(p => p.built) || places()[0];
+  if (first) await choosePlace(first.id); else { renderFacts(); paintOverlays(); refresh(); }
+})();
+</script>
+</body>
+</html>

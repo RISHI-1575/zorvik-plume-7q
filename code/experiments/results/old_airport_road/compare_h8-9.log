@@ -1,0 +1,609 @@
+***Starting server on port 54117 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (25ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 15.60s
+ TraCI-Duration: 3.71s
+ Real time factor: 230.74
+ UPS: 116056.915780
+Vehicles:
+ Inserted: 2689 (Loaded: 2699)
+ Running: 897
+ Waiting: 9
+ Teleports: 35 (Jam: 17, Yield: 14, Wrong Lane: 4)
+ Emergency Braking: 6
+Statistics (avg of 2689):
+ RouteLength: 5307.12
+ Speed: 9.60
+ Duration: 673.38
+ WaitingTime: 222.89
+ TimeLoss: 295.71
+ DepartDelay: 2.15
+ DepartDelayWaiting: 367.27
+***Starting server on port 54125 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (25ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 17.42s
+ TraCI-Duration: 3.98s
+ Real time factor: 206.683
+ UPS: 111694.683661
+Vehicles:
+ Inserted: 2675 (Loaded: 2700)
+ Running: 905
+ Waiting: 25
+ Teleports: 54 (Jam: 32, Yield: 19, Wrong Lane: 3)
+ Emergency Braking: 2
+Statistics (avg of 2675):
+ RouteLength: 5208.12
+ Speed: 9.26
+ Duration: 727.29
+ WaitingTime: 281.96
+ TimeLoss: 355.64
+ DepartDelay: 4.95
+ DepartDelayWaiting: 825.29
+***Starting server on port 54132 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (26ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 23.13s
+ TraCI-Duration: 4.10s
+ Real time factor: 155.662
+ UPS: 97554.676352
+Vehicles:
+ Inserted: 2690 (Loaded: 2699)
+ Running: 937
+ Waiting: 9
+ Teleports: 58 (Collisions: 2, Jam: 30, Yield: 21, Wrong Lane: 7)
+ Emergency Braking: 1
+Statistics (avg of 2690):
+ RouteLength: 5268.52
+ Speed: 8.41
+ Duration: 838.72
+ WaitingTime: 356.62
+ TimeLoss: 463.41
+ DepartDelay: 8.63
+ DepartDelayWaiting: 839.67
+***Starting server on port 54142 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (25ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 20.11s
+ TraCI-Duration: 3.94s
+ Real time factor: 179.007
+ UPS: 104904.082343
+Vehicles:
+ Inserted: 2663 (Loaded: 2699)
+ Running: 973
+ Waiting: 35
+ Teleports: 55 (Collisions: 1, Jam: 27, Yield: 19, Wrong Lane: 9)
+ Emergency Braking: 4
+Statistics (avg of 2663):
+ RouteLength: 5113.40
+ Speed: 9.03
+ Duration: 792.24
+ WaitingTime: 353.99
+ TimeLoss: 428.62
+ DepartDelay: 2.89
+ DepartDelayWaiting: 1046.32
+***Starting server on port 54151 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (25ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 18.81s
+ TraCI-Duration: 4.45s
+ Real time factor: 191.377
+ UPS: 106944.660039
+Vehicles:
+ Inserted: 2685 (Loaded: 2700)
+ Running: 985
+ Waiting: 14
+ Teleports: 41 (Collisions: 1, Jam: 23, Yield: 16, Wrong Lane: 2)
+ Emergency Braking: 3
+Statistics (avg of 2685):
+ RouteLength: 5093.77
+ Speed: 9.02
+ Duration: 749.25
+ WaitingTime: 315.81
+ TimeLoss: 386.31
+ DepartDelay: 2.10
+ DepartDelayWaiting: 871.40
+***Starting server on port 54157 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (24ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 14.45s
+ TraCI-Duration: 3.70s
+ Real time factor: 249.118
+ UPS: 118959.795170
+Vehicles:
+ Inserted: 2684 (Loaded: 2699)
+ Running: 818
+ Waiting: 14
+ Teleports: 37 (Jam: 17, Yield: 18, Wrong Lane: 2)
+ Emergency Stops: 1
+ Emergency Braking: 6
+Statistics (avg of 2684):
+ RouteLength: 5375.22
+ Speed: 9.96
+ Duration: 640.49
+ WaitingTime: 185.38
+ TimeLoss: 257.24
+ DepartDelay: 1.60
+ DepartDelayWaiting: 444.27
+***Starting server on port 54164 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (26ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 13.09s
+ TraCI-Duration: 3.12s
+ Real time factor: 275.124
+ UPS: 126730.836836
+Vehicles:
+ Inserted: 2688 (Loaded: 2700)
+ Running: 699
+ Waiting: 12
+ Teleports: 25 (Jam: 10, Yield: 13, Wrong Lane: 2)
+ Emergency Braking: 5
+Statistics (avg of 2688):
+ RouteLength: 5437.83
+ Speed: 9.96
+ Duration: 616.92
+ WaitingTime: 153.45
+ TimeLoss: 230.97
+ DepartDelay: 2.26
+ DepartDelayWaiting: 361.69
+***Starting server on port 54171 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (12ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 18.46s
+ TraCI-Duration: 2.49s
+ Real time factor: 195.037
+ UPS: 108547.242388
+Vehicles:
+ Inserted: 2679 (Loaded: 2699)
+ Running: 972
+ Waiting: 20
+ Teleports: 46 (Collisions: 2, Jam: 26, Yield: 15, Wrong Lane: 5)
+ Emergency Stops: 2
+ Emergency Braking: 5
+Statistics (avg of 2679):
+ RouteLength: 5168.03
+ Speed: 9.08
+ Duration: 747.88
+ WaitingTime: 298.21
+ TimeLoss: 378.67
+ DepartDelay: 3.20
+ DepartDelayWaiting: 846.78
+***Starting server on port 54177 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (20ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 16.14s
+ TraCI-Duration: 3.80s
+ Real time factor: 223.076
+ UPS: 116184.595365
+Vehicles:
+ Inserted: 2682 (Loaded: 2699)
+ Running: 747
+ Waiting: 16
+ Teleports: 34 (Collisions: 1, Jam: 25, Yield: 7, Wrong Lane: 2)
+ Emergency Braking: 5
+Statistics (avg of 2682):
+ RouteLength: 5351.51
+ Speed: 9.73
+ Duration: 699.10
+ WaitingTime: 242.99
+ TimeLoss: 320.06
+ DepartDelay: 3.41
+ DepartDelayWaiting: 1203.88
+***Starting server on port 54182 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (17ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 15.82s
+ TraCI-Duration: 3.80s
+ Real time factor: 227.574
+ UPS: 122786.206461
+Vehicles:
+ Inserted: 2692 (Loaded: 2700)
+ Running: 812
+ Waiting: 7
+ Teleports: 36 (Collisions: 1, Jam: 24, Yield: 9, Wrong Lane: 3)
+ Emergency Braking: 4
+Statistics (avg of 2692):
+ RouteLength: 5323.41
+ Speed: 9.54
+ Duration: 721.53
+ WaitingTime: 266.24
+ TimeLoss: 342.39
+ DepartDelay: 3.07
+ DepartDelayWaiting: 932.38
+***Starting server on port 54188 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (26ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 22.31s
+ TraCI-Duration: 10.16s
+ Real time factor: 161.37
+ UPS: 85146.846564
+Vehicles:
+ Inserted: 2683 (Loaded: 2699)
+ Running: 924
+ Waiting: 15
+ Teleports: 48 (Collisions: 1, Jam: 26, Yield: 19, Wrong Lane: 3)
+ Emergency Braking: 7
+Statistics (avg of 2683):
+ RouteLength: 5235.46
+ Speed: 9.39
+ Duration: 707.99
+ WaitingTime: 259.90
+ TimeLoss: 334.31
+ DepartDelay: 1.92
+ DepartDelayWaiting: 570.33
+***Starting server on port 54197 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (25ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 23.52s
+ TraCI-Duration: 10.08s
+ Real time factor: 153.042
+ UPS: 82438.124389
+Vehicles:
+ Inserted: 2669 (Loaded: 2700)
+ Running: 962
+ Waiting: 31
+ Teleports: 51 (Collisions: 1, Jam: 29, Yield: 18, Wrong Lane: 4)
+ Emergency Stops: 1
+ Emergency Braking: 7
+Statistics (avg of 2669):
+ RouteLength: 5178.60
+ Speed: 9.29
+ Duration: 726.56
+ WaitingTime: 287.88
+ TimeLoss: 358.28
+ DepartDelay: 1.72
+ DepartDelayWaiting: 863.34
+***Starting server on port 54203 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (24ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 17.76s
+ TraCI-Duration: 9.68s
+ Real time factor: 202.703
+ UPS: 82456.024775
+Vehicles:
+ Inserted: 2699
+ Running: 466
+ Waiting: 0
+ Emergency Braking: 3
+Statistics (avg of 2699):
+ RouteLength: 5742.45
+ Speed: 10.98
+ Duration: 542.58
+ WaitingTime: 60.42
+ TimeLoss: 134.10
+ DepartDelay: 0.51
+ DepartDelayWaiting: 0.00
+***Starting server on port 54208 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (25ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 24.06s
+ TraCI-Duration: 10.02s
+ Real time factor: 149.651
+ UPS: 83037.204855
+Vehicles:
+ Inserted: 2666 (Loaded: 2699)
+ Running: 918
+ Waiting: 32
+ Teleports: 39 (Jam: 25, Yield: 11, Wrong Lane: 3)
+ Emergency Braking: 5
+Statistics (avg of 2666):
+ RouteLength: 5215.20
+ Speed: 9.34
+ Duration: 749.26
+ WaitingTime: 310.16
+ TimeLoss: 379.52
+ DepartDelay: 1.18
+ DepartDelayWaiting: 1063.12
+***Starting server on port 54215 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (26ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 25.43s
+ TraCI-Duration: 10.54s
+ Real time factor: 141.582
+ UPS: 85651.354859
+Vehicles:
+ Inserted: 2679 (Loaded: 2700)
+ Running: 1005
+ Waiting: 20
+ Teleports: 48 (Jam: 28, Yield: 17, Wrong Lane: 3)
+ Emergency Braking: 5
+Statistics (avg of 2679):
+ RouteLength: 5093.86
+ Speed: 8.72
+ Duration: 812.94
+ WaitingTime: 370.52
+ TimeLoss: 449.96
+ DepartDelay: 4.20
+ DepartDelayWaiting: 559.54
+***Starting server on port 54222 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (25ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 24.73s
+ TraCI-Duration: 10.73s
+ Real time factor: 145.59
+ UPS: 78867.351478
+Vehicles:
+ Inserted: 2683 (Loaded: 2699)
+ Running: 904
+ Waiting: 15
+ Teleports: 39 (Collisions: 1, Jam: 17, Yield: 20, Wrong Lane: 2)
+ Emergency Stops: 3
+ Emergency Braking: 8
+Statistics (avg of 2683):
+ RouteLength: 5298.60
+ Speed: 9.77
+ Duration: 726.86
+ WaitingTime: 277.67
+ TimeLoss: 349.25
+ DepartDelay: 1.90
+ DepartDelayWaiting: 941.89
+***Starting server on port 54230 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (15ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 23.88s
+ TraCI-Duration: 10.82s
+ Real time factor: 150.779
+ UPS: 78389.344949
+Vehicles:
+ Inserted: 2671 (Loaded: 2700)
+ Running: 893
+ Waiting: 29
+ Teleports: 56 (Jam: 30, Yield: 22, Wrong Lane: 4)
+ Emergency Stops: 2
+ Emergency Braking: 8
+Statistics (avg of 2671):
+ RouteLength: 5252.46
+ Speed: 9.77
+ Duration: 700.72
+ WaitingTime: 255.35
+ TimeLoss: 325.91
+ DepartDelay: 2.54
+ DepartDelayWaiting: 843.84
+***Starting server on port 54238 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (25ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (1ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 27.88s
+ TraCI-Duration: 11.77s
+ Real time factor: 129.106
+ UPS: 75777.327500
+Vehicles:
+ Inserted: 2686 (Loaded: 2699)
+ Running: 970
+ Waiting: 13
+ Teleports: 37 (Jam: 16, Yield: 17, Wrong Lane: 4)
+ Emergency Stops: 3
+ Emergency Braking: 10
+Statistics (avg of 2686):
+ RouteLength: 5210.47
+ Speed: 9.02
+ Duration: 786.66
+ WaitingTime: 324.01
+ TimeLoss: 414.83
+ DepartDelay: 6.13
+ DepartDelayWaiting: 738.15
+***Starting server on port 54246 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (24ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 25.71s
+ TraCI-Duration: 11.23s
+ Real time factor: 140.002
+ UPS: 79350.081668
+Vehicles:
+ Inserted: 2659 (Loaded: 2699)
+ Running: 964
+ Waiting: 39
+ Teleports: 40 (Jam: 20, Yield: 18, Wrong Lane: 2)
+ Emergency Braking: 4
+Statistics (avg of 2659):
+ RouteLength: 5160.51
+ Speed: 9.54
+ Duration: 767.36
+ WaitingTime: 331.86
+ TimeLoss: 401.61
+ DepartDelay: 1.76
+ DepartDelayWaiting: 861.54
+***Starting server on port 54251 ***
+Loading net-file from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/corridor.net.xml' ... done (25ms).
+Loading additional-files from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/vtypes.add.xml' ... done (0ms).
+Loading route-files incrementally from '/Users/rishi/Personal/final year project/Saarathi/code/scenarios/old_airport_road/routes.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 3600.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 24.59s
+ TraCI-Duration: 10.82s
+ Real time factor: 146.395
+ UPS: 85949.087064
+Vehicles:
+ Inserted: 2669 (Loaded: 2700)
+ Running: 998
+ Waiting: 30
+ Teleports: 50 (Collisions: 1, Jam: 29, Yield: 20, Wrong Lane: 1)
+ Emergency Braking: 3
+Statistics (avg of 2669):
+ RouteLength: 5089.51
+ Speed: 9.42
+ Duration: 791.90
+ WaitingTime: 364.36
+ TimeLoss: 428.40
+ DepartDelay: 5.68
+ DepartDelayWaiting: 811.52
+... running program seed 0
+ Retrying in 1 seconds
+... running program seed 1
+ Retrying in 1 seconds
+... running program seed 2
+ Retrying in 1 seconds
+... running program seed 3
+ Retrying in 1 seconds
+... running program seed 4
+ Retrying in 1 seconds
+... running fixed seed 0
+ Retrying in 1 seconds
+... running fixed seed 1
+ Retrying in 1 seconds
+... running fixed seed 2
+ Retrying in 1 seconds
+... running fixed seed 3
+ Retrying in 1 seconds
+... running fixed seed 4
+ Retrying in 1 seconds
+... running actuated seed 0
+ Retrying in 1 seconds
+... running actuated seed 1
+ Retrying in 1 seconds
+... running actuated seed 2
+ Retrying in 1 seconds
+... running actuated seed 3
+ Retrying in 1 seconds
+... running actuated seed 4
+ Retrying in 1 seconds
+... running maxp seed 0
+ Retrying in 1 seconds
+... running maxp seed 1
+ Retrying in 1 seconds
+... running maxp seed 2
+ Retrying in 1 seconds
+... running maxp seed 3
+ Retrying in 1 seconds
+... running maxp seed 4
+ Retrying in 1 seconds
+
+    controller            seed        vehicles   stops_per_veh         delay_s   travel_time_s       waiting_s      collisions       teleports  emergency_stops  unfinished_vehicles      bike_share  front_row_bike_share
+       program               0            2689             3.0           295.7           673.4           222.9               0              35               0             907             0.4             0.5
+       program               1            2675             3.4           355.6           727.3           282.0               0              54               0             930             0.5             0.5
+       program               2            2690             4.6           463.4           838.7           356.6              39              58               0             946             0.4             0.5
+       program               3            2663             3.7           428.6           792.2           354.0               1              55               0            1009             0.5             0.5
+       program               4            2685             3.2           386.3           749.2           315.8               2              41               0            1000             0.5             0.5
+         fixed               0            2684             3.1           257.2           640.5           185.4               0              37               1             833             0.4             0.5
+         fixed               1            2688             3.3           231.0           616.9           153.4               0              25               0             711             0.5             0.4
+         fixed               2            2679             3.7           378.7           747.9           298.2               3              46               2             992             0.5             0.5
+         fixed               3            2682             3.5           320.1           699.1           243.0               2              34               0             764             0.5             0.4
+         fixed               4            2692             3.3           342.4           721.5           266.2               1              36               0             820             0.5             0.4
+      actuated               0            2683             3.0           334.3           708.0           259.9               1              48               0             940             0.4             0.5
+      actuated               1            2669             3.3           358.3           726.6           287.9               1              51               1             993             0.5             0.5
+      actuated               2            2699             2.4           134.1           542.6            60.4               0               0               0             466             0.5             0.4
+      actuated               3            2666             2.8           379.5           749.3           310.2               0              39               0             951             0.5             0.5
+      actuated               4            2679             3.6           450.0           812.9           370.5               0              48               0            1026             0.5             0.5
+          maxp               0            2683             3.0           349.3           726.9           277.7               1              39               3             920             0.4             0.5
+          maxp               1            2671             3.6           325.9           700.7           255.4               0              56               2             922             0.5             0.5
+          maxp               2            2686             3.7           414.8           786.7           324.0               0              37               3             983             0.5             0.4
+          maxp               3            2659             3.3           401.6           767.4           331.9               0              40               0            1004             0.5             0.5
+          maxp               4            2669             3.0           428.4           791.9           364.4               2              50               0            1029             0.5             0.5
+
+appended -> /Users/rishi/Personal/final year project/Saarathi/code/experiments/results/old_airport_road/results_v3.csv
