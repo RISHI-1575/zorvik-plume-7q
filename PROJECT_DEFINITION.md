@@ -1,64 +1,53 @@
-# Saarathi — Final Project Definition (v5, 2026-11-10)
+# Saarathi — Final Project Definition (v6, 2026-11-24)
 
-> **This is the authoritative definition of Saarathi.** If another document disagrees, this document and `FINAL_PLAN.md` take priority.
-
-The published-work overlap check and paper-safe positioning are in `LITERATURE_AUDIT.md`.
+> **This is the authoritative definition of Saarathi.** If another document disagrees, this document and `FINAL_PLAN.md` take priority. The full reasoning, sources, timeline and pitch are in `research/FINAL_GOAL.md`. The published-work overlap check is in `LITERATURE_AUDIT.md` and `research/DEEP_GAP_REVIEW.md`.
 
 ## In one sentence
 
-**Saarathi is an open, Bengaluru-inspired SUMO test environment for Indian mixed, non-lane traffic, together with our safe decentralised traffic-signal controller that coordinates neighbouring junctions, creates green waves, and prioritises ambulances.**
+**Saarathi is a fair, open SUMO test track for traffic-signal controllers in lane-less Indian mixed traffic, together with a safe learning controller raced on it that also measures what ambulance priority costs everyone else.**
 
-## The project has two equal parts
+## The real problem
 
-### 1. Open Indian mixed-traffic simulation environment
+1. **City claims can't be checked.** Indian cities buy adaptive signals without an open, fair way to test them. Bengaluru's BATCS claims 15–33% less travel time, but publishes no method, baseline or data.
+2. **Standard tests don't fit Indian traffic.** Standard signal-control tests assume lane discipline, while most Bengaluru vehicles are two-wheelers that filter through gaps. A controller's ranking may not survive that change.
+3. **Ambulance priority has an unmeasured cost.** Nobody publishes how much ambulance priority delays other traffic, or how long junctions take to recover.
 
-We build and release a reusable **configurable road-corridor simulator**. The first reference scenario may contain four or another manageable number of verified signalised nodes; the architecture is not tied to that number. It represents Indian road conditions more realistically than ordinary lane-disciplined benchmarks:
+## The project has two parts (one paper)
 
-- mixed vehicles: two-wheelers, autos, cars, buses, and trucks;
-- weak lane discipline / filtering using SUMO's sublane model;
-- vehicle load measured in **PCU** (Passenger Car Units), not merely vehicle count;
-- Bengaluru-inspired demand and signal assumptions, checked against manual counts where possible;
-- repeatable scenarios, seeds, metrics, and baseline controllers.
+### Part A — the test track (the core contribution)
+- Real Bengaluru OSM areas: the Old Airport Road signal pair, Silk Board, Trinity and Domlur. Mixed vehicles, sublane filtering, and load measured in **PCU**.
+- One shared protocol for every controller: the same routes, seeds, warm-up, demand cut-off and drain time.
+- Honest statistics: paired seeds, 95% confidence intervals, completed/scheduled trips, and every failed run reported.
+- A **robustness sweep** that asks whether the ranking changes when we vary bike filtering, PCU versus vehicle counts, or the PCU values.
+- A field check: one Old Airport Road junction counted live by eye, with no video kept and one window held out. Open Pune counts (CC BY 4.0) serve as a second-city sanity check.
 
-**Why this matters:** other researchers can run their signal-control method in the same Indian mixed-traffic setting and compare results fairly. It is a simulation benchmark, not a claim that we have recreated Bengaluru exactly.
+### Part B — Saarathi, the safe controller (raced on Part A)
+- **The PPO agent picks between safe rules:** local max-pressure, or max-pressure plus the incoming platoon from a neighbour. It never sets raw signal phases.
+- **A hard safety shell** always enforces minimum and maximum green, yellow and all-red.
+- **Neighbour messages:** PCU released, arrival time and an ambulance flag.
+- **Ambulance mode** reports ambulance travel time, the extra delay to other traffic and the recovery time.
+- Training happens in simulation only. We train on 3 areas and test on a 4th it never saw.
 
-### 2. Saarathi's decentralised signal controller
+**Either result is publishable.** If Saarathi wins, it is shown fairly. If it ties or loses, the reason is still new evidence for Indian traffic.
 
-On top of that environment, we build our own controller:
+## Research questions
+1. How do fixed-time, actuated and PCU max-pressure rank under lane-less mixed traffic, with honest statistics?
+2. Does the ranking change when bike filtering, PCU values or demand change?
+3. Does the safe AI selector beat tuned max-pressure, including on an unseen area?
+4. What does ambulance priority cost other traffic, and how fast do junctions recover?
 
-- every junction is a **node/agent** with its own traffic state;
-- nodes use PCU-based queues and arrivals to decide safe signal phases;
-- each node sends neighbouring nodes a small message: how much traffic it released, its expected arrival time, and whether it is an emergency;
-- these messages help adjacent signals time their greens, forming a corridor-level **green wave**;
-- an ambulance message travels ahead so junctions clear its route, then the controller measures how quickly cross streets recover;
-- a hard safety layer always enforces minimum/maximum green, yellow, and all-red timings.
-
-The learning component is PPO. It is trained and evaluated **inside the simulator**; Saarathi does not learn by experimenting on real road users.
-
-## What we will prove
-
-We will compare fixed-time control, Max-Pressure, and feasible external baselines such as MPLight/CoLight against Saarathi in the same scenarios. The evidence will use:
-
-- average delay and travel time;
-- stops per vehicle;
-- queue/spillback;
-- ambulance travel time;
-- cross-street recovery time after ambulance priority;
-- results across multiple random seeds.
+## Controllers compared
+Fixed-time (city-style plan), actuated, tuned PCU max-pressure, message-aware max-pressure with no AI, and Saarathi. Comparing the last two separates the gain from messages from the gain from learning.
 
 ## Honest project claim
 
-> In a Bengaluru-inspired, non-lane mixed-traffic simulation, Saarathi's safe, decentralised PCU-aware controller coordinates neighbouring junctions and can be evaluated fairly against established traffic-signal baselines.
+> We release a fair, reproducible SUMO benchmark for lane-less Indian mixed traffic. On it, we test whether controller rankings survive those assumptions, evaluate a safe learning controller against tuned max-pressure, and measure the cost of ambulance priority. All results are from simulation only.
 
-We claim **simulation results only**. We do not claim to have solved Bengaluru congestion, built a live deployable system, recreated a city-wide digital twin, or invented the first RL traffic controller for India.
+**Never claim:** a first Indian simulator or AI, that we beat BATCS, a digital twin, deployment, a novel safety shell, novel learned communication, or novel ambulance recovery.
 
-## Concrete scope
-
-- **Network:** one configurable corridor as the reference benchmark; its final node count follows the selected and field-verified layout, not a hard-coded project requirement.
-- **Environment:** SUMO + sublane traffic; open code, scenarios, and reproduction instructions.
-- **Controller:** fixed-time and Max-Pressure are complete; PPO hub/agent, neighbour messaging, ambulance priority, and recovery measurement are the remaining core work.
-- **Not core:** city-scale modelling, a live dashboard, fairness optimisation, sensor-failure modules, and nightly continual retraining. These remain optional only after the two-part core is complete.
+## Not core
+Dashboards, city scale, nightly retraining, fairness modules, sensor-failure modules and live deployment. Sensing tiers, a second field junction and Studio playback are allowed only after everything in `FINAL_PLAN.md` is done.
 
 ## Easy way to remember it
 
-**Part A builds the road world everyone can test on. Part B builds Saarathi, the traffic-signal brain that operates inside that world.**
+**Part A is the fair race track. Part B is our safe racer. The paper reports who wins, whether the result holds, and what ambulances cost.**

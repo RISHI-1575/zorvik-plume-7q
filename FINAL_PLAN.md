@@ -1,45 +1,58 @@
-# Saarathi — Final Build Plan (v5, locked 2026-11-10)
+# Saarathi — Final Build Plan (v6, locked 2026-11-24)
 
-**Authority:** this plan and `PROJECT_DEFINITION.md` define the active project. Version mapping: `VERSION_HISTORY.md`.
+**Authority:** this plan and `PROJECT_DEFINITION.md` define the active project. The full reasoning, sources and pitch are in `research/FINAL_GOAL.md`. The version map is in `VERSION_HISTORY.md`.
 
 ## Goal
 
-Build two things together:
+Build one paper's worth of evidence:
+1. **Part A:** a fair, open SUMO test track for lane-less Indian mixed traffic.
+2. **Part B:** Saarathi, a safe PPO controller that picks between max-pressure rules, raced on that track, with an ambulance-cost measurement.
 
-1. an open, reproducible SUMO environment for Bengaluru-inspired Indian mixed, non-lane traffic; and
-2. Saarathi, a safe decentralised controller whose junction nodes use PCU-based traffic information and neighbour messages to coordinate a configurable corridor.
+## Required deliverables (must-have)
 
-## Required deliverables
-
-| Part | Deliverable | Done when |
+| # | Deliverable | Done when |
 |---|---|---|
-| A — Environment | Configurable SUMO corridor with sublane behaviour, Indian vehicle mix, PCU values, demand profiles, documented assumptions, and reproducible runs | Another person can clone the project, run the reference scenario, and obtain comparable metrics. |
-| A — Benchmark | Fixed-time, Max-Pressure, and feasible MPLight/CoLight comparison adapters; common metrics and multiple seeds | Every controller is evaluated under identical demand and seeds. |
-| B — Saarathi controller | PPO-controlled junction agent protected by the safety shell | It makes only safe phase decisions and is compared fairly with Max-Pressure. |
-| B — Coordination | Node-to-node platoon messages: released PCU, ETA, emergency priority | The reference-corridor experiment compares independent control with coordinated control. |
-| B — Ambulance | Route-ahead priority plus cross-street recovery metric | We report ambulance travel time and recovery time, not only ambulance speed. |
-| Release | Code, scenarios, assumptions, results, and reproduce instructions | The project is usable as an open benchmark/demo. |
+| A1 | Four real areas (Old Airport Road pair, Silk Board, Trinity, Domlur) under one protocol | Every controller runs with the same routes, seeds, warm-up, demand cut-off and drain time |
+| A2 | Gridlock handled | Domlur is fixed or reported as a stress test, and every failed run is counted |
+| A3 | Honest statistics | 10 paired seeds × 2 demand levels, 95% CIs and completed/scheduled trips for every result |
+| A4 | Robustness sweep | Rankings are reported with filtering on and off, PCU versus vehicle counts, and a second PCU set |
+| A5 | Field check | One Old Airport Road junction is counted live with no video kept, and the simulator is calibrated and then checked on a held-out window |
+| A6 | Second-city check | The Pune CC BY 4.0 counts are used as a sanity check |
+| A7 | Reproducible release | One command rebuilds the tables, versions are pinned, the work is committed and licensed, and it reruns on a teammate's laptop |
+| B1 | Safety shell enforced for PPO | Maximum green is enforced on the PPO path (today `env.py` never calls `must_rotate()`), and a "hold forever" test passes |
+| B2 | Safe AI selector | PPO picks between local max-pressure and max-pressure plus the neighbour's platoon, using one shared policy across all junctions |
+| B3 | Neighbour messages | PCU released and arrival time are sent between neighbours, and message-aware max-pressure without AI is a separate baseline |
+| B4 | Unseen-area test | The policy is trained on 3 areas and tested on the 4th, with 3 training seeds |
+| B5 | Ambulance cost | Route-ahead priority is in place, and ambulance time, extra delay to others and recovery minutes are reported |
 
 ## Controller contract
 
-Each junction is a node. It observes local PCU queues/arrivals and its legal signal state. It may receive messages from immediate neighbours. It requests a phase; the safety shell enforces minimum/maximum green, yellow, and all-red intervals. A node cannot make an unsafe switch.
+- Each junction is a node. It observes local PCU queues and arrivals, and may receive neighbour messages.
+- The PPO agent picks a **rule**, never a raw phase.
+- The safety shell enforces minimum and maximum green, yellow and all-red on **every** controller path. No node can make an unsafe switch.
 
 ## Evaluation claim
 
-We report whether Saarathi reduces delay, stops, queueing, and emergency disruption **in this simulator** compared with the listed baselines. We make no real-world deployment or city-wide congestion claim.
+We report, **in this simulator only**:
+- whether the rankings survive our assumptions;
+- whether Saarathi beats tuned max-pressure;
+- what ambulance priority costs other traffic.
 
-## Build order
+We make no deployment, "beats BATCS" or digital-twin claim.
 
-1. Finalise and document the environment; verify mixed traffic visually and with manual-count-informed assumptions.
-2. Make the experiment runner reproducible; run Fixed-time and Max-Pressure across seeds.
-3. Complete and evaluate PPO on one junction, then extend it to the corridor.
-4. Add neighbour messaging; test green-wave benefit against independent nodes.
-5. Add ambulance priority and cross-street recovery measurement.
-6. Add external baselines only where they can be integrated fairly; publish results, report, and demo.
+## Build order (≈11 weeks, 3 people; details in `research/FINAL_GOAL.md` §7)
+
+1. Week 1: commit everything, time one full paired run and fix B1. Choose the field junction and get the BGIT permission letter.
+2. Weeks 2–3: A1 and A2, the live field count (A5), and B2/B3.
+3. Weeks 4–5: A3, calibrate and check the field data (A5), the Pune check (A6), and B4.
+4. Weeks 6–7: the A4 sweep, A7 reproduction, and B5.
+5. Week 8: the final race, both tables and the figures.
+6. Weeks 9–11: write the paper and submit it to the SUMO User Conference 2027 (deadline expected around mid-February 2027; check it when the call is out).
+
+**If time runs out, cut in this order:** B5, then the 4th area, then A6. Never cut A3, B1 or the held-out window.
 
 ## Scope guardrails
 
-- Reference network: **one configurable, field-verified corridor**; the final node count is chosen for credibility and feasibility, not novelty.
-- Learning happens in simulation only.
-- PCU is the common measure of road load.
-- Nightly retraining, fairness, sensor failures, dashboard work, and city-scale expansion are optional extensions—not requirements for project completion.
+- Learning happens in simulation only. PCU is the common measure of load, and raw class counts are kept beside it.
+- Sensing tiers, a second field junction and Studio playback come only after every must-have item is done.
+- Dashboards, city scale, retraining, fairness and sensor-failure modules are out of scope.

@@ -1,6 +1,6 @@
 # Saarathi — Project Rules (The Constitution)
 
-**Version:** 1.0 · **Date:** 2026-11-10 · **Applies to:** v5 final scope
+**Version:** 1.0 · **Date:** 2026-11-10 · **Applies to:** v6 final scope (2026-11-24)
 **Binding order of authority:** `PROJECT_DEFINITION.md` → `FINAL_PLAN.md` → this file → everything else. If any document, slide, commit message, or conversation contradicts these, these win. Archived docs (`IDEA.md`, `IMPLEMENTATION.md`, old README sections) define **nothing**.
 
 This file exists so that no team member, mentor conversation, demo, AI assistant, or late-night enthusiasm can quietly re-expand, re-brand, or overclaim the project. Every rule below traces to the literature audit, the simulator research plan, or a verified gap in the current code.
@@ -27,6 +27,7 @@ These come straight from `LITERATURE_AUDIT.md`. Violating any of them in a paper
 1. "First RL for Indian traffic" / "first open Indian environment" — SiMTraM, Savithramma & Sumathi (2023), Agarwal et al. (2024) and others exist.
 2. "Novel learned communication / GAT communication" — CoLight and Bokade et al. already did it.
 3. "Novel ambulance recovery" — Qin & Khan (2012), Kiani & Saraç (2023), EMVLight exist.
+   - Also never claim a "novel safety shell" — Com-MP (arXiv 2610.31037, preprint) already does safe RL over max-pressure.
 4. "Beats BATCS" — unless the actual BATCS software is run under a disclosed fair protocol (it won't be). The honest phrase is "a rule-based adaptive proxy," if one is ever built.
 5. "Digital twin of Bengaluru" — it is a Bengaluru-*inspired* scenario.
 6. Real-world deployment, live online learning on real signals, or congestion solved.

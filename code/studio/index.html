@@ -213,6 +213,10 @@ td:first-child{font-family:inherit}
 .tw{overflow-x:auto}
 a{color:var(--text)}
 .note{color:var(--muted);font-size:12px;margin:10px 0 0}
+.tabs{position:sticky;top:0;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:-16px -16px 14px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+.tabs button{min-height:32px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-weight:700;cursor:pointer}
+.tabs button:hover{color:var(--text)}
+.tabs button[aria-selected=true]{background:var(--raise);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
 .right .sec{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
 .right .sec:nth-child(2){animation-delay:.04s}.right .sec:nth-child(3){animation-delay:.08s}.right .sec:nth-child(4){animation-delay:.12s}
 .right .sec:nth-child(5){animation-delay:.16s}.right .sec:nth-child(n+6){animation-delay:.2s}
@@ -533,7 +537,7 @@ function refresh() {
   $('why').textContent = S.busy ? '' : why;
   const r = S.res;
   $('ctx').replaceChildren(...(r
-    ? [h('b', { text: placeName(r.scenario) }), ` · ${ampm(r.hour)}–${ampm(r.hour + 1)} · ${Math.round(100 * r.demand)}% traffic · ${(r.summary[0] || {}).n || 0} repeats`]
+    ? [h('b', { text: placeName(r.scenario) }), ` · ${ampm(r.hour)}–${ampm(r.hour + 1)} · ${Math.round(100 * r.demand)}% traffic · ${(r.summary[0] || {}).n || 0} repeat${(r.summary[0] || {}).n === 1 ? '' : 's'}`]
     : S.place ? [h('b', { text: placeName(S.place) }), ` · ${ampm(+$('hour').value)} · not run yet`] : ['Pick a place and a time, then run.']));
 }
 function setBusy(b) {
@@ -576,7 +580,7 @@ $('run').onclick = async () => {
       if (!S.scen) return toast('The area was built but could not be loaded. Reload the page.');
     }
     const r = await api('/api/run', { scenario: id, controllers: ORDER, hour: +$('hour').value, seeds: +$('seeds').value, demand: +$('demand').value });
-    const res = await track(r.job_id, `Simulating ${$('seeds').value} repeats × 2 signals…`);
+    const res = await track(r.job_id, `Simulating ${$('seeds').value} repeats × ${ORDER.length} signal systems…`);
     if (res) { $('prog').hidden = true; await show(res); loadHist(); }
   } catch (e) { /* toasted */ } finally { setBusy(false); }
 };
@@ -966,11 +970,19 @@ function seedStrip(rows) {
 }
 
 /* ---------- right panel ---------- */
+// One baseline and one challenger for the whole panel, so every number compares the same two systems.
+function pair(sum) {
+  const has = c => sum.some(o => o.controller === c);
+  const base = ['program', 'fixed'].find(has) || sum[0].controller;
+  const own = sum.map(o => o.controller).find(c => !ORDER.includes(c));   // an uploaded controller is the one on trial
+  const chal = own || ['maxp', 'actuated', 'fixed'].find(c => has(c) && c !== base) || base;
+  return [base, chal];
+}
 // Paired by seed: same random traffic for every system, so each repeat is a fair head-to-head.
 function scorecard(res) {
   const rows = res.rows || [], sum = res.summary;
   const has = c => sum.some(o => o.controller === c);
-  const base = ['program', 'fixed'].find(has) || sum[0].controller;
+  const [base] = pair(sum);
   const delayBy = c => Object.fromEntries(rows.filter(r => r.controller === c).map(r => [r.seed, +r.delay_s]));
   const b = delayBy(base), B = sum.find(o => o.controller === base);
   const safety = o => (mv(o.collisions) || 0) + (mv(o.teleports) || 0);
@@ -1048,8 +1060,7 @@ async function show(res) {
 
 function renderResult(res) {
   const sum = res.summary, by = Object.fromEntries(sum.map(x => [x.controller, x]));
-  const F = by.fixed || sum[0], M = by.maxp || sum.find(x => x !== F) || F;
-  const fk = F.controller, mk = M.controller, n = F.n;
+  const [fk, mk] = pair(sum), F = by[fk], M = by[mk], n = Math.min(F.n || 0, M.n || 0);
   const v = (o, k) => mv(o[k]);
   const df = v(F, 'delay_s'), dm = v(M, 'delay_s'), cut = df > 0 ? (df - dm) / df : 0;
 
@@ -1059,7 +1070,7 @@ function renderResult(res) {
       h('span', { style: `color:${col(mk)}`, text: fmt(dm) + ' s' }),
       h('span', { class: 'cut' + (cut < 0 ? ' worse' : ''), text: (cut >= 0 ? '−' : '+') + Math.abs(Math.round(cut * 100)) + '%' })),
     h('div', { class: 'who2' }, h('span', {}, h('i', { class: 'sw', style: `background:${col(fk)}` }), nm(fk)), h('span', {}, h('i', { class: 'sw', style: `background:${col(mk)}` }), nm(mk))),
-    h('p', { text: `Mean of ${n} repeat${n > 1 ? 's' : ''} (± ${fmt(sd(F.delay_s))} s and ± ${fmt(sd(M.delay_s))} s across repeats).${n < 5 ? ' Use 5 repeats for numbers you report.' : ''}` })));
+    h('p', { text: `${nm(mk)} against the ${nm(fk).toLowerCase()}, mean of ${n} repeat${n === 1 ? '' : 's'} (± ${fmt(sd(F.delay_s))} s and ± ${fmt(sd(M.delay_s))} s across repeats).${n < 5 ? ' Use 5 repeats for numbers you report.' : ''}` })));
 
   // KPI tiles: lower is better except vehicles served
   const K = [['delay_p95_s', 'Worst 5% wait', 's', 1], ['stops_per_veh', 'Stops per vehicle', '', 2], ['vehicles', 'Vehicles served', '', 0, true],
@@ -1073,7 +1084,7 @@ function renderResult(res) {
       h('div', { class: 'duo', 'aria-hidden': 'true' }, h('i', { style: `width:${100 * a / mx}%;background:${col(fk)}` }), h('i', { style: `width:${100 * b / mx}%;background:${col(mk)}` })),
       h('div', { class: 'from', text: `${nm(fk)}: ${fmt(a, d)}` }));
   });
-  const kpis = h('section', { class: 'sec' }, h('h2', { text: `${nm(mk)} vs ${nm(fk)}` }), h('p', { class: 'sub', text: 'Big number is the smart signal; the bars compare both. Per hour, whole area.' }), h('div', { class: 'kpis' }, tiles));
+  const kpis = h('section', { class: 'sec' }, h('h2', { text: `${nm(mk)} vs ${nm(fk)}` }), h('p', { class: 'sub', text: `Big number is the ${nm(mk).toLowerCase()}; % is the change from the ${nm(fk).toLowerCase()}. Per hour, whole area.` }), h('div', { class: 'kpis' }, tiles));
 
   // public impact (estimates)
   const dd = df - dm, hrsYr = dd * 2 * 250 / 3600, dFuel = v(F, 'fuel_l') - v(M, 'fuel_l'), dCo2 = v(F, 'co2_kg') - v(M, 'co2_kg');
@@ -1082,16 +1093,17 @@ function renderResult(res) {
       h('div', {}, h('b', { text: ok(hrsYr) ? fmt(hrsYr, 1) + ' h' : '–' }), h('small', { text: 'a year back for someone crossing here twice a workday' })),
       h('div', {}, h('b', { text: ok(dFuel) ? '₹' + fmt(dFuel * FUEL_RS, 0) : '–' }), h('small', { text: 'of fuel saved in this one hour, all vehicles' })),
       h('div', {}, h('b', { text: ok(dCo2) ? fmt(dCo2, 0) + ' kg' : '–' }), h('small', { text: 'less CO₂ in this hour' }))),
-    h('p', { class: 'note', text: `Estimates: 250 workdays, ₹${FUEL_RS}/L petrol, emissions from SUMO's default HBEFA classes. Negative means the smart signal did worse.` }));
+    h('p', { class: 'note', text: `Estimates: 250 workdays, ₹${FUEL_RS}/L petrol, emissions from SUMO's default HBEFA classes. ${nm(mk)} against the ${nm(fk).toLowerCase()}; negative means it did worse.` }));
 
   // integrity
   const I = [['collisions', 'Lane collisions', 1], ['junction_collisions', 'Junction overlaps', 1], ['teleports', 'Teleports (stuck vehicles removed)', 1], ['unfinished_vehicles', 'Still on the road at the end', 0], ['front_row_bike_share', 'Two-wheelers in the front row at red', 'pct']];
-  const bad = [F, M].some(o => (v(o, 'collisions') || 0) > 0 || (v(o, 'teleports') || 0) > 0 || (v(o, 'unfinished_vehicles') || 0) > 0.1 * (v(o, 'vehicles') || 1));
+  const badOf = o => (v(o, 'collisions') || 0) > 0 || (v(o, 'teleports') || 0) > 0 || (v(o, 'unfinished_vehicles') || 0) > 0.1 * (v(o, 'vehicles') || 1);
+  const flagged = sum.filter(badOf).map(o => nm(o.controller)), bad = flagged.length > 0;
   const integ = h('section', { class: 'sec' },
     h('h2', {}, 'Simulation checks', h('span', { class: 'status ' + (bad ? 'chk' : 'ok'), text: bad ? 'CHECK' : 'VALID' })),
     h('div', { class: 'integ' }, h('span', { class: 'h', text: 'Per run, mean' }), h('span', { class: 'h c', text: nm(fk) }), h('span', { class: 'h c', text: nm(mk) }),
       ...I.flatMap(([k, label, d]) => [h('span', { text: label }), ...[F, M].map(o => h('span', { class: 'c', text: d === 'pct' ? (ok(v(o, k)) ? fmt(100 * v(o, k), 0) + '%' : '–') : fmt(v(o, k), d) }))])),
-    h('p', { class: 'note', text: bad ? 'Some vehicles collided, got stuck or did not finish. Lower the traffic amount (Advanced) and run again before trusting these numbers.' : 'No lane collisions or teleports. Junction overlaps are SUMO\'s strict shape check inside the junction box.' }));
+    h('p', { class: 'note', text: bad ? `Flagged: ${flagged.join(', ')}. Some vehicles collided, got stuck or did not finish. Lower the traffic amount (Advanced) and run again before trusting these numbers.` : 'No lane collisions or teleports. Junction overlaps are SUMO\'s strict shape check inside the junction box.' }));
 
   // charts that need replays
   const rf = S.rp[fk], rm = S.rp[mk], ser = [rf, rm].filter(Boolean);
@@ -1135,7 +1147,14 @@ function renderResult(res) {
     res.csv_url ? h('p', { class: 'note' }, h('a', { href: res.csv_url, download: '' }, 'Download CSV'), ' · per-repeat rows') : null,
     h('p', { class: 'note', text: 'Traffic amounts, driver behaviour and emissions are estimates, not yet checked against field counts (docs/assumptions.md). The next step is calibrating with real junction counts.' }));
 
-  $('right').replaceChildren(scorecard(res), head, kpis, impact, integ, queue, served, ...(worst ? [worst] : []), cls, seeds, table);
+  // three tabs instead of one long scroll: answer first, evidence second, raw numbers last
+  const TABS = [['sum', 'Summary', [scorecard(res), head, impact]], ['detail', 'Details', [kpis, integ, worst, cls]], ['charts', 'Charts', [queue, served, seeds, table]]];
+  if (!TABS.some(t => t[0] === S.tab)) S.tab = 'sum';
+  const panes = TABS.map(([id, , kids]) => { const p = h('div', { role: 'tabpanel', 'aria-label': id }, kids); p.hidden = id !== S.tab; return p; });
+  const btns = TABS.map(([id, label], i) => h('button', { type: 'button', role: 'tab', 'aria-selected': String(id === S.tab), text: label, onclick: () => {
+    S.tab = id; btns.forEach((b, j) => b.setAttribute('aria-selected', String(j === i))); panes.forEach((p, j) => { p.hidden = j !== i; }); $('right').scrollTop = 0;
+  } }));
+  $('right').replaceChildren(h('div', { class: 'tabs', role: 'tablist', 'aria-label': 'Result views' }, btns), ...panes);
   $('right').scrollTop = 0;
   movePlayheads();
 }
